@@ -16,6 +16,7 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="brand">
+        <img src="profile.jpg" alt="Mr. Ankush" class="header-profile-avatar" />
         <div class="brand-code-symbol">&lt;/&gt;</div>
         <div class="brand-text">
           <h1 class="brand-title"><span class="brand-crazy">Crazy</span><span class="brand-coding">Coding</span> <span class="portal-badge">Quiz Portal</span></h1>
@@ -48,7 +49,7 @@
     <section id="screen-details" class="screen active">
       <div class="registration-layout">
 
-        <!-- Left Branding Panel (From Artwork) -->
+        <!-- Left Branding Panel (With Real Profile Photo & Poster Details) -->
         <aside class="branding-hero-card">
           <div class="brand-hero-header">
             <div class="brand-big-logo">
@@ -58,44 +59,46 @@
             <div class="hero-tagline">Learn • Build • Grow</div>
           </div>
 
-          <div class="hero-slogan-box">
-            <h3>Start Your <span class="highlight-orange">Coding Journey</span> with CrazyCoding</h3>
-            <p class="hero-subtext">✨ Code • Create • Explore</p>
+          <!-- Real Photo Showcase Card (Full-Size Blazer Coat Portrait) -->
+          <div class="profile-showcase-box full-portrait-card">
+            <div class="profile-full-portrait-wrapper">
+              <img src="suit_profile.jpg" alt="Mr. Ankush — Assistant Professor (Formal Blazer)" class="profile-full-img" />
+              <div class="profile-online-badge">Online</div>
+              <div class="profile-floating-overlay">
+                <h2 class="profile-name">MR. ANKUSH</h2>
+                <div class="profile-designation-badge">
+                  🎓 ASSISTANT PROFESSOR
+                </div>
+                <p class="profile-dept">Department of <strong>Computer Science & Engineering</strong></p>
+              </div>
+            </div>
           </div>
 
-          <!-- Social / Contact Badges matching image -->
+          <!-- Social / Contact Badges matching poster -->
           <div class="social-badges-list">
-            <div class="social-pill pill-instagram">
+            <a href="https://instagram.com/Crazy_coding01" target="_blank" class="social-pill pill-instagram" title="Instagram: Crazy_coding01">
               <span class="pill-icon">📸</span>
               <div class="pill-info">
                 <span class="pill-title">Instagram</span>
                 <span class="pill-handle">Crazy_coding01</span>
               </div>
-            </div>
+            </a>
 
-            <div class="social-pill pill-youtube">
+            <a href="https://youtube.com/@crazycoding1" target="_blank" class="social-pill pill-youtube" title="YouTube: crazycoding1">
               <span class="pill-icon">▶️</span>
               <div class="pill-info">
                 <span class="pill-title">YouTube</span>
                 <span class="pill-handle">crazycoding1</span>
               </div>
-            </div>
+            </a>
 
-            <div class="social-pill pill-contact">
+            <a href="https://wa.me/919568326772" target="_blank" class="social-pill pill-contact" title="WhatsApp: 9568326772">
               <span class="pill-icon">📞</span>
               <div class="pill-info">
                 <span class="pill-title">Contact</span>
                 <span class="pill-handle">9568326772</span>
               </div>
-            </div>
-
-            <div class="social-pill pill-professor">
-              <span class="pill-icon">👨‍🏫</span>
-              <div class="pill-info">
-                <span class="pill-title">Mr. Ankush</span>
-                <span class="pill-handle">Assistant Professor in CSE</span>
-              </div>
-            </div>
+            </a>
           </div>
 
           <!-- Bottom Motivational Banner -->
@@ -219,6 +222,10 @@
       <!-- Quiz top bar -->
       <div class="quiz-topbar">
         <div class="quiz-meta">
+          <span class="meta-chip instructor-quiz-chip">
+            <img src="profile.png" alt="Mr. Ankush" class="quiz-instructor-thumb" />
+            <span>Prof. Ankush (CSE)</span>
+          </span>
           <span id="quizMetaName" class="meta-chip">👤</span>
           <span id="quizMetaTopic" class="meta-chip">📖</span>
         </div>
@@ -280,7 +287,13 @@
       <!-- Score card -->
       <div class="card result-card">
         <div class="result-header">
-          <h2>📊 Quiz Result</h2>
+          <div class="result-instructor-badge">
+            <img src="profile.png" alt="Mr. Ankush" class="instructor-mini-avatar" />
+            <div>
+              <span class="instructor-evaluated">Evaluated by</span>
+              <strong>Mr. Ankush</strong> <small>(Asst. Prof, CSE)</small>
+            </div>
+          </div>
           <div id="resultPassFail" class="passfail-badge"></div>
         </div>
 

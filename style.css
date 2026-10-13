@@ -361,21 +361,185 @@ a:hover { text-decoration: underline; }
   margin-top: 0.25rem;
 }
 
-.hero-slogan-box h3 {
-  font-size: 1.55rem;
-  font-weight: 800;
-  color: #0d3b66;
-  line-height: 1.35;
+/* ── Real Profile Photo Card (From Poster Artwork) ── */
+.header-profile-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #38bdf8;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  flex-shrink: 0;
 }
-[data-theme="dark"] .hero-slogan-box h3 { color: #f8fafc; }
-.highlight-orange { color: #f95721; text-decoration: underline; text-decoration-color: #fed7aa; }
 
-.hero-subtext {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--clr-teal);
-  margin-top: 0.5rem;
+.profile-showcase-box {
+  background: linear-gradient(145deg, #0a1e3b 0%, #0d2f5a 100%);
+  border: 2px solid #00d2ff;
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 25px rgba(2, 40, 89, 0.35);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Full-Size Formal Blazer Card Styling */
+.full-portrait-card {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-full-portrait-wrapper {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+  background: #0d2f5a;
+}
+
+.profile-full-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.profile-full-portrait-wrapper:hover .profile-full-img {
+  transform: scale(1.03);
+}
+
+.profile-floating-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem 1rem 0.85rem;
+  background: linear-gradient(0deg, rgba(10,30,59,0.95) 0%, rgba(10,30,59,0.7) 65%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.35rem;
+}
+  position: relative;
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, #00d2ff, #1e88e5, #f95721);
+  box-shadow: 0 8px 24px rgba(0, 210, 255, 0.45);
+}
+
+.profile-hero-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 3px solid #ffffff;
+  background: #ffffff;
+}
+
+.profile-online-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  background: #10b981;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  border: 2px solid #0a1e3b;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+
+/* Instructor mini badges for Result Page & Quiz Bar */
+.result-instructor-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--clr-surface2);
+  border: 1.5px solid var(--clr-border);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+}
+.instructor-mini-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #1e88e5;
+  background: #fff;
+}
+.instructor-evaluated {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
+  color: var(--clr-text-muted);
+}
+
+.instructor-quiz-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--clr-blue-lt) !important;
+  color: var(--clr-blue) !important;
+  border: 1.5px solid var(--clr-blue) !important;
+}
+.quiz-instructor-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--clr-blue);
+}
+
+.profile-details-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.profile-name {
+  font-size: 1.45rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0,0,0,.4);
+  margin: 0;
+}
+
+.profile-designation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #0284c7;
+  color: #ffffff;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border: 1px solid #38bdf8;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+
+.profile-dept {
+  font-size: 0.84rem;
+  color: #7dd3fc;
+  margin: 0.2rem 0 0;
+  line-height: 1.4;
+}
+.profile-dept strong {
+  color: #38bdf8;
+  font-weight: 800;
 }
 
 /* Social pills matching user image colors */
@@ -395,8 +559,9 @@ a:hover { text-decoration: underline; }
   font-size: 0.9rem;
   box-shadow: 0 2px 8px rgba(0,0,0,.04);
   transition: transform var(--transition);
+  text-decoration: none;
 }
-.social-pill:hover { transform: translateX(4px); }
+.social-pill:hover { transform: translateX(4px); text-decoration: none; }
 
 .social-pill .pill-icon { font-size: 1.5rem; flex-shrink: 0; }
 .social-pill .pill-info { display: flex; flex-direction: column; }
@@ -423,13 +588,6 @@ a:hover { text-decoration: underline; }
   color: #0f766e;
 }
 [data-theme="dark"] .pill-contact { background: #042f2e; border-color: #115e59; color: #99f6e4; }
-
-.pill-professor {
-  background: linear-gradient(90deg, #fffbeb, #ffedd5);
-  border: 1.5px solid #fcd34d;
-  color: #b45309;
-}
-[data-theme="dark"] .pill-professor { background: #451a03; border-color: #92400e; color: #fde68a; }
 
 .hero-navy-banner {
   background: #0d3b66;
