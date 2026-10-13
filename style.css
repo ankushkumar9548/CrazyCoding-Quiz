@@ -422,6 +422,8 @@ a:hover { text-decoration: underline; }
   text-align: center;
   gap: 0.35rem;
 }
+
+.profile-photo-wrapper {
   position: relative;
   width: 148px;
   height: 148px;
