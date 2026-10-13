@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CrazyCoding MCQ Quiz Portal</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Favicon (inline SVG via data URI) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       HEADER
+  ════════════════════════════════════════════════ -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-code-symbol">&lt;/&gt;</div>
+        <div class="brand-text">
+          <h1 class="brand-title"><span class="brand-crazy">Crazy</span><span class="brand-coding">Coding</span> <span class="portal-badge">Quiz Portal</span></h1>
+          <p class="brand-sub">
+            <span>Learn • Build • Grow</span>
+            &nbsp;|&nbsp;
+            <span><strong>Mr. Ankush</strong> — Asst. Professor, CSE</span>
+          </p>
+        </div>
+      </div>
+      <div class="header-right">
+        <a href="https://wa.me/919568326772" target="_blank" class="header-contact-pill" title="Contact Professor on WhatsApp">
+          📞 9568326772
+        </a>
+        <button id="themeToggle" class="btn-icon" title="Toggle dark/light mode" aria-label="Toggle theme">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN CONTENT AREA (screens are swapped via JS)
+  ════════════════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- ──────────────────────────────────────
+         SCREEN 1 · STUDENT DETAILS FORM WITH CRAZYCODING BRANDING
+    ─────────────────────────────────────── -->
+    <section id="screen-details" class="screen active">
+      <div class="registration-layout">
+
+        <!-- Left Branding Panel (From Artwork) -->
+        <aside class="branding-hero-card">
+          <div class="brand-hero-header">
+            <div class="brand-big-logo">
+              <span class="code-bracket">&lt;/&gt;</span>
+              <span class="hero-crazy">Crazy</span><span class="hero-coding">Coding</span>
+            </div>
+            <div class="hero-tagline">Learn • Build • Grow</div>
+          </div>
+
+          <div class="hero-slogan-box">
+            <h3>Start Your <span class="highlight-orange">Coding Journey</span> with CrazyCoding</h3>
+            <p class="hero-subtext">✨ Code • Create • Explore</p>
+          </div>
+
+          <!-- Social / Contact Badges matching image -->
+          <div class="social-badges-list">
+            <div class="social-pill pill-instagram">
+              <span class="pill-icon">📸</span>
+              <div class="pill-info">
+                <span class="pill-title">Instagram</span>
+                <span class="pill-handle">Crazy_coding01</span>
+              </div>
+            </div>
+
+            <div class="social-pill pill-youtube">
+              <span class="pill-icon">▶️</span>
+              <div class="pill-info">
+                <span class="pill-title">YouTube</span>
+                <span class="pill-handle">crazycoding1</span>
+              </div>
+            </div>
+
+            <div class="social-pill pill-contact">
+              <span class="pill-icon">📞</span>
+              <div class="pill-info">
+                <span class="pill-title">Contact</span>
+                <span class="pill-handle">9568326772</span>
+              </div>
+            </div>
+
+            <div class="social-pill pill-professor">
+              <span class="pill-icon">👨‍🏫</span>
+              <div class="pill-info">
+                <span class="pill-title">Mr. Ankush</span>
+                <span class="pill-handle">Assistant Professor in CSE</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Motivational Banner -->
+          <div class="hero-navy-banner">
+            <span>🚀 Better Developers Build a Brighter Future 😊</span>
+          </div>
+        </aside>
+
+        <!-- Right Form Card -->
+        <div class="card form-card registration-form-card">
+          <div class="card-header">
+            <div class="form-header-badge">Join CrazyCoding and start your coding adventure!</div>
+            <h2>📝 Registration Form</h2>
+            <p>Please enter your student details to start the Front-End MCQ Quiz.</p>
+          </div>
+          <form id="detailsForm" novalidate>
+            <!-- Full Name -->
+            <div class="form-group">
+              <label for="studentName">👤 Full Name <span class="required">*</span></label>
+              <input type="text" id="studentName" placeholder="Enter your full name" autocomplete="name" />
+              <span class="field-error" id="nameError"></span>
+            </div>
+            <!-- WhatsApp -->
+            <div class="form-group">
+              <label for="studentPhone">📱 WhatsApp Number <span class="required">*</span></label>
+              <input type="tel" id="studentPhone" placeholder="+919876543210" autocomplete="tel" />
+              <span class="field-hint">Include country code (+91 for India)</span>
+              <span class="field-error" id="phoneError"></span>
+            </div>
+            <!-- Quiz ID (QUID) -->
+            <div class="form-group">
+              <label for="studentQuid">🆔 Quiz ID (QUID) <span class="required">*</span></label>
+              <input type="text" id="studentQuid" placeholder="e.g. QUIZ-2024-001" />
+              <span class="field-hint">Enter the Quiz ID given by your professor</span>
+              <span class="field-error" id="quidError"></span>
+            </div>
+            <!-- Section -->
+            <div class="form-group">
+              <label for="studentSection">🏷️ Section <span class="required">*</span></label>
+              <select id="studentSection">
+                <option value="">— Select Section —</option>
+                <option value="I">Section I</option>
+                <option value="J">Section J</option>
+                <option value="L">Section L</option>
+              </select>
+              <span class="field-error" id="sectionError"></span>
+            </div>
+            <!-- Number of Questions -->
+            <div class="form-group">
+              <label>🎯 Number of Questions <span class="required">*</span></label>
+              <div class="radio-group">
+                <label class="radio-label">
+                  <input type="radio" name="numQuestions" value="10" /> <span>10</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="numQuestions" value="20" /> <span>20</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="numQuestions" value="30" /> <span>30</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="numQuestions" value="all" checked /> <span>All</span>
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full register-btn">Continue to Subject Selection →</button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────
+         SCREEN 2 · SUBJECT / UNIT / TOPIC
+    ─────────────────────────────────────── -->
+    <section id="screen-subject" class="screen">
+      <div class="card form-card">
+        <div class="card-header">
+          <h2>📚 Subject &amp; Topic Selection</h2>
+          <p id="subjectGreeting"></p>
+        </div>
+
+        <!-- Subject label (fixed) -->
+        <div class="subject-badge">
+          <span class="badge">Subject: Front-End Web Development</span>
+        </div>
+
+        <!-- Unit selector -->
+        <div class="form-group">
+          <label for="unitSelect">Select Unit</label>
+          <select id="unitSelect">
+            <option value="">— Choose a Unit —</option>
+            <option value="unit1">Unit I — HTML and Web Fundamentals</option>
+            <option value="unit2">Unit II — CSS and Responsive Web Design</option>
+          </select>
+        </div>
+
+        <!-- Topic selector -->
+        <div class="form-group" id="topicGroup" style="display:none">
+          <label for="topicSelect">Select Topic</label>
+          <select id="topicSelect">
+            <option value="">— Choose a Topic —</option>
+          </select>
+        </div>
+
+        <div id="noQuestionsMsg" class="alert alert-warn" style="display:none">
+          ⚠️ No questions available for this topic yet. Please select another topic.
+        </div>
+
+        <div class="btn-row">
+          <button id="btnBackToDetails" class="btn btn-secondary">← Back</button>
+          <button id="btnStartQuiz" class="btn btn-primary" disabled>Start Quiz 🚀</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────
+         SCREEN 3 · QUIZ
+    ─────────────────────────────────────── -->
+    <section id="screen-quiz" class="screen">
+      <!-- Quiz top bar -->
+      <div class="quiz-topbar">
+        <div class="quiz-meta">
+          <span id="quizMetaName" class="meta-chip">👤</span>
+          <span id="quizMetaTopic" class="meta-chip">📖</span>
+        </div>
+        <div class="quiz-timer-wrap">
+          <div id="timerDisplay" class="timer">⏱ 00:00</div>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-wrap" aria-label="Quiz progress">
+        <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <div class="progress-stats">
+        <span id="statAnswered">Answered: 0</span>
+        <span id="statUnanswered">Unanswered: 0</span>
+        <span id="statMarked">Marked: 0</span>
+      </div>
+
+      <div class="quiz-body">
+        <!-- Question panel -->
+        <div class="question-panel">
+          <div class="question-header">
+            <span id="questionCount" class="question-count">Question 1 of 10</span>
+            <span id="markBadge" class="mark-badge hidden">🔖 Marked</span>
+          </div>
+          <p id="questionText" class="question-text"></p>
+          <ul id="optionsList" class="options-list" role="radiogroup" aria-label="Answer options"></ul>
+
+          <!-- Action buttons -->
+          <div class="quiz-controls">
+            <button id="btnPrev" class="btn btn-secondary" disabled>← Prev</button>
+            <button id="btnMark" class="btn btn-warn">🔖 Mark</button>
+            <button id="btnNext" class="btn btn-primary">Next →</button>
+          </div>
+          <div class="submit-wrap">
+            <button id="btnSubmit" class="btn btn-danger">🏁 Submit Quiz</button>
+          </div>
+        </div>
+
+        <!-- Question navigator -->
+        <aside class="question-nav" aria-label="Question navigator">
+          <h3>Question Navigator</h3>
+          <div id="navGrid" class="nav-grid"></div>
+          <div class="nav-legend">
+            <span class="legend-item"><span class="nav-dot answered"></span> Answered</span>
+            <span class="legend-item"><span class="nav-dot marked"></span> Marked</span>
+            <span class="legend-item"><span class="nav-dot unanswered"></span> Not Answered</span>
+            <span class="legend-item"><span class="nav-dot unvisited"></span> Not Visited</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ──────────────────────────────────────
+         SCREEN 4 · RESULT
+    ─────────────────────────────────────── -->
+    <section id="screen-result" class="screen">
+
+      <!-- Score card -->
+      <div class="card result-card">
+        <div class="result-header">
+          <h2>📊 Quiz Result</h2>
+          <div id="resultPassFail" class="passfail-badge"></div>
+        </div>
+
+        <div class="result-top">
+          <!-- Donut chart -->
+          <div class="score-circle-wrap">
+            <svg class="score-donut" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="donut-bg" cx="60" cy="60" r="50" />
+              <circle id="donutFill" class="donut-fill" cx="60" cy="60" r="50"
+                stroke-dasharray="0 314.16"
+                stroke-dashoffset="78.54" />
+            </svg>
+            <div class="score-center-text">
+              <span id="scorePercent" class="score-percent">0%</span>
+              <span class="score-label">Score</span>
+            </div>
+          </div>
+
+          <!-- Student info -->
+          <div class="result-info">
+            <table class="info-table">
+              <tr><th>Student</th><td id="rStudentName">—</td></tr>
+              <tr><th>Quiz ID (QUID)</th><td id="rQuid">—</td></tr>
+              <tr><th>Section</th><td id="rSection">—</td></tr>
+              <tr><th>Subject</th><td>Front-End Web Development</td></tr>
+              <tr><th>Unit / Topic</th><td id="rTopic">—</td></tr>
+              <tr><th>Total Questions</th><td id="rTotal">—</td></tr>
+              <tr><th>✅ Correct</th><td id="rCorrect" class="correct-text">—</td></tr>
+              <tr><th>❌ Incorrect</th><td id="rIncorrect" class="incorrect-text">—</td></tr>
+              <tr><th>⬜ Unattempted</th><td id="rUnattempted">—</td></tr>
+              <tr><th>📈 Percentage</th><td id="rPercent">—</td></tr>
+              <tr><th>⏱ Time Taken</th><td id="rTimeTaken">—</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="result-actions">
+          <button id="btnWhatsApp" class="btn btn-whatsapp">💬 Send Result to Professor WhatsApp (+91 9568326772)</button>
+          <button id="btnPrint" class="btn btn-secondary">🖨️ Print Result</button>
+          <button id="btnDownload" class="btn btn-secondary">⬇️ Download Result</button>
+          <button id="btnRetry" class="btn btn-primary">🔄 Retry Quiz</button>
+        </div>
+
+        <!-- WhatsApp note -->
+        <div class="alert alert-info whatsapp-note">
+          ℹ️ <strong>Note:</strong> Result submit hone par student details (Name, QUID, Section) ke saath Professor ke WhatsApp (<strong>+91 9568326772</strong>) par message draft ho jayega. Student WhatsApp open hone par <strong>Send</strong> click karke deliver karega. "Print Result" button se result print bhi kar sakte hain.
+        </div>
+      </div>
+
+      <!-- Answer Review -->
+      <div class="card review-card">
+        <h2>📋 Detailed Answer Review</h2>
+        <div id="reviewList"></div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="code-bracket">&lt;/&gt;</span>
+        <strong>CrazyCoding</strong>
+        <span>• Learn • Build • Grow</span>
+      </div>
+      <div class="footer-socials">
+        <span class="footer-chip">📸 Instagram: @Crazy_coding01</span>
+        <span class="footer-chip">▶️ YouTube: crazycoding1</span>
+        <span class="footer-chip">📞 Contact: +91 9568326772</span>
+      </div>
+      <p class="footer-credit">
+        Designed by <strong>Mr. Ankush</strong> — Assistant Professor in Computer Science & Engineering
+      </p>
+      <p class="footer-quote">
+        <em>"Better Developers Build a Brighter Future 😊"</em>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Submit Confirmation Modal -->
+  <div id="submitModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <h3 id="modalTitle">⚠️ Submit Quiz?</h3>
+      <p id="modalBody"></p>
+      <div class="btn-row">
+        <button id="btnModalCancel" class="btn btn-secondary">Cancel</button>
+        <button id="btnModalConfirm" class="btn btn-danger">Yes, Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
