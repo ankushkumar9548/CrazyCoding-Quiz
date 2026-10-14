@@ -35,7 +35,8 @@ function doPost(e) {
         "Total",
         "Percentage",
         "Status",
-        "Time Taken"
+        "Time Taken",
+        "Tab Switches"
       ];
       sheet.appendRow(headers);
 
@@ -66,6 +67,7 @@ function doPost(e) {
     var percent = (data.percent !== undefined ? data.percent : Math.round((correct / total) * 100)) + "%";
     var status = data.status || (correct >= 40 ? "PASSED" : "FAILED");
     var timeTaken = data.timeTaken || "N/A";
+    var tabSwitches = data.tabSwitches !== undefined ? data.tabSwitches : 0;
 
     // Row append karein
     sheet.appendRow([
@@ -79,17 +81,19 @@ function doPost(e) {
       total,
       percent,
       status,
-      timeTaken
+      timeTaken,
+      tabSwitches
     ]);
 
     var lastRow = sheet.getLastRow();
 
     // Alignment and Status Color Formatting
-    sheet.getRange(lastRow, 1, 1, 11).setVerticalAlignment("middle");
+    sheet.getRange(lastRow, 1, 1, 12).setVerticalAlignment("middle");
     sheet.getRange(lastRow, 4).setHorizontalAlignment("center"); // Section
     sheet.getRange(lastRow, 7, 1, 3).setHorizontalAlignment("center"); // Score, Total, %
     sheet.getRange(lastRow, 10).setHorizontalAlignment("center"); // Status
     sheet.getRange(lastRow, 11).setHorizontalAlignment("center"); // Time
+    sheet.getRange(lastRow, 12).setHorizontalAlignment("center"); // Tab Switches
 
     var statusCell = sheet.getRange(lastRow, 10);
     if (status === "PASSED" || status.indexOf("PASS") !== -1) {
@@ -100,6 +104,14 @@ function doPost(e) {
       statusCell.setBackground("#fee2e2"); // Light Red
       statusCell.setFontColor("#b91c1c"); // Dark Red
       statusCell.setFontWeight("bold");
+    }
+
+    // Tab switch warning highlight
+    if (tabSwitches > 0) {
+      var switchCell = sheet.getRange(lastRow, 12);
+      switchCell.setBackground("#fee2e2");
+      switchCell.setFontColor("#b91c1c");
+      switchCell.setFontWeight("bold");
     }
 
     return ContentService.createTextOutput(JSON.stringify({
@@ -127,7 +139,7 @@ function doGet(e) {
     if (lastRow <= 1) {
       return ContentService.createTextOutput(JSON.stringify([])).setMimeType(ContentService.MimeType.JSON);
     }
-    var rows = sheet.getRange(2, 1, lastRow - 1, 11).getValues();
+    var rows = sheet.getRange(2, 1, lastRow - 1, 12).getValues();
     var results = [];
     for (var i = 0; i < rows.length; i++) {
       results.push({
@@ -141,7 +153,8 @@ function doGet(e) {
         total: rows[i][7],
         percent: rows[i][8],
         status: rows[i][9],
-        timeTaken: rows[i][10]
+        timeTaken: rows[i][10],
+        tabSwitches: rows[i][11] || 0
       });
     }
     return ContentService.createTextOutput(JSON.stringify(results, null, 2)).setMimeType(ContentService.MimeType.JSON);
