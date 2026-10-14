@@ -1840,7 +1840,19 @@ function cacheDom() {
     adminSyncModal:    document.getElementById('adminSyncModal'),
     btnCloseAdminSyncModal: document.getElementById('btnCloseAdminSyncModal'),
     adminGoogleSheetUrlInput: document.getElementById('adminGoogleSheetUrlInput'),
-    btnAdminSaveSheetUrl: document.getElementById('btnAdminSaveSheetUrl')
+    btnAdminSaveSheetUrl: document.getElementById('btnAdminSaveSheetUrl'),
+
+    // GitHub Sync Modal Elements
+    btnAdminOpenGitHubModal: document.getElementById('btnAdminOpenGitHubModal'),
+    adminGitHubModal: document.getElementById('adminGitHubModal'),
+    btnCloseAdminGitHubModal: document.getElementById('btnCloseAdminGitHubModal'),
+    btnCloseAdminGitHubModalBottom: document.getElementById('btnCloseAdminGitHubModalBottom'),
+    btnAdminTriggerGitPush: document.getElementById('btnAdminTriggerGitPush'),
+    adminGitPushStatus: document.getElementById('adminGitPushStatus'),
+    adminGitHubTokenInput: document.getElementById('adminGitHubTokenInput'),
+    btnAdminSaveGitHubToken: document.getElementById('btnAdminSaveGitHubToken'),
+    btnAdminApiPushGitHub: document.getElementById('btnAdminApiPushGitHub'),
+    adminGitHubApiStatus: document.getElementById('adminGitHubApiStatus')
   };
 }
 
@@ -2982,7 +2994,154 @@ function wireEvents() {
     }
   }
 
+  // ─────────────────────────────────────────
+  // Admin GitHub Sync Modal & Actions
+  // ─────────────────────────────────────────
+  if (dom.btnAdminOpenGitHubModal) dom.btnAdminOpenGitHubModal.addEventListener('click', openGitHubModal);
+  if (dom.btnCloseAdminGitHubModal) dom.btnCloseAdminGitHubModal.addEventListener('click', closeGitHubModal);
+  if (dom.btnCloseAdminGitHubModalBottom) dom.btnCloseAdminGitHubModalBottom.addEventListener('click', closeGitHubModal);
+  if (dom.adminGitHubModal) {
+    dom.adminGitHubModal.addEventListener('click', (e) => {
+      if (e.target === dom.adminGitHubModal) closeGitHubModal();
+    });
+  }
+  if (dom.btnAdminTriggerGitPush) dom.btnAdminTriggerGitPush.addEventListener('click', triggerServerGitPush);
+  if (dom.btnAdminSaveGitHubToken && dom.adminGitHubTokenInput) {
+    dom.btnAdminSaveGitHubToken.addEventListener('click', () => {
+      const token = dom.adminGitHubTokenInput.value.trim();
+      localStorage.setItem(GITHUB_TOKEN_KEY, token);
+      alert('✅ GitHub Personal Access Token successfully save ho gaya hai!');
+    });
+  }
+  if (dom.btnAdminApiPushGitHub) dom.btnAdminApiPushGitHub.addEventListener('click', triggerGitHubApiPush);
+
   document.addEventListener('keydown', handleKeydown);
+}
+
+/* ════════════════════════════════════════════════════════════
+   19B. GITHUB REPOSITORY LIVE SYNC LOGIC
+════════════════════════════════════════════════════════════ */
+const GITHUB_REPO = 'ankushkumar9548/CrazyCoding-Quiz';
+const GITHUB_TOKEN_KEY = 'crazycoding_github_token';
+
+function openGitHubModal() {
+  if (dom.adminGitHubTokenInput) {
+    dom.adminGitHubTokenInput.value = localStorage.getItem(GITHUB_TOKEN_KEY) || '';
+  }
+  if (dom.adminGitPushStatus) dom.adminGitPushStatus.style.display = 'none';
+  if (dom.adminGitHubApiStatus) dom.adminGitHubApiStatus.style.display = 'none';
+  if (dom.adminGitHubModal) dom.adminGitHubModal.classList.add('active', 'open');
+}
+
+function closeGitHubModal() {
+  if (dom.adminGitHubModal) dom.adminGitHubModal.classList.remove('active', 'open');
+}
+
+// Method 1: Local server git push
+async function triggerServerGitPush() {
+  if (!dom.btnAdminTriggerGitPush) return;
+  dom.btnAdminTriggerGitPush.disabled = true;
+  dom.btnAdminTriggerGitPush.textContent = '⏳ Pushing to GitHub...';
+  if (dom.adminGitPushStatus) {
+    dom.adminGitPushStatus.style.display = 'block';
+    dom.adminGitPushStatus.style.background = '#fef3c7';
+    dom.adminGitPushStatus.style.color = '#b45309';
+    dom.adminGitPushStatus.textContent = 'Git commit & push in progress...';
+  }
+
+  try {
+    const res = await fetch('/api/git-push', { method: 'POST' });
+    const data = await res.json();
+    if (data.status === 'success') {
+      dom.adminGitPushStatus.style.background = '#ecfdf5';
+      dom.adminGitPushStatus.style.color = '#065f46';
+      dom.adminGitPushStatus.textContent = data.message || '✅ Successfully pushed to GitHub!';
+    } else {
+      dom.adminGitPushStatus.style.background = '#fee2e2';
+      dom.adminGitPushStatus.style.color = '#b91c1c';
+      dom.adminGitPushStatus.textContent = data.message || '⚠️ Server push completed with note.';
+    }
+  } catch (err) {
+    dom.adminGitPushStatus.style.background = '#fee2e2';
+    dom.adminGitPushStatus.style.color = '#b91c1c';
+    dom.adminGitPushStatus.textContent = '❌ Server not reachable. Please start server via start_server.bat or use GitHub API token method below.';
+  } finally {
+    dom.btnAdminTriggerGitPush.disabled = false;
+    dom.btnAdminTriggerGitPush.textContent = '🚀 Push to GitHub Now';
+  }
+}
+
+// Method 2: GitHub REST API direct push
+async function triggerGitHubApiPush() {
+  const token = (dom.adminGitHubTokenInput ? dom.adminGitHubTokenInput.value.trim() : '') || localStorage.getItem(GITHUB_TOKEN_KEY);
+  if (!token) {
+    alert('Please enter your GitHub Personal Access Token to sync via API.');
+    return;
+  }
+  if (!dom.btnAdminApiPushGitHub) return;
+  dom.btnAdminApiPushGitHub.disabled = true;
+  dom.btnAdminApiPushGitHub.textContent = '⏳ Syncing via GitHub API...';
+  if (dom.adminGitHubApiStatus) {
+    dom.adminGitHubApiStatus.style.display = 'block';
+    dom.adminGitHubApiStatus.style.background = '#fef3c7';
+    dom.adminGitHubApiStatus.style.color = '#b45309';
+    dom.adminGitHubApiStatus.textContent = 'Fetching current file SHA from GitHub...';
+  }
+
+  try {
+    const submissions = getStoredSubmissions();
+    const contentStr = JSON.stringify(submissions, null, 2);
+    const contentBase64 = btoa(unescape(encodeURIComponent(contentStr)));
+
+    // 1. Fetch current file SHA
+    let sha = '';
+    const getRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/students_database.json`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if (getRes.ok) {
+      const fileData = await getRes.json();
+      sha = fileData.sha;
+    }
+
+    // 2. Put file to update
+    const putPayload = {
+      message: `data: Sync ${submissions.length} student submissions from Quiz Portal [skip ci]`,
+      content: contentBase64,
+      branch: 'main'
+    };
+    if (sha) putPayload.sha = sha;
+
+    const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/students_database.json`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(putPayload)
+    });
+
+    if (putRes.ok) {
+      dom.adminGitHubApiStatus.style.background = '#ecfdf5';
+      dom.adminGitHubApiStatus.style.color = '#065f46';
+      dom.adminGitHubApiStatus.textContent = `✅ Successfully saved ${submissions.length} student submissions to GitHub repository!`;
+    } else {
+      const errData = await putRes.json().catch(() => ({}));
+      dom.adminGitHubApiStatus.style.background = '#fee2e2';
+      dom.adminGitHubApiStatus.style.color = '#b91c1c';
+      dom.adminGitHubApiStatus.textContent = `❌ GitHub API Error: ${errData.message || 'Token unauthorized or repo error.'}`;
+    }
+  } catch (err) {
+    dom.adminGitHubApiStatus.style.background = '#fee2e2';
+    dom.adminGitHubApiStatus.style.color = '#b91c1c';
+    dom.adminGitHubApiStatus.textContent = `❌ Network Error: ${err.message}`;
+  } finally {
+    dom.btnAdminApiPushGitHub.disabled = false;
+    dom.btnAdminApiPushGitHub.textContent = '☁️ Sync to GitHub via API';
+  }
 }
 
 /* ════════════════════════════════════════════════════════════

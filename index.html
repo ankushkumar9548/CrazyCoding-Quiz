@@ -355,6 +355,7 @@
             <button id="btnAdminImportJSON" class="btn btn-outline" title="Upload and merge student JSON file">📤 Import JSON</button>
             <input type="file" id="adminJsonFileInput" accept=".json" style="display:none;" />
             <button id="btnAdminPrintSheet" class="btn btn-outline" title="Print this Spreadsheet">🖨️ Print</button>
+            <button id="btnAdminOpenGitHubModal" class="btn btn-outline" style="border-color:#16a34a; color:#16a34a; font-weight:700;" title="Save & Push all student data directly to GitHub repository">🐙 GitHub Sync</button>
             <button id="btnAdminOpenSyncModal" class="btn btn-outline" title="Google Sheets Online Cloud Sync">🌐 Cloud Sync</button>
             <button id="btnAdminAddDemo" class="btn btn-outline" title="Add Demo Student Row for Preview">➕ Demo</button>
             <button id="btnAdminClearAll" class="btn btn-danger" title="Clear All Records">🗑️ Clear</button>
@@ -644,6 +645,61 @@
       <div class="modal-footer" style="padding:0.8rem 1.2rem; background:#fff; border-top:1px solid var(--clr-border); display:flex; justify-content:flex-end; gap:0.6rem;">
         <button id="btnPrintCert" class="btn btn-primary" style="background:#b45309; border:none;">🖨️ Print / Save as PDF</button>
         <button id="btnCloseCertModalBottom" class="btn btn-outline">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       GITHUB LIVE SYNC MODAL
+  ════════════════════════════════════════════════ -->
+  <div id="adminGitHubModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width:640px;">
+      <div class="modal-header" style="background:#24292f; color:#fff; padding:1rem 1.2rem; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:1.15rem; font-weight:700; display:flex; align-items:center; gap:8px;">
+          <span>🐙</span> GitHub Database Sync
+        </h3>
+        <button id="btnCloseAdminGitHubModal" class="modal-close" style="color:#fff; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:1.2rem;">
+        <p style="font-size:0.88rem; color:var(--clr-text-muted); margin-bottom:1rem;">
+          Students ka quiz submission data permanent tor par aapke GitHub repository (<strong>ankushkumar9548/CrazyCoding-Quiz</strong>) ke andar <code>students_database.json</code> mein store hota hai.
+        </p>
+
+        <!-- Method 1: Local Server Push -->
+        <div style="background:var(--clr-surface2); padding:1rem; border-radius:8px; border:1px solid var(--clr-border); margin-bottom:1rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:6px;">
+            <strong style="color:var(--clr-primary);">⚡ One-Click Server Git Push</strong>
+            <button id="btnAdminTriggerGitPush" class="btn btn-sm btn-primary" style="background:#238636; border:none; font-weight:700;">🚀 Push to GitHub Now</button>
+          </div>
+          <span style="font-size:0.82rem; color:var(--clr-text-muted); display:block;">
+            Agar aapne <code>start_server.bat</code> chala rakha hai, toh ye button seedha repository mein changes commit &amp; push kar dega.
+          </span>
+          <div id="adminGitPushStatus" style="display:none; margin-top:8px; font-size:0.85rem; padding:6px 10px; border-radius:6px;"></div>
+        </div>
+
+        <!-- Method 2: GitHub API Direct Push (Static / Cloud Mode) -->
+        <div style="background:var(--clr-surface2); padding:1rem; border-radius:8px; border:1px solid var(--clr-border); margin-bottom:1rem;">
+          <strong style="color:var(--clr-primary); display:block; margin-bottom:4px;">🌐 GitHub REST API Direct Sync (Cloud)</strong>
+          <span style="font-size:0.82rem; color:var(--clr-text-muted); display:block; margin-bottom:8px;">
+            Optional: Agar aap bina local server ke direct browser se GitHub par write karna chahte hain, toh apna GitHub Personal Access Token enter karein:
+          </span>
+          <div style="display:flex; gap:0.5rem; margin-bottom:6px;">
+            <input type="password" id="adminGitHubTokenInput" class="admin-search-input" style="flex:1;" placeholder="ghp_xxxx or github_pat_xxxx" />
+            <button id="btnAdminSaveGitHubToken" class="btn btn-sm btn-outline">💾 Save</button>
+          </div>
+          <button id="btnAdminApiPushGitHub" class="btn btn-sm btn-primary" style="width:100%; margin-top:4px;">☁️ Sync to GitHub via API</button>
+          <div id="adminGitHubApiStatus" style="display:none; margin-top:8px; font-size:0.85rem; padding:6px 10px; border-radius:6px;"></div>
+        </div>
+
+        <!-- Direct Link -->
+        <div style="font-size:0.84rem; text-align:center;">
+          🔗 <a href="https://github.com/ankushkumar9548/CrazyCoding-Quiz/blob/main/students_database.json" target="_blank" style="color:var(--clr-blue); font-weight:700;">
+            Open students_database.json directly on GitHub &rarr;
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding:0.8rem 1.2rem; border-top:1px solid var(--clr-border); display:flex; justify-content:flex-end;">
+        <button id="btnCloseAdminGitHubModalBottom" class="btn btn-outline">Close</button>
       </div>
     </div>
   </div>

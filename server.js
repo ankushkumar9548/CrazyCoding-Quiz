@@ -10,6 +10,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { exec } = require('child_process');
 
 const PORT = 3000;
 const DATA_FILE = path.join(__dirname, 'students_database.json');
@@ -17,6 +18,23 @@ const DATA_FILE = path.join(__dirname, 'students_database.json');
 // Ensure JSON database file exists
 if (!fs.existsSync(DATA_FILE)) {
   fs.writeFileSync(DATA_FILE, '[]', 'utf8');
+}
+
+// Function to automatically commit and push updated JSON database to GitHub
+function gitAutoPush(studentName) {
+  const safeName = (studentName || 'Student').replace(/["`$]/g, '');
+  const cmd = `git add students_database.json && git commit -m "data: Auto-save submission for ${safeName} [skip ci]" && git push origin main`;
+  exec(cmd, { cwd: __dirname }, (error, stdout, stderr) => {
+    if (error) {
+      if (error.message.includes('nothing to commit')) {
+        console.log('[GIT PUSH] Data already synced with GitHub repository.');
+      } else {
+        console.warn('[GIT PUSH NOTE]', error.message);
+      }
+    } else {
+      console.log(`[GIT PUSH SUCCESS] Student ${safeName} data pushed to GitHub repository!`);
+    }
+  });
 }
 
 // MIME types
@@ -69,8 +87,11 @@ const server = http.createServer((req, res) => {
 
         console.log(`[SUCCESS] New student quiz saved to JSON: ${newRecord.name} (QUID: ${newRecord.quid}, Score: ${newRecord.score}/${newRecord.total})`);
 
+        // Automatically push update to GitHub repository asynchronously
+        gitAutoPush(newRecord.name);
+
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ status: 'success', message: 'Saved permanently to JSON file!', totalSaved: currentData.length }));
+        res.end(JSON.stringify({ status: 'success', message: 'Saved permanently to JSON file and queued to GitHub!', totalSaved: currentData.length }));
       } catch (err) {
         console.error('[ERROR] Failed to save submission:', err);
         res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -90,6 +111,36 @@ const server = http.createServer((req, res) => {
       res.writeHead(500, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ status: 'error', message: err.message }));
     }
+    return;
+  }
+
+  // API 3: POST /api/git-push — Manual push of students_database.json to GitHub repository
+  if (req.method === 'POST' && req.url === '/api/git-push') {
+    const cmd = `git add students_database.json && git commit -m "data: Sync student database to GitHub" && git push origin main`;
+    exec(cmd, { cwd: __dirname }, (error, stdout, stderr) => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      if (error) {
+        if ((stdout && stdout.includes('nothing to commit')) || (error.message && error.message.includes('nothing to commit'))) {
+          res.end(JSON.stringify({
+            status: 'success',
+            message: '✅ GitHub already up to date with latest student data!',
+            details: stdout
+          }));
+        } else {
+          res.end(JSON.stringify({
+            status: 'warning',
+            message: 'Git push warning: ' + (stderr || error.message),
+            details: stdout
+          }));
+        }
+      } else {
+        res.end(JSON.stringify({
+          status: 'success',
+          message: '✅ Student data successfully committed and pushed to GitHub!',
+          details: stdout
+        }));
+      }
+    });
     return;
   }
 
