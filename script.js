@@ -83,6 +83,187 @@ const QUESTION_BANK = {
   /* ── UNIT 1 ─────────────────────────────────────────── */
 
   t1: [ // Introduction to Front-End Development
+
+
+     {
+  q: 'Which tag is used to associate a text label with a form control?',
+  options: ['<input>', '<label>', '<form>', '<caption>'],
+  correct: 1,
+  explanation: 'The <label> tag associates a text label with a form control.'
+},
+{
+  q: 'Which semantic tag is commonly used for copyright information or closing details at the bottom of a page or section?',
+  options: ['<header>', '<section>', '<footer>', '<aside>'],
+  correct: 2,
+  explanation: 'The <footer> tag is commonly used for copyright information and closing details.'
+},
+{
+  q: 'Which value of flex-direction lays flex items vertically from top to bottom?',
+  options: ['row', 'column', 'vertical', 'column-reverse'],
+  correct: 1,
+  explanation: 'The column value arranges flex items vertically from top to bottom.'
+},
+{
+  q: 'Which CSS property controls the space between grid rows and columns?',
+  options: ['margin', 'padding', 'gap', 'spacing'],
+  correct: 2,
+  explanation: 'The gap property controls the space between rows and columns in CSS Grid.'
+},
+{
+  q: 'Which tag provides a caption or title for an HTML table?',
+  options: ['<title>', '<caption>', '<thead>', '<label>'],
+  correct: 1,
+  explanation: 'The <caption> tag defines a caption or title for an HTML table.'
+},
+{
+  q: "Which HTML attribute opens a link in a new browsing context when set to '_blank'?",
+  options: ['href', 'target', 'rel', 'open'],
+  correct: 1,
+  explanation: "The target attribute with the value '_blank' opens a link in a new browsing context."
+},
+{
+  q: 'Which CSS pseudo-class applies styles when the pointer is over an element?',
+  options: [':active', ':focus', ':hover', ':visited'],
+  correct: 2,
+  explanation: 'The :hover pseudo-class applies styles when the pointer is positioned over an element.'
+},
+{
+  q: 'Which HTML tag is used to include JavaScript in a page?',
+  options: ['<javascript>', '<js>', '<script>', '<code>'],
+  correct: 2,
+  explanation: 'The <script> tag is used to include or execute JavaScript in an HTML page.'
+},
+{
+  q: 'What is the purpose of the viewport meta tag commonly used for responsive pages?',
+  options: [
+    'To change the page title',
+    "To control the viewport's size and scaling",
+    'To add animations',
+    'To load JavaScript'
+  ],
+  correct: 1,
+  explanation: 'The viewport meta tag controls the viewport size and scaling, helping pages display properly on different devices.'
+},
+{
+  q: 'Which HTML attribute is used to give an element a unique identifier for CSS or JavaScript?',
+  options: ['class', 'name', 'id', 'key'],
+  correct: 2,
+  explanation: 'The id attribute gives an HTML element a unique identifier that can be targeted by CSS or JavaScript.'
+},
+{
+  q: 'Which property is used to round the corners of a box?',
+  options: ['corner-radius', 'border-radius', 'box-radius', 'radius'],
+  correct: 1,
+  explanation: 'The border-radius property is used to create rounded corners.'
+},
+{
+  q: 'Which value of display hides an element and removes it from normal layout flow?',
+  options: ['hidden', 'invisible', 'none', 'remove'],
+  correct: 2,
+  explanation: 'display: none hides the element and removes it from the normal layout flow.'
+},
+{
+  q: 'What is the default value of the CSS position property?',
+  options: ['relative', 'absolute', 'fixed', 'static'],
+  correct: 3,
+  explanation: 'The default value of the CSS position property is static.'
+},
+{
+  q: 'What does box-sizing: border-box do?',
+  options: [
+    'Excludes padding from the width',
+    'Includes padding and border within the specified width and height',
+    'Removes the border',
+    'Doubles the element width'
+  ],
+  correct: 1,
+  explanation: 'border-box includes the element’s padding and border within its specified width and height.'
+},
+{
+  q: 'What is a key principle of responsive web design?',
+  options: [
+    'Use only fixed-width layouts',
+    'Design pages to adapt to different screen sizes',
+    'Avoid media queries',
+    'Use only desktop layouts'
+  ],
+  correct: 1,
+  explanation: 'Responsive web design allows a webpage to adapt to different screen sizes and devices.'
+},
+{
+  q: 'Which CSS property names the keyframes animation to apply?',
+  options: ['animation-name', 'keyframe-name', 'animation-key', 'keyframes'],
+  correct: 0,
+  explanation: 'The animation-name property specifies the name of the keyframes animation to apply.'
+},
+{
+  q: 'Which property controls the time taken by a CSS transition?',
+  options: ['transition-speed', 'transition-delay', 'transition-duration', 'transition-time'],
+  correct: 2,
+  explanation: 'The transition-duration property specifies how long a transition takes to complete.'
+},
+{
+  q: "Which unit is relative to the root element's font size?",
+  options: ['em', '%', 'rem', 'px'],
+  correct: 2,
+  explanation: 'The rem unit is relative to the font size of the root HTML element.'
+},
+{
+  q: 'What is the purpose of a media query?',
+  options: [
+    'To add JavaScript',
+    'To apply CSS based on device or viewport conditions',
+    'To create HTML elements',
+    'To load images'
+  ],
+  correct: 1,
+  explanation: 'Media queries apply CSS rules based on conditions such as screen width, height, or device characteristics.'
+},
+{
+  q: 'Which CSS layout system is particularly suited to two-dimensional rows and columns?',
+  options: ['Flexbox', 'Grid', 'Float', 'Inline-block'],
+  correct: 1,
+  explanation: 'CSS Grid is designed for two-dimensional layouts using rows and columns.'
+},
+{
+  q: 'Which CSS layout system is designed for arranging items in rows or columns along one dimension at a time?',
+  options: ['CSS Grid', 'Flexbox', 'Table Layout', 'Positioning'],
+  correct: 1,
+  explanation: 'Flexbox is a one-dimensional layout system for arranging items in a row or a column.'
+},
+{
+  q: 'What is the output effect of this CSS? p { display: none; }',
+  options: [
+    'The paragraph becomes transparent',
+    'The paragraph becomes bold',
+    'The paragraph is hidden and removed from layout',
+    'The paragraph moves to the top'
+  ],
+  correct: 2,
+  explanation: 'display: none hides the paragraph and removes it from the normal document layout.'
+},
+{
+  q: 'What is the content width? .box { width: 200px; padding: 10px; border: 2px solid; box-sizing: border-box; }',
+  options: ['200px', '180px', '176px', '224px'],
+  correct: 2,
+  explanation: 'With border-box, the total width is 200px. Content width is 200 - 20px padding - 4px border = 176px.'
+},
+{
+  q: "Which property creates space outside an element's border?",
+  options: ['padding', 'margin', 'border-spacing', 'gap'],
+  correct: 1,
+  explanation: 'The margin property creates space outside an element’s border.'
+},
+{
+  q: 'In the CSS box model, what lies between the content and the border?',
+  options: ['Margin', 'Padding', 'Width', 'Outline'],
+  correct: 1,
+  explanation: 'Padding is the space between an element’s content and its border.'
+},
+
+
+
+     
     {
       q: 'Which of the following technologies is used for the structure of a web page?',
       options: ['CSS', 'JavaScript', 'HTML', 'PHP'],
