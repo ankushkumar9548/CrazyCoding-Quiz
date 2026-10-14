@@ -1694,6 +1694,9 @@ const state = {
   secondsLeft:   0,
   timerInterval: null,
   timeTakenSec:  0,
+
+  isQuizActive:   false,
+  tabSwitchCount: 0,
 };
 
 /* ════════════════════════════════════════════════════════════
@@ -1710,6 +1713,12 @@ function cacheDom() {
       result:  document.getElementById('screen-result'),
       admin:   document.getElementById('screen-admin'),
     },
+    // Resume Quiz Banner Elements
+    resumeQuizBanner: document.getElementById('resumeQuizBanner'),
+    resumeQuizInfo:   document.getElementById('resumeQuizInfo'),
+    btnResumeQuiz:    document.getElementById('btnResumeQuiz'),
+    btnDiscardQuiz:   document.getElementById('btnDiscardQuiz'),
+
     detailsForm:    document.getElementById('detailsForm'),
     studentName:    document.getElementById('studentName'),
     studentPhone:   document.getElementById('studentPhone'),
@@ -1737,6 +1746,12 @@ function cacheDom() {
     btnNext:        document.getElementById('btnNext'),
     btnSubmit:      document.getElementById('btnSubmit'),
     navGrid:        document.getElementById('navGrid'),
+
+    // Anti-Cheating & Fullscreen
+    cheatingWarningToast: document.getElementById('cheatingWarningToast'),
+    cheatingToastText:    document.getElementById('cheatingToastText'),
+    btnToggleFullscreen:  document.getElementById('btnToggleFullscreen'),
+
     resultPassFail: document.getElementById('resultPassFail'),
     donutFill:      document.getElementById('donutFill'),
     scorePercent:   document.getElementById('scorePercent'),
@@ -1749,6 +1764,8 @@ function cacheDom() {
     rUnattempted:   document.getElementById('rUnattempted'),
     rPercent:       document.getElementById('rPercent'),
     rTimeTaken:     document.getElementById('rTimeTaken'),
+    rTabSwitches:   document.getElementById('rTabSwitches'),
+    btnDownloadCert:document.getElementById('btnDownloadCert'),
     btnWhatsApp:    document.getElementById('btnWhatsApp'),
     btnDownloadCSV: document.getElementById('btnDownloadCSV'),
     btnDownloadJSON:document.getElementById('btnDownloadJSON'),
@@ -1760,6 +1777,19 @@ function cacheDom() {
     modalBody:      document.getElementById('modalBody'),
     btnModalCancel: document.getElementById('btnModalCancel'),
     btnModalConfirm:document.getElementById('btnModalConfirm'),
+
+    // Certificate Modal Elements
+    certificateModal:        document.getElementById('certificateModal'),
+    btnCloseCertModal:       document.getElementById('btnCloseCertModal'),
+    btnCloseCertModalBottom: document.getElementById('btnCloseCertModalBottom'),
+    btnPrintCert:            document.getElementById('btnPrintCert'),
+    certStudentName:         document.getElementById('certStudentName'),
+    certSection:             document.getElementById('certSection'),
+    certQuid:                document.getElementById('certQuid'),
+    certScore:               document.getElementById('certScore'),
+    certPercent:             document.getElementById('certPercent'),
+    certDate:                document.getElementById('certDate'),
+    certHash:                document.getElementById('certHash'),
 
     // Admin & Modal Elements
     btnOpenAdminLogin: document.getElementById('btnOpenAdminLogin'),
@@ -1957,6 +1987,172 @@ function buildPool() {
 }
 
 /* ════════════════════════════════════════════════════════════
+   8B. ANTI-CHEATING (TAB SWITCH DETECTION & FULLSCREEN)
+════════════════════════════════════════════════════════════ */
+let lastTabSwitchTime = 0;
+let cheatingToastTimeout = null;
+
+function handleTabSwitch() {
+  if (!state.isQuizActive) return;
+  const now = Date.now();
+  if (now - lastTabSwitchTime < 1500) return; // Debounce 1.5s
+  lastTabSwitchTime = now;
+
+  state.tabSwitchCount++;
+  showCheatingToast(`⚠️ Warning (${state.tabSwitchCount}): Tab switch detected! Your activity is logged for Prof. Ankush.`);
+  saveActiveQuizSession();
+}
+
+function showCheatingToast(msg) {
+  if (!dom.cheatingWarningToast) return;
+  if (dom.cheatingToastText) dom.cheatingToastText.textContent = msg;
+  dom.cheatingWarningToast.style.display = 'flex';
+  if (cheatingToastTimeout) clearTimeout(cheatingToastTimeout);
+  cheatingToastTimeout = setTimeout(() => {
+    if (dom.cheatingWarningToast) dom.cheatingWarningToast.style.display = 'none';
+  }, 4000);
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+    if (dom.btnToggleFullscreen) dom.btnToggleFullscreen.textContent = '⛶ Exit Fullscreen';
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen().catch(() => {});
+    if (dom.btnToggleFullscreen) dom.btnToggleFullscreen.textContent = '⛶ Fullscreen';
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   8C. AUTO-SAVE & RESUME QUIZ PROGRESS
+════════════════════════════════════════════════════════════ */
+const QUIZ_SESSION_KEY = 'crazycoding_active_quiz_session';
+
+function saveActiveQuizSession() {
+  if (!state.isQuizActive || !state.questions.length) return;
+  try {
+    const sessionData = {
+      studentName: state.studentName,
+      studentPhone: state.studentPhone,
+      studentQuid: state.studentQuid,
+      studentSection: state.studentSection,
+      questions: state.questions,
+      currentIndex: state.currentIndex,
+      userAnswers: state.userAnswers,
+      markedForReview: state.markedForReview,
+      visitedQuestions: state.visitedQuestions,
+      totalSeconds: state.totalSeconds,
+      secondsLeft: state.secondsLeft,
+      tabSwitchCount: state.tabSwitchCount,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(QUIZ_SESSION_KEY, JSON.stringify(sessionData));
+  } catch (e) {}
+}
+
+function clearActiveQuizSession() {
+  try {
+    localStorage.removeItem(QUIZ_SESSION_KEY);
+    if (dom.resumeQuizBanner) dom.resumeQuizBanner.style.display = 'none';
+  } catch (e) {}
+}
+
+function checkActiveQuizSession() {
+  try {
+    const raw = localStorage.getItem(QUIZ_SESSION_KEY);
+    if (!raw) {
+      if (dom.resumeQuizBanner) dom.resumeQuizBanner.style.display = 'none';
+      return;
+    }
+    const session = JSON.parse(raw);
+    if (!session || !session.questions || !session.questions.length) {
+      clearActiveQuizSession();
+      return;
+    }
+    const answered = (session.userAnswers || []).filter(a => a !== null).length;
+    const total = session.questions.length;
+    if (dom.resumeQuizInfo) {
+      dom.resumeQuizInfo.textContent = `Candidate: ${session.studentName || 'Student'} (Sec ${session.studentSection || 'I'}) • ${answered}/${total} questions answered • ${formatTime(session.secondsLeft || 0)} left`;
+    }
+    if (dom.resumeQuizBanner) dom.resumeQuizBanner.style.display = 'block';
+  } catch (e) {
+    clearActiveQuizSession();
+  }
+}
+
+function resumeActiveQuizSession() {
+  try {
+    const raw = localStorage.getItem(QUIZ_SESSION_KEY);
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    state.studentName = s.studentName || '';
+    state.studentPhone = s.studentPhone || '';
+    state.studentQuid = s.studentQuid || '';
+    state.studentSection = s.studentSection || '';
+    state.questions = s.questions || [];
+    state.currentIndex = s.currentIndex || 0;
+    state.userAnswers = s.userAnswers || [];
+    state.markedForReview = s.markedForReview || [];
+    state.visitedQuestions = s.visitedQuestions || [];
+    state.totalSeconds = s.totalSeconds || 6000;
+    state.secondsLeft = s.secondsLeft || 6000;
+    state.tabSwitchCount = s.tabSwitchCount || 0;
+    state.isQuizActive = true;
+
+    if (dom.quizMetaName) {
+      dom.quizMetaName.textContent = `👤 ${state.studentName} | Sec: ${state.studentSection}`;
+    }
+
+    if (dom.resumeQuizBanner) dom.resumeQuizBanner.style.display = 'none';
+
+    buildNavGrid();
+    renderQuestion();
+    startTimer();
+    showScreen('quiz');
+  } catch (err) {
+    alert('❌ Could not restore session. Starting fresh quiz.');
+    clearActiveQuizSession();
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   8D. OFFICIAL CERTIFICATE GENERATION & PRINTING
+════════════════════════════════════════════════════════════ */
+function openCertificateModal() {
+  let correct = 0;
+  state.questions.forEach((q, i) => {
+    if (state.userAnswers[i] === q.correct) correct++;
+  });
+  const total = state.questions.length || 100;
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+  if (dom.certStudentName) dom.certStudentName.textContent = state.studentName || 'Student Name';
+  if (dom.certSection) dom.certSection.textContent = state.studentSection || 'I';
+  if (dom.certQuid) dom.certQuid.textContent = state.studentQuid || 'QUID-101';
+  if (dom.certScore) dom.certScore.textContent = `${correct} / ${total}`;
+  if (dom.certPercent) dom.certPercent.textContent = `${pct}%`;
+  if (dom.certDate) {
+    dom.certDate.textContent = new Date().toLocaleDateString('en-IN', {
+      day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+  }
+  if (dom.certHash) {
+    const randomHex = Math.random().toString(36).substring(2, 7).toUpperCase();
+    dom.certHash.textContent = `CC-${new Date().getFullYear()}-${randomHex}`;
+  }
+
+  if (dom.certificateModal) dom.certificateModal.classList.add('active', 'open');
+}
+
+function closeCertificateModal() {
+  if (dom.certificateModal) dom.certificateModal.classList.remove('active', 'open');
+}
+
+function printCertificate() {
+  window.print();
+}
+
+/* ════════════════════════════════════════════════════════════
    9.  START QUIZ
 ════════════════════════════════════════════════════════════ */
 function startQuiz() {
@@ -1980,8 +2176,12 @@ function startQuiz() {
   state.totalSeconds = state.questions.length * 60;
   state.secondsLeft  = state.totalSeconds;
 
+  state.isQuizActive   = true;
+  state.tabSwitchCount = 0;
+
   dom.quizMetaName.textContent = `\u{1f464} ${state.studentName} | Sec: ${state.studentSection}`;
 
+  saveActiveQuizSession();
   buildNavGrid();
   renderQuestion();
   startTimer();
@@ -2030,6 +2230,7 @@ function renderQuestion() {
 function selectOption(i) {
   state.userAnswers[state.currentIndex] = i;
   renderQuestion();
+  saveActiveQuizSession();
 }
 
 function goTo(index) {
@@ -2037,12 +2238,14 @@ function goTo(index) {
   state.visitedQuestions[index] = true;
   state.currentIndex = index;
   renderQuestion();
+  saveActiveQuizSession();
 }
 
 function toggleMark() {
   const idx = state.currentIndex;
   state.markedForReview[idx] = !state.markedForReview[idx];
   renderQuestion();
+  saveActiveQuizSession();
 }
 
 function updateStats() {
@@ -2091,6 +2294,7 @@ function startTimer() {
   state.timerInterval = setInterval(() => {
     state.secondsLeft--;
     updateTimerDisplay();
+    if (state.secondsLeft % 10 === 0) saveActiveQuizSession();
     if (state.secondsLeft <= 60) dom.timerDisplay.classList.add('warn');
     if (state.secondsLeft <= 0) { clearInterval(state.timerInterval); submitQuiz(true); }
   }, 1000);
@@ -2131,8 +2335,14 @@ function hideSubmitModal() {
    13.  SUBMIT
 ════════════════════════════════════════════════════════════ */
 function submitQuiz(autoSubmit = false) {
+  state.isQuizActive = false;
   clearInterval(state.timerInterval);
   hideSubmitModal();
+  clearActiveQuizSession();
+
+  if (document.fullscreenElement && document.exitFullscreen) {
+    document.exitFullscreen().catch(() => {});
+  }
 
   state.timeTakenSec = state.totalSeconds - Math.max(0, state.secondsLeft);
 
@@ -2188,6 +2398,18 @@ function renderResult(total, correct, incorrect, unattempted, pct, passed) {
   dom.rUnattempted.textContent = unattempted;
   dom.rPercent.textContent     = pct + '% \u2014 ' + (passed ? 'Pass \U0001f389' : 'Fail \U0001f614');
   dom.rTimeTaken.textContent   = formatTime(state.timeTakenSec);
+
+  if (dom.rTabSwitches) {
+    dom.rTabSwitches.textContent = state.tabSwitchCount === 0
+      ? '0 (Clean attempt ✅)'
+      : `${state.tabSwitchCount} switch(es) logged ⚠️`;
+    dom.rTabSwitches.style.color = state.tabSwitchCount === 0 ? 'var(--clr-success)' : 'var(--clr-danger)';
+    dom.rTabSwitches.style.fontWeight = '700';
+  }
+
+  if (dom.btnDownloadCert) {
+    dom.btnDownloadCert.style.display = passed ? 'inline-flex' : 'none';
+  }
 
   // Trigger celebration confetti if passed
   if (passed) {
@@ -2294,6 +2516,7 @@ function sendWhatsApp(total, correct, incorrect, unattempted, pct, passed) {
     `\U0001f4c8 Percentage   : ${pct}%`,
     `\U0001f3c6 Result       : ${passed ? 'PASSED \U0001f389' : 'FAILED \u274c'}`,
     `\u23f1 Time Taken   : ${timeTaken}`,
+    `\U0001f6e1\ufe0f Tab Switches : ${state.tabSwitchCount > 0 ? state.tabSwitchCount + ' detected \u26a0\ufe0f' : '0 (Clean attempt \u2705)'}`,
     '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501',
     `\U0001f4c5 ${new Date().toLocaleString()}`,
     '',
@@ -2395,6 +2618,7 @@ function downloadJSONResult() {
       percentage: pct,
       status: passed ? "PASSED" : "FAILED",
       timeTaken: formatTime(state.timeTakenSec),
+      tabSwitches: state.tabSwitchCount || 0,
       timestamp: new Date().toLocaleString('en-IN')
     },
     detailedReview: state.questions.map((q, i) => ({
@@ -2436,7 +2660,7 @@ function downloadCSV() {
 
   // Spreadsheet Header & Summary Row
   const csvRows = [
-    ['Timestamp', 'Quiz ID', 'Student Name', 'Section', 'WhatsApp Number', 'Subject', 'Total Questions', 'Correct', 'Incorrect', 'Unattempted', 'Percentage', 'Status', 'Time Taken'],
+    ['Timestamp', 'Quiz ID', 'Student Name', 'Section', 'WhatsApp Number', 'Subject', 'Total Questions', 'Correct', 'Incorrect', 'Unattempted', 'Percentage', 'Status', 'Time Taken', 'Tab Switches'],
     [
       `"${new Date().toLocaleString()}"`,
       `"${state.studentQuid}"`,
@@ -2450,7 +2674,8 @@ function downloadCSV() {
       unattempted,
       `"${pct}%"`,
       `"${passed ? 'PASSED' : 'FAILED'}"`,
-      `"${formatTime(state.timeTakenSec)}"`
+      `"${formatTime(state.timeTakenSec)}"`,
+      state.tabSwitchCount || 0
     ],
     [],
     ['--- DETAILED QUESTION REVIEW ---'],
@@ -2508,7 +2733,8 @@ function saveToLocalSpreadsheet(total, correct, incorrect, unattempted, pct, pas
       unattempted: unattempted,
       percent: pct,
       status: passed ? 'PASSED' : 'FAILED',
-      timeTaken: formatTime(state.timeTakenSec)
+      timeTaken: formatTime(state.timeTakenSec),
+      tabSwitches: state.tabSwitchCount || 0
     };
     list.unshift(record);
     localStorage.setItem('crazycoding_quiz_submissions', JSON.stringify(list));
@@ -2547,7 +2773,8 @@ function sendToGoogleSheet(total, correct, incorrect, unattempted, pct, passed) 
     unattempted: unattempted,
     percent: pct,
     status: passed ? 'PASSED' : 'FAILED',
-    timeTaken: formatTime(state.timeTakenSec)
+    timeTaken: formatTime(state.timeTakenSec),
+    tabSwitches: state.tabSwitchCount || 0
   };
 
   try {
@@ -2699,6 +2926,34 @@ function wireEvents() {
   }
   if (dom.btnAdminDownloadJsonFile) {
     dom.btnAdminDownloadJsonFile.addEventListener('click', exportAdminJSON);
+  }
+
+  // ─────────────────────────────────────────
+  // Resume Quiz Banner Actions
+  // ─────────────────────────────────────────
+  if (dom.btnResumeQuiz) dom.btnResumeQuiz.addEventListener('click', resumeActiveQuizSession);
+  if (dom.btnDiscardQuiz) dom.btnDiscardQuiz.addEventListener('click', clearActiveQuizSession);
+
+  // ─────────────────────────────────────────
+  // Anti-Cheating & Fullscreen Mode
+  // ─────────────────────────────────────────
+  if (dom.btnToggleFullscreen) dom.btnToggleFullscreen.addEventListener('click', toggleFullscreen);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) handleTabSwitch();
+  });
+  window.addEventListener('blur', handleTabSwitch);
+
+  // ─────────────────────────────────────────
+  // Official Certificate Modal Actions
+  // ─────────────────────────────────────────
+  if (dom.btnDownloadCert) dom.btnDownloadCert.addEventListener('click', openCertificateModal);
+  if (dom.btnCloseCertModal) dom.btnCloseCertModal.addEventListener('click', closeCertificateModal);
+  if (dom.btnCloseCertModalBottom) dom.btnCloseCertModalBottom.addEventListener('click', closeCertificateModal);
+  if (dom.btnPrintCert) dom.btnPrintCert.addEventListener('click', printCertificate);
+  if (dom.certificateModal) {
+    dom.certificateModal.addEventListener('click', (e) => {
+      if (e.target === dom.certificateModal) closeCertificateModal();
+    });
   }
 
   // ─────────────────────────────────────────
@@ -2926,6 +3181,12 @@ function renderAdminDashboard() {
       </td>
       <td style="font-size:0.82rem; color:var(--clr-text-muted);">${row.timeTaken || '—'}</td>
       <td style="text-align:center;">
+        ${(row.tabSwitches && row.tabSwitches > 0)
+          ? `<span style="background:#fee2e2; color:#b91c1c; padding:2px 7px; border-radius:4px; font-weight:700; font-size:0.8rem;" title="Switched tabs ${row.tabSwitches} times">⚠️ ${row.tabSwitches}</span>`
+          : `<span style="color:#10b981; font-weight:700; font-size:0.85rem;" title="Clean attempt">0</span>`
+        }
+      </td>
+      <td style="text-align:center;">
         <button class="btn-row-del" title="Delete record" onclick="deleteAdminRecord(${row.id})">🗑️</button>
       </td>
     `;
@@ -2964,7 +3225,8 @@ function addAdminDemoStudent() {
     total: 100,
     percent: randScore,
     status: isPassed ? 'PASSED' : 'FAILED',
-    timeTaken: `${Math.floor(Math.random() * 40) + 20}m ${Math.floor(Math.random() * 60)}s`
+    timeTaken: `${Math.floor(Math.random() * 40) + 20}m ${Math.floor(Math.random() * 60)}s`,
+    tabSwitches: Math.floor(Math.random() * 3)
   };
 
   const list = getStoredSubmissions();
@@ -2989,7 +3251,7 @@ function exportAdminCSV() {
     alert('Export karne ke liye koi data nahi hai!');
     return;
   }
-  const headers = ['Row Number', 'Date & Time', 'Quiz ID (QUID)', 'Student Name', 'Section', 'WhatsApp Phone', 'Subject', 'Score', 'Total Questions', 'Percentage', 'Status', 'Time Taken'];
+  const headers = ['Row Number', 'Date & Time', 'Quiz ID (QUID)', 'Student Name', 'Section', 'WhatsApp Phone', 'Subject', 'Score', 'Total Questions', 'Percentage', 'Status', 'Time Taken', 'Tab Switches'];
   const rows = [headers];
   submissions.forEach((item, index) => {
     rows.push([
@@ -3004,7 +3266,8 @@ function exportAdminCSV() {
       item.total || 100,
       `"${(item.percent || item.pct || 0)}%"`,
       `"${(item.status || '').replace(/"/g, '""')}"`,
-      `"${(item.timeTaken || '').replace(/"/g, '""')}"`
+      `"${(item.timeTaken || '').replace(/"/g, '""')}"`,
+      item.tabSwitches || 0
     ]);
   });
   const csvContent = '\uFEFF' + rows.map(e => e.join(',')).join('\r\n');
@@ -3096,5 +3359,6 @@ document.addEventListener('DOMContentLoaded', () => {
   cacheDom();
   initTheme();
   wireEvents();
+  checkActiveQuizSession();
   showScreen('details');
 });

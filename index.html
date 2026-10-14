@@ -152,6 +152,20 @@
               <span class="field-error" id="sectionError"></span>
             </div>
 
+            <!-- Resume Quiz Alert (shows only if incomplete quiz exists) -->
+            <div id="resumeQuizBanner" class="alert alert-info" style="display:none; margin-bottom:1.25rem; border-left:4px solid #10b981; background: #ecfdf5; color: #065f46;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                <div>
+                  <strong>💾 Incomplete Quiz Found!</strong>
+                  <div style="font-size:0.85rem; margin-top:2px;" id="resumeQuizInfo">You have an ongoing quiz in progress. Would you like to resume?</div>
+                </div>
+                <div style="display:flex; gap:0.5rem;">
+                  <button type="button" id="btnResumeQuiz" class="btn btn-sm btn-success" style="padding:0.4rem 0.85rem; font-size:0.85rem; font-weight:700; background:#10b981; color:#fff; border:none; border-radius:6px; cursor:pointer;">▶️ Resume</button>
+                  <button type="button" id="btnDiscardQuiz" class="btn btn-sm btn-ghost" style="padding:0.4rem 0.85rem; font-size:0.85rem; border:1px solid #cbd5e1; border-radius:6px; background:#fff; cursor:pointer;">🗑️ Discard</button>
+                </div>
+              </div>
+            </div>
+
             <!-- Quiz Info Notice -->
             <div class="alert alert-info" style="margin-bottom:1rem;">
               📋 <strong>Quiz Format:</strong> 100 random questions from <strong>HTML &amp; CSS</strong> (Unit I &amp; Unit II). Time limit: <strong>100 minutes</strong>. Passing marks: <strong>40%</strong>.
@@ -168,6 +182,12 @@
          SCREEN 2 · QUIZ
     ─────────────────────────────────────── -->
     <section id="screen-quiz" class="screen">
+      <!-- Anti-Cheating Toast Warning -->
+      <div id="cheatingWarningToast" class="cheating-toast" style="display:none;" role="alert">
+        <span>⚠️</span>
+        <span id="cheatingToastText">Warning: Tab switch detected! Your activity is logged.</span>
+      </div>
+
       <!-- Quiz top bar -->
       <div class="quiz-topbar">
         <div class="quiz-meta">
@@ -178,7 +198,8 @@
           <span id="quizMetaName" class="meta-chip">👤</span>
           <span id="quizMetaTopic" class="meta-chip">📖 HTML &amp; CSS — 100 Questions</span>
         </div>
-        <div class="quiz-timer-wrap">
+        <div class="quiz-timer-wrap" style="display:flex; align-items:center; gap:0.6rem;">
+          <button id="btnToggleFullscreen" class="btn btn-sm btn-secondary" style="padding:0.35rem 0.7rem; font-size:0.8rem;" title="Toggle Fullscreen Mode">⛶ Fullscreen</button>
           <div id="timerDisplay" class="timer">⏱ 00:00</div>
         </div>
       </div>
@@ -276,12 +297,14 @@
               <tr><th>⬜ Unattempted</th><td id="rUnattempted">—</td></tr>
               <tr><th>📈 Percentage</th><td id="rPercent">—</td></tr>
               <tr><th>⏱ Time Taken</th><td id="rTimeTaken">—</td></tr>
+              <tr><th>🛡️ Tab Switches</th><td id="rTabSwitches">0 (Clean attempt)</td></tr>
             </table>
           </div>
         </div>
 
         <!-- Action buttons -->
         <div class="result-actions">
+          <button id="btnDownloadCert" class="btn btn-primary" style="display:none; background:linear-gradient(135deg, #d97706, #b45309); border:none; box-shadow: 0 4px 14px rgba(217, 119, 6, 0.4);">🎓 Official Certificate of Merit</button>
           <button id="btnWhatsApp" class="btn btn-whatsapp">💬 Send Result to Professor (+91 9568326772)</button>
           <button id="btnPrint" class="btn btn-secondary">🖨️ Print / Save Result (PDF)</button>
           <button id="btnDownloadJSON" class="btn btn-secondary">💾 Download Result (JSON)</button>
@@ -413,6 +436,7 @@
                   <th>Percentage</th>
                   <th style="text-align:center;">Status</th>
                   <th>Time Taken</th>
+                  <th style="text-align:center;">🛡️ Switches</th>
                   <th style="text-align:center;">Action</th>
                 </tr>
               </thead>
@@ -556,6 +580,70 @@
       </div>
       <div class="modal-footer" style="padding:0.8rem 1.2rem; border-top:1px solid var(--clr-border); display:flex; justify-content:flex-end; gap:0.6rem;">
         <button id="btnAdminSaveSheetUrl" class="btn btn-primary">💾 Save Cloud URL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       OFFICIAL STUDENT CERTIFICATE OF ACHIEVEMENT MODAL
+  ════════════════════════════════════════════════ -->
+  <div id="certificateModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="certificate-modal-box">
+      <div class="cert-modal-header">
+        <h3 style="font-size:1.1rem; font-weight:700;">🎓 Official Certificate of Achievement</h3>
+        <button id="btnCloseCertModal" class="modal-close" style="color:#fff; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+      </div>
+      <div class="certificate-frame" id="printableCertificate">
+        <div class="cert-border-outer">
+          <div class="cert-border-inner">
+            <div class="cert-watermark">&lt;/&gt;</div>
+            <div class="cert-content">
+              <div class="cert-logo-group">
+                <span class="cert-code-icon">&lt;/&gt;</span>
+                <span class="cert-brand-name">CrazyCoding Academy</span>
+              </div>
+              <div class="cert-dept">DEPARTMENT OF COMPUTER SCIENCE &amp; ENGINEERING</div>
+              <h1 class="cert-main-title">CERTIFICATE OF MERIT</h1>
+              <p class="cert-subtitle">This certificate is proudly awarded to</p>
+              
+              <div class="cert-recipient" id="certStudentName">Student Name</div>
+              
+              <div class="cert-meta-info">
+                <span>🏷️ Section: <strong id="certSection">I</strong></span>
+                <span>•</span>
+                <span>🆔 Quiz ID: <strong id="certQuid">QUID-101</strong></span>
+              </div>
+              
+              <p class="cert-body-text">
+                For successfully qualifying the <strong>HTML &amp; CSS Examination (Unit I &amp; Unit II)</strong> consisting of 100 comprehensive questions with a score of <strong id="certScore">0 / 100</strong> (<span id="certPercent">0%</span>) under the academic supervision and evaluation of Assistant Professor <strong>Mr. Ankush</strong>.
+              </p>
+              
+              <div class="cert-footer">
+                <div class="cert-date-block">
+                  <div class="cert-date-val" id="certDate">14/10/2026</div>
+                  <div class="cert-sign-title"><strong>Date of Issue</strong></div>
+                  <div class="cert-sign-sub">ID: <span id="certHash">CC-2026-0001</span></div>
+                </div>
+                
+                <div class="cert-gold-seal">
+                  <div class="seal-star">★ ★ ★</div>
+                  <div class="seal-text">OFFICIAL<br>MERIT<br>SEAL</div>
+                  <div class="seal-year">2026</div>
+                </div>
+                
+                <div class="cert-sign-block">
+                  <div class="cert-sign-line">Ankush</div>
+                  <div class="cert-sign-title"><strong>Mr. Ankush</strong></div>
+                  <div class="cert-sign-sub">Assistant Professor, CSE</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding:0.8rem 1.2rem; background:#fff; border-top:1px solid var(--clr-border); display:flex; justify-content:flex-end; gap:0.6rem;">
+        <button id="btnPrintCert" class="btn btn-primary" style="background:#b45309; border:none;">🖨️ Print / Save as PDF</button>
+        <button id="btnCloseCertModalBottom" class="btn btn-outline">Close</button>
       </div>
     </div>
   </div>

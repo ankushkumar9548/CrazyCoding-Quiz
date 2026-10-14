@@ -587,6 +587,7 @@
               <th>Percentage</th>
               <th style="text-align:center;">Status</th>
               <th>Time Taken</th>
+              <th style="text-align:center;">🛡️ Switches</th>
               <th style="text-align:center;">Action</th>
             </tr>
           </thead>
@@ -880,6 +881,12 @@
           </td>
           <td style="font-size:0.82rem; color:var(--gray-600);">${row.timeTaken || '—'}</td>
           <td style="text-align:center;">
+            ${(row.tabSwitches && row.tabSwitches > 0)
+              ? `<span style="background:#fee2e2; color:#b91c1c; padding:2px 7px; border-radius:4px; font-weight:700; font-size:0.8rem;" title="Switched tabs ${row.tabSwitches} times">⚠️ ${row.tabSwitches}</span>`
+              : `<span style="color:var(--success); font-weight:700; font-size:0.85rem;" title="Clean attempt">0</span>`
+            }
+          </td>
+          <td style="text-align:center;">
             <button class="btn-delete" title="Delete record" onclick="deleteRow(${row.id})">🗑️</button>
           </td>
         `;
@@ -976,7 +983,7 @@
         return;
       }
 
-      const headers = ['Row Number', 'Date & Time', 'Quiz ID (QUID)', 'Student Name', 'Section', 'WhatsApp Phone', 'Subject', 'Score', 'Total Questions', 'Percentage', 'Status', 'Time Taken'];
+      const headers = ['Row Number', 'Date & Time', 'Quiz ID (QUID)', 'Student Name', 'Section', 'WhatsApp Phone', 'Subject', 'Score', 'Total Questions', 'Percentage', 'Status', 'Time Taken', 'Tab Switches'];
       const rows = [headers];
 
       submissions.forEach((item, index) => {
@@ -992,7 +999,8 @@
           item.total || 100,
           `"${(item.percent || item.pct || 0)}%"`,
           `"${(item.status || '').replace(/"/g, '""')}"`,
-          `"${(item.timeTaken || '').replace(/"/g, '""')}"`
+          `"${(item.timeTaken || '').replace(/"/g, '""')}"`,
+          item.tabSwitches || 0
         ]);
       });
 
