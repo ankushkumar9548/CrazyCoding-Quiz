@@ -1,82 +1,24 @@
 /**
  * ═══════════════════════════════════════════════════════════
- *  CrazyCoding MCQ Quiz Portal — script.js
- *  Author      : Mr. Ankush (Assistant Professor, CSE)
- *  Description : Full quiz engine — student details, subject
- *                selection, quiz logic, timer, results,
- *                WhatsApp sharing, and question bank.
- *
- *  HOW TO ADD MORE QUESTIONS:
- *  ─────────────────────────
- *  Find the QUESTION_BANK object below.
- *  Each entry follows this shape:
- *  {
- *    q: "Question text?",
- *    options: ["Option A", "Option B", "Option C", "Option D"],
- *    correct: 0,          // 0-based index into options[]
- *    explanation: "..."   // shown in the answer review
- *  }
- *  Add objects to the relevant unit + topic array.
- *  Topic keys match the TOPICS definition further below.
+ *  CrazyCoding Quiz Practice — script.js
+ *  Subject : Front-End Web Development (HTML & CSS)
+ *  Author  : Mr. Ankush (Assistant Professor, CSE)
+ *  Format  : 100 random questions from the HTML & CSS bank
  * ═══════════════════════════════════════════════════════════
  */
 
 'use strict';
 
 /* ════════════════════════════════════════════════════════════
-   1.  STRUCTURE DEFINITIONS
+   1.  ALL TOPIC IDs IN QUESTION BANK
 ════════════════════════════════════════════════════════════ */
-
-/**
- * TOPICS — maps unit → array of { id, label } for every topic.
- * The `id` is also the key used in QUESTION_BANK.
- */
-const TOPICS = {
-  unit1: [
-    { id: 't1',  label: 'Introduction to Front-End Development' },
-    { id: 't2',  label: 'Internet and World Wide Web (WWW)' },
-    { id: 't3',  label: 'Web Browsers and Web Servers' },
-    { id: 't4',  label: 'Website Architecture' },
-    { id: 't5',  label: 'Structure of an HTML Document' },
-    { id: 't6',  label: 'HTML5 Elements' },
-    { id: 't7',  label: 'Headings and Paragraphs' },
-    { id: 't8',  label: 'Text Formatting Tags' },
-    { id: 't9',  label: 'Hyperlinks' },
-    { id: 't10', label: 'Images' },
-    { id: 't11', label: 'Lists' },
-    { id: 't12', label: 'Tables' },
-    { id: 't13', label: 'Forms' },
-    { id: 't14', label: 'Multimedia Elements (Audio and Video)' },
-    { id: 't15', label: 'Iframes' },
-    { id: 't16', label: 'Semantic HTML5 Tags' },
-  ],
-  unit2: [
-    { id: 'c1',  label: 'Introduction to CSS' },
-    { id: 'c2',  label: 'Types of CSS' },
-    { id: 'c3',  label: 'CSS Selectors' },
-    { id: 'c4',  label: 'Colors' },
-    { id: 'c5',  label: 'Backgrounds' },
-    { id: 'c6',  label: 'Borders' },
-    { id: 'c7',  label: 'Fonts' },
-    { id: 'c8',  label: 'Text Properties' },
-    { id: 'c9',  label: 'CSS Box Model' },
-    { id: 'c10', label: 'Margin and Padding' },
-    { id: 'c11', label: 'Display Properties' },
-    { id: 'c12', label: 'Positioning Techniques' },
-    { id: 'c13', label: 'Flexbox' },
-    { id: 'c14', label: 'CSS Grid' },
-    { id: 'c15', label: 'Media Queries' },
-    { id: 'c16', label: 'Responsive Web Design Principles' },
-    { id: 'c17', label: 'Transitions' },
-    { id: 'c18', label: 'Animations' },
-  ],
-};
+const ALL_HTML_TOPICS = ['t1','t2','t3','t4','t5','t6','t7','t8','t9','t10','t11','t12','t13','t14','t15','t16'];
+const ALL_CSS_TOPICS  = ['c1','c2','c3','c4','c5','c6','c7','c8','c9','c10','c11','c12','c13','c14','c15','c16','c17','c18'];
+const ALL_TOPICS      = [...ALL_HTML_TOPICS, ...ALL_CSS_TOPICS, 'custom_core'];
 
 /* ════════════════════════════════════════════════════════════
-   2.  QUESTION BANK
-   ─────────────────
-   Add as many questions as you like under each topic key.
-   Format:  { q, options: [A,B,C,D], correct (0-based), explanation }
+   2.  QUESTION BANK  (HTML Unit I + CSS Unit II + Core Essentials — 206 Qs)
+       100 are picked at random for each quiz session.
 ════════════════════════════════════════════════════════════ */
 const QUESTION_BANK = {
 
@@ -1271,56 +1213,322 @@ const QUESTION_BANK = {
       explanation: 'alternate plays the animation forward on odd iterations and backward on even iterations, creating a ping-pong effect.'
     },
   ],
+
+  /* ── CORE ESSENTIALS (HTML & CSS IMPORTANT MCQs) ── */
+  custom_core: [
+    {
+        "q": "Which tag is used to associate a text label with a form control?",
+        "options": [
+            "<input>",
+            "<label>",
+            "<form>",
+            "<caption>"
+        ],
+        "correct": 1,
+        "explanation": "The <label> tag associates a text label with a form control."
+    },
+    {
+        "q": "Which semantic tag is commonly used for copyright information or closing details at the bottom of a page or section?",
+        "options": [
+            "<header>",
+            "<section>",
+            "<footer>",
+            "<aside>"
+        ],
+        "correct": 2,
+        "explanation": "The <footer> tag is commonly used for copyright information and closing details."
+    },
+    {
+        "q": "Which value of flex-direction lays flex items vertically from top to bottom?",
+        "options": [
+            "row",
+            "column",
+            "vertical",
+            "column-reverse"
+        ],
+        "correct": 1,
+        "explanation": "The column value arranges flex items vertically from top to bottom."
+    },
+    {
+        "q": "Which CSS property controls the space between grid rows and columns?",
+        "options": [
+            "margin",
+            "padding",
+            "gap",
+            "spacing"
+        ],
+        "correct": 2,
+        "explanation": "The gap property controls the space between rows and columns in CSS Grid."
+    },
+    {
+        "q": "Which tag provides a caption or title for an HTML table?",
+        "options": [
+            "<title>",
+            "<caption>",
+            "<thead>",
+            "<label>"
+        ],
+        "correct": 1,
+        "explanation": "The <caption> tag defines a caption or title for an HTML table."
+    },
+    {
+        "q": "Which HTML attribute opens a link in a new browsing context when set to '_blank'?",
+        "options": [
+            "href",
+            "target",
+            "rel",
+            "open"
+        ],
+        "correct": 1,
+        "explanation": "The target attribute with the value '_blank' opens a link in a new browsing context."
+    },
+    {
+        "q": "Which CSS pseudo-class applies styles when the pointer is over an element?",
+        "options": [
+            ":active",
+            ":focus",
+            ":hover",
+            ":visited"
+        ],
+        "correct": 2,
+        "explanation": "The :hover pseudo-class applies styles when the pointer is positioned over an element."
+    },
+    {
+        "q": "Which HTML tag is used to include JavaScript in a page?",
+        "options": [
+            "<javascript>",
+            "<js>",
+            "<script>",
+            "<code>"
+        ],
+        "correct": 2,
+        "explanation": "The <script> tag is used to include or execute JavaScript in an HTML page."
+    },
+    {
+        "q": "What is the purpose of the viewport meta tag commonly used for responsive pages?",
+        "options": [
+            "To change the page title",
+            "To control the viewport's size and scaling",
+            "To add animations",
+            "To load JavaScript"
+        ],
+        "correct": 1,
+        "explanation": "The viewport meta tag controls the viewport size and scaling, helping pages display properly on different devices."
+    },
+    {
+        "q": "Which HTML attribute is used to give an element a unique identifier for CSS or JavaScript?",
+        "options": [
+            "class",
+            "name",
+            "id",
+            "key"
+        ],
+        "correct": 2,
+        "explanation": "The id attribute gives an HTML element a unique identifier that can be targeted by CSS or JavaScript."
+    },
+    {
+        "q": "Which property is used to round the corners of a box?",
+        "options": [
+            "corner-radius",
+            "border-radius",
+            "box-radius",
+            "radius"
+        ],
+        "correct": 1,
+        "explanation": "The border-radius property is used to create rounded corners."
+    },
+    {
+        "q": "Which value of display hides an element and removes it from normal layout flow?",
+        "options": [
+            "hidden",
+            "invisible",
+            "none",
+            "remove"
+        ],
+        "correct": 2,
+        "explanation": "display: none hides the element and removes it from the normal layout flow."
+    },
+    {
+        "q": "What is the default value of the CSS position property?",
+        "options": [
+            "relative",
+            "absolute",
+            "fixed",
+            "static"
+        ],
+        "correct": 3,
+        "explanation": "The default value of the CSS position property is static."
+    },
+    {
+        "q": "What does box-sizing: border-box do?",
+        "options": [
+            "Excludes padding from the width",
+            "Includes padding and border within the specified width and height",
+            "Removes the border",
+            "Doubles the element width"
+        ],
+        "correct": 1,
+        "explanation": "border-box includes the element\u2019s padding and border within its specified width and height."
+    },
+    {
+        "q": "What is a key principle of responsive web design?",
+        "options": [
+            "Use only fixed-width layouts",
+            "Design pages to adapt to different screen sizes",
+            "Avoid media queries",
+            "Use only desktop layouts"
+        ],
+        "correct": 1,
+        "explanation": "Responsive web design allows a webpage to adapt to different screen sizes and devices."
+    },
+    {
+        "q": "Which CSS property names the keyframes animation to apply?",
+        "options": [
+            "animation-name",
+            "keyframe-name",
+            "animation-key",
+            "keyframes"
+        ],
+        "correct": 0,
+        "explanation": "The animation-name property specifies the name of the keyframes animation to apply."
+    },
+    {
+        "q": "Which property controls the time taken by a CSS transition?",
+        "options": [
+            "transition-speed",
+            "transition-delay",
+            "transition-duration",
+            "transition-time"
+        ],
+        "correct": 2,
+        "explanation": "The transition-duration property specifies how long a transition takes to complete."
+    },
+    {
+        "q": "Which unit is relative to the root element's font size?",
+        "options": [
+            "em",
+            "%",
+            "rem",
+            "px"
+        ],
+        "correct": 2,
+        "explanation": "The rem unit is relative to the font size of the root HTML element."
+    },
+    {
+        "q": "What is the purpose of a media query?",
+        "options": [
+            "To add JavaScript",
+            "To apply CSS based on device or viewport conditions",
+            "To create HTML elements",
+            "To load images"
+        ],
+        "correct": 1,
+        "explanation": "Media queries apply CSS rules based on conditions such as screen width, height, or device characteristics."
+    },
+    {
+        "q": "Which CSS layout system is particularly suited to two-dimensional rows and columns?",
+        "options": [
+            "Flexbox",
+            "Grid",
+            "Float",
+            "Inline-block"
+        ],
+        "correct": 1,
+        "explanation": "CSS Grid is designed for two-dimensional layouts using rows and columns."
+    },
+    {
+        "q": "Which CSS layout system is designed for arranging items in rows or columns along one dimension at a time?",
+        "options": [
+            "CSS Grid",
+            "Flexbox",
+            "Table Layout",
+            "Positioning"
+        ],
+        "correct": 1,
+        "explanation": "Flexbox is a one-dimensional layout system for arranging items in a row or a column."
+    },
+    {
+        "q": "What is the output effect of this CSS? p { display: none; }",
+        "options": [
+            "The paragraph becomes transparent",
+            "The paragraph becomes bold",
+            "The paragraph is hidden and removed from layout",
+            "The paragraph moves to the top"
+        ],
+        "correct": 2,
+        "explanation": "display: none hides the paragraph and removes it from the normal document layout."
+    },
+    {
+        "q": "What is the content width? .box { width: 200px; padding: 10px; border: 2px solid; box-sizing: border-box; }",
+        "options": [
+            "200px",
+            "180px",
+            "176px",
+            "224px"
+        ],
+        "correct": 2,
+        "explanation": "With border-box, the total width is 200px. Content width is 200 - 20px padding - 4px border = 176px."
+    },
+    {
+        "q": "Which property creates space outside an element's border?",
+        "options": [
+            "padding",
+            "margin",
+            "border-spacing",
+            "gap"
+        ],
+        "correct": 1,
+        "explanation": "The margin property creates space outside an element\u2019s border."
+    },
+    {
+        "q": "In the CSS box model, what lies between the content and the border?",
+        "options": [
+            "Margin",
+            "Padding",
+            "Width",
+            "Outline"
+        ],
+        "correct": 1,
+        "explanation": "Padding is the space between an element\u2019s content and its border."
+    }
+],
 };
 
 /* ════════════════════════════════════════════════════════════
-   3.  QUIZ STATE  (all runtime data lives here)
+   3.  QUIZ STATE
 ════════════════════════════════════════════════════════════ */
 const state = {
-  // Student
-  studentName:  '',
-  studentPhone: '',
-  studentQuid:  '',
+  studentName:    '',
+  studentPhone:   '',
+  studentQuid:    '',
   studentSection: '',
-  numQuestionsChoice: 'all',
 
-  // Subject
-  unit:      '',
-  unitLabel: '',
-  topicId:   '',
-  topicLabel: '',
-
-  // Quiz
-  questions:        [],   // shuffled subset
+  questions:        [],
   currentIndex:     0,
-  userAnswers:      [],   // index of chosen option (or null)
-  markedForReview:  [],   // bool per question
-  visitedQuestions: [],   // bool per question
+  userAnswers:      [],
+  markedForReview:  [],
+  visitedQuestions: [],
 
-  // Timer
-  totalSeconds:   0,
-  secondsLeft:    0,
-  timerInterval:  null,
-  timeTakenSec:   0,
+  totalSeconds:  0,
+  secondsLeft:   0,
+  timerInterval: null,
+  timeTakenSec:  0,
 };
 
 /* ════════════════════════════════════════════════════════════
-   4.  DOM REFERENCES  (cached once on DOMContentLoaded)
+   4.  DOM CACHE
 ════════════════════════════════════════════════════════════ */
 let dom = {};
 
 function cacheDom() {
   dom = {
-    // Theme
     themeToggle: document.getElementById('themeToggle'),
-    // Screens
     screens: {
       details: document.getElementById('screen-details'),
-      subject: document.getElementById('screen-subject'),
       quiz:    document.getElementById('screen-quiz'),
       result:  document.getElementById('screen-result'),
+      admin:   document.getElementById('screen-admin'),
     },
-    // Details form
     detailsForm:    document.getElementById('detailsForm'),
     studentName:    document.getElementById('studentName'),
     studentPhone:   document.getElementById('studentPhone'),
@@ -1330,63 +1538,104 @@ function cacheDom() {
     phoneError:     document.getElementById('phoneError'),
     quidError:      document.getElementById('quidError'),
     sectionError:   document.getElementById('sectionError'),
-    // Subject screen
-    subjectGreeting: document.getElementById('subjectGreeting'),
-    unitSelect:      document.getElementById('unitSelect'),
-    topicGroup:      document.getElementById('topicGroup'),
-    topicSelect:     document.getElementById('topicSelect'),
-    noQuestionsMsg:  document.getElementById('noQuestionsMsg'),
-    btnBackToDetails:document.getElementById('btnBackToDetails'),
-    btnStartQuiz:    document.getElementById('btnStartQuiz'),
-    // Quiz screen
-    quizMetaName:  document.getElementById('quizMetaName'),
-    quizMetaTopic: document.getElementById('quizMetaTopic'),
-    timerDisplay:  document.getElementById('timerDisplay'),
-    progressBar:   document.getElementById('progressBar'),
-    statAnswered:  document.getElementById('statAnswered'),
-    statUnanswered:document.getElementById('statUnanswered'),
-    statMarked:    document.getElementById('statMarked'),
-    questionCount: document.getElementById('questionCount'),
-    markBadge:     document.getElementById('markBadge'),
-    questionText:  document.getElementById('questionText'),
-    optionsList:   document.getElementById('optionsList'),
-    btnPrev:       document.getElementById('btnPrev'),
-    btnMark:       document.getElementById('btnMark'),
-    btnNext:       document.getElementById('btnNext'),
-    btnSubmit:     document.getElementById('btnSubmit'),
-    navGrid:       document.getElementById('navGrid'),
-    // Result screen
-    resultPassFail:   document.getElementById('resultPassFail'),
-    donutFill:        document.getElementById('donutFill'),
-    scorePercent:     document.getElementById('scorePercent'),
-    rStudentName:     document.getElementById('rStudentName'),
-    rQuid:            document.getElementById('rQuid'),
-    rSection:         document.getElementById('rSection'),
-    rTopic:           document.getElementById('rTopic'),
-    rTotal:           document.getElementById('rTotal'),
-    rCorrect:         document.getElementById('rCorrect'),
-    rIncorrect:       document.getElementById('rIncorrect'),
-    rUnattempted:     document.getElementById('rUnattempted'),
-    rPercent:         document.getElementById('rPercent'),
-    rTimeTaken:       document.getElementById('rTimeTaken'),
-    btnWhatsApp:      document.getElementById('btnWhatsApp'),
-    btnPrint:         document.getElementById('btnPrint'),
-    btnDownload:      document.getElementById('btnDownload'),
-    btnRetry:         document.getElementById('btnRetry'),
-    reviewList:       document.getElementById('reviewList'),
-    // Modal
-    submitModal:      document.getElementById('submitModal'),
-    modalBody:        document.getElementById('modalBody'),
-    btnModalCancel:   document.getElementById('btnModalCancel'),
-    btnModalConfirm:  document.getElementById('btnModalConfirm'),
+    quizMetaName:   document.getElementById('quizMetaName'),
+    quizMetaTopic:  document.getElementById('quizMetaTopic'),
+    timerDisplay:   document.getElementById('timerDisplay'),
+    progressBar:    document.getElementById('progressBar'),
+    statAnswered:   document.getElementById('statAnswered'),
+    statUnanswered: document.getElementById('statUnanswered'),
+    statMarked:     document.getElementById('statMarked'),
+    questionPanel:  document.querySelector('.question-panel'),
+    confettiContainer: document.getElementById('confettiContainer'),
+    questionCount:  document.getElementById('questionCount'),
+    markBadge:      document.getElementById('markBadge'),
+    questionText:   document.getElementById('questionText'),
+    optionsList:    document.getElementById('optionsList'),
+    btnPrev:        document.getElementById('btnPrev'),
+    btnMark:        document.getElementById('btnMark'),
+    btnNext:        document.getElementById('btnNext'),
+    btnSubmit:      document.getElementById('btnSubmit'),
+    navGrid:        document.getElementById('navGrid'),
+    resultPassFail: document.getElementById('resultPassFail'),
+    donutFill:      document.getElementById('donutFill'),
+    scorePercent:   document.getElementById('scorePercent'),
+    rStudentName:   document.getElementById('rStudentName'),
+    rQuid:          document.getElementById('rQuid'),
+    rSection:       document.getElementById('rSection'),
+    rTotal:         document.getElementById('rTotal'),
+    rCorrect:       document.getElementById('rCorrect'),
+    rIncorrect:     document.getElementById('rIncorrect'),
+    rUnattempted:   document.getElementById('rUnattempted'),
+    rPercent:       document.getElementById('rPercent'),
+    rTimeTaken:     document.getElementById('rTimeTaken'),
+    btnWhatsApp:    document.getElementById('btnWhatsApp'),
+    btnDownloadCSV: document.getElementById('btnDownloadCSV'),
+    btnDownloadJSON:document.getElementById('btnDownloadJSON'),
+    btnPrint:       document.getElementById('btnPrint'),
+    btnDownload:    document.getElementById('btnDownload'),
+    btnRetry:       document.getElementById('btnRetry'),
+    reviewList:     document.getElementById('reviewList'),
+    submitModal:    document.getElementById('submitModal'),
+    modalBody:      document.getElementById('modalBody'),
+    btnModalCancel: document.getElementById('btnModalCancel'),
+    btnModalConfirm:document.getElementById('btnModalConfirm'),
+
+    // Admin & Modal Elements
+    btnOpenAdminLogin: document.getElementById('btnOpenAdminLogin'),
+    footerAdminBtn:    document.getElementById('footerAdminBtn'),
+    adminLoginModal:   document.getElementById('adminLoginModal'),
+    adminLoginForm:    document.getElementById('adminLoginForm'),
+    adminLoginPinInput:document.getElementById('adminLoginPinInput'),
+    btnAdminTogglePin: document.getElementById('btnAdminTogglePin'),
+    adminLoginErrorMsg:document.getElementById('adminLoginErrorMsg'),
+    btnAdminLoginCancel:document.getElementById('btnAdminLoginCancel'),
+
+    btnAdminGoStudent: document.getElementById('btnAdminGoStudent'),
+    btnAdminExportJSON:document.getElementById('btnAdminExportJSON'),
+    btnAdminExportCSV: document.getElementById('btnAdminExportCSV'),
+    btnAdminViewJSON:  document.getElementById('btnAdminViewJSON'),
+    btnAdminImportJSON:document.getElementById('btnAdminImportJSON'),
+    adminJsonFileInput:document.getElementById('adminJsonFileInput'),
+    btnAdminPrintSheet:document.getElementById('btnAdminPrintSheet'),
+    btnAdminOpenSyncModal:document.getElementById('btnAdminOpenSyncModal'),
+    btnAdminAddDemo:   document.getElementById('btnAdminAddDemo'),
+    btnAdminClearAll:  document.getElementById('btnAdminClearAll'),
+    btnAdminChangePin: document.getElementById('btnAdminChangePin'),
+    btnAdminLogout:    document.getElementById('btnAdminLogout'),
+
+    adminStatTotal:    document.getElementById('adminStatTotal'),
+    adminStatPassed:   document.getElementById('adminStatPassed'),
+    adminStatPassRate: document.getElementById('adminStatPassRate'),
+    adminStatFailed:   document.getElementById('adminStatFailed'),
+    adminStatFailRate: document.getElementById('adminStatFailRate'),
+    adminStatAvgScore: document.getElementById('adminStatAvgScore'),
+    adminStatSectionCounts: document.getElementById('adminStatSectionCounts'),
+
+    adminSearchInput:  document.getElementById('adminSearchInput'),
+    adminSectionFilter:document.getElementById('adminSectionFilter'),
+    adminStatusFilter: document.getElementById('adminStatusFilter'),
+    adminSortBy:       document.getElementById('adminSortBy'),
+    adminRecordCountNotice: document.getElementById('adminRecordCountNotice'),
+    adminTableBody:    document.getElementById('adminTableBody'),
+    adminEmptyNotice:  document.getElementById('adminEmptyNotice'),
+    btnAdminEmptyAddDemo: document.getElementById('btnAdminEmptyAddDemo'),
+
+    adminJsonModal:    document.getElementById('adminJsonModal'),
+    adminRawJsonBox:   document.getElementById('adminRawJsonBox'),
+    btnCloseAdminJsonModal: document.getElementById('btnCloseAdminJsonModal'),
+    btnAdminCopyJson:  document.getElementById('btnAdminCopyJson'),
+    btnAdminDownloadJsonFile: document.getElementById('btnAdminDownloadJsonFile'),
+
+    adminSyncModal:    document.getElementById('adminSyncModal'),
+    btnCloseAdminSyncModal: document.getElementById('btnCloseAdminSyncModal'),
+    adminGoogleSheetUrlInput: document.getElementById('adminGoogleSheetUrlInput'),
+    btnAdminSaveSheetUrl: document.getElementById('btnAdminSaveSheetUrl')
   };
 }
 
 /* ════════════════════════════════════════════════════════════
-   5.  UTILITY HELPERS
+   5.  UTILITIES
 ════════════════════════════════════════════════════════════ */
-
-/** Fisher-Yates shuffle — returns a new shuffled array. */
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -1396,680 +1645,19 @@ function shuffle(arr) {
   return a;
 }
 
-/** Format seconds → "MM:SS" string. */
 function formatTime(secs) {
   const m = String(Math.floor(secs / 60)).padStart(2, '0');
   const s = String(secs % 60).padStart(2, '0');
   return `${m}:${s}`;
 }
 
-/** Show a specific screen, hide others. */
 function showScreen(name) {
   Object.entries(dom.screens).forEach(([key, el]) => {
-    el.classList.toggle('active', key === name);
+    if (el) el.classList.toggle('active', key === name);
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/** Get selected radio value by name. */
-function getRadioValue(name) {
-  const el = document.querySelector(`input[name="${name}"]:checked`);
-  return el ? el.value : null;
-}
-
-/* ════════════════════════════════════════════════════════════
-   6.  THEME TOGGLE
-════════════════════════════════════════════════════════════ */
-function initTheme() {
-  const saved = localStorage.getItem('ccq-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', saved);
-  dom.themeToggle.textContent = saved === 'dark' ? '☀️' : '🌙';
-}
-
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  dom.themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
-  localStorage.setItem('ccq-theme', next);
-}
-
-/* ════════════════════════════════════════════════════════════
-   7.  STUDENT DETAILS SCREEN
-════════════════════════════════════════════════════════════ */
-
-/** Validates the details form. Returns true if valid. */
-function validateDetails() {
-  let valid = true;
-
-  const name = dom.studentName.value.trim();
-  if (name.length < 2) {
-    dom.nameError.textContent = 'Please enter your full name (at least 2 characters).';
-    valid = false;
-  } else {
-    dom.nameError.textContent = '';
-  }
-
-  const phone = dom.studentPhone.value.trim();
-  // Must start with + and contain only digits after +
-  if (!/^\+[0-9]{7,15}$/.test(phone)) {
-    dom.phoneError.textContent = 'Enter a valid number with country code, e.g. +919876543210.';
-    valid = false;
-  } else {
-    dom.phoneError.textContent = '';
-  }
-
-  const quid = dom.studentQuid.value.trim();
-  if (quid.length < 2) {
-    dom.quidError.textContent = 'Please enter a valid Quiz ID (QUID).';
-    valid = false;
-  } else {
-    dom.quidError.textContent = '';
-  }
-
-  const section = dom.studentSection.value.trim();
-  if (!['I', 'J', 'L'].includes(section)) {
-    dom.sectionError.textContent = 'Please select your Section (I, J, or L).';
-    valid = false;
-  } else {
-    dom.sectionError.textContent = '';
-  }
-
-  return valid;
-}
-
-function handleDetailsSubmit(e) {
-  e.preventDefault();
-  if (!validateDetails()) return;
-
-  state.studentName    = dom.studentName.value.trim();
-  state.studentPhone   = dom.studentPhone.value.trim();
-  state.studentQuid    = dom.studentQuid.value.trim();
-  state.studentSection = dom.studentSection.value.trim();
-  state.numQuestionsChoice = getRadioValue('numQuestions') || 'all';
-
-  dom.subjectGreeting.textContent = `Hello, ${state.studentName} (Sec: ${state.studentSection}, QUID: ${state.studentQuid})! Choose the unit and topic you want to practice.`;
-  showScreen('subject');
-}
-
-/* ════════════════════════════════════════════════════════════
-   8.  SUBJECT / UNIT / TOPIC SCREEN
-════════════════════════════════════════════════════════════ */
-
-/** Populate topic dropdown when a unit is chosen. */
-function handleUnitChange() {
-  const unit = dom.unitSelect.value;
-  dom.topicSelect.innerHTML = '<option value="">— Choose a Topic —</option>';
-  dom.noQuestionsMsg.style.display = 'none';
-  dom.btnStartQuiz.disabled = true;
-
-  if (!unit) {
-    dom.topicGroup.style.display = 'none';
-    return;
-  }
-
-  // Add "Entire Unit" option
-  const entireOpt = document.createElement('option');
-  entireOpt.value = 'all';
-  entireOpt.textContent = '📚 Entire Unit (All Topics)';
-  dom.topicSelect.appendChild(entireOpt);
-
-  // Add each topic
-  (TOPICS[unit] || []).forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t.id;
-    opt.textContent = t.label;
-    dom.topicSelect.appendChild(opt);
-  });
-
-  dom.topicGroup.style.display = 'block';
-}
-
-/** Validate topic selection and check if questions exist. */
-function handleTopicChange() {
-  const unit  = dom.unitSelect.value;
-  const topic = dom.topicSelect.value;
-  dom.noQuestionsMsg.style.display = 'none';
-  dom.btnStartQuiz.disabled = true;
-
-  if (!topic) return;
-
-  const pool = buildQuestionPool(unit, topic);
-  if (pool.length === 0) {
-    dom.noQuestionsMsg.style.display = 'block';
-    return;
-  }
-  dom.btnStartQuiz.disabled = false;
-}
-
-/** Collect all questions for the chosen unit/topic. */
-function buildQuestionPool(unit, topic) {
-  const bank = QUESTION_BANK;
-  if (topic === 'all') {
-    // Merge all topics of the unit
-    return (TOPICS[unit] || []).flatMap(t => bank[t.id] || []);
-  }
-  return bank[topic] || [];
-}
-
-/** Start the quiz. */
-function handleStartQuiz() {
-  const unit  = dom.unitSelect.value;
-  const topic = dom.topicSelect.value;
-
-  state.unit  = unit;
-  state.unitLabel = dom.unitSelect.options[dom.unitSelect.selectedIndex].text;
-  state.topicId   = topic;
-  state.topicLabel = (topic === 'all')
-    ? 'Entire Unit'
-    : dom.topicSelect.options[dom.topicSelect.selectedIndex].text;
-
-  // Build + shuffle pool
-  let pool = shuffle(buildQuestionPool(unit, topic));
-
-  // Limit to requested number
-  const choice = state.numQuestionsChoice;
-  if (choice !== 'all') {
-    const n = parseInt(choice, 10);
-    pool = pool.slice(0, Math.min(n, pool.length));
-  }
-
-  if (pool.length === 0) {
-    dom.noQuestionsMsg.style.display = 'block';
-    return;
-  }
-
-  // Randomize options while tracking correct answer
-  state.questions = pool.map(q => {
-    const indices = shuffle([0, 1, 2, 3]);
-    const newOptions = indices.map(i => q.options[i]);
-    const newCorrect = indices.indexOf(q.correct);
-    return { q: q.q, options: newOptions, correct: newCorrect, explanation: q.explanation };
-  });
-
-  state.currentIndex    = 0;
-  state.userAnswers     = new Array(state.questions.length).fill(null);
-  state.markedForReview = new Array(state.questions.length).fill(false);
-  state.visitedQuestions = new Array(state.questions.length).fill(false);
-  state.visitedQuestions[0] = true;
-
-  // Timer: 1 minute per question (min 5 min, max 60 min)
-  state.totalSeconds = state.questions.length * 60;
-  state.secondsLeft  = state.totalSeconds;
-
-  startQuizScreen();
-}
-
-/* ════════════════════════════════════════════════════════════
-   9.  QUIZ SCREEN
-════════════════════════════════════════════════════════════ */
-
-function startQuizScreen() {
-  // Update meta chips
-  dom.quizMetaName.textContent  = `👤 ${state.studentName}`;
-  dom.quizMetaTopic.textContent = `📖 ${state.topicLabel}`;
-
-  buildNavGrid();
-  renderQuestion();
-  startTimer();
-  showScreen('quiz');
-}
-
-/** Render the current question and options. */
-function renderQuestion() {
-  const idx = state.currentIndex;
-  const q   = state.questions[idx];
-  const total = state.questions.length;
-
-  dom.questionCount.textContent = `Question ${idx + 1} of ${total}`;
-  dom.questionText.textContent  = q.q;
-
-  // Mark badge
-  dom.markBadge.classList.toggle('hidden', !state.markedForReview[idx]);
-
-  // Options
-  dom.optionsList.innerHTML = '';
-  const labels = ['A', 'B', 'C', 'D'];
-  q.options.forEach((opt, i) => {
-    const li  = document.createElement('li');
-    li.className = 'option-item' + (state.userAnswers[idx] === i ? ' selected' : '');
-    li.setAttribute('role', 'radio');
-    li.setAttribute('aria-checked', state.userAnswers[idx] === i ? 'true' : 'false');
-    li.setAttribute('tabindex', '0');
-    li.innerHTML = `<span class="option-label">${labels[i]}</span><span>${escapeHtml(opt)}</span>`;
-
-    li.addEventListener('click', () => selectOption(i));
-    li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') selectOption(i); });
-    dom.optionsList.appendChild(li);
-  });
-
-  // Prev / Next buttons
-  dom.btnPrev.disabled = idx === 0;
-  dom.btnNext.textContent = idx === total - 1 ? 'Review →' : 'Next →';
-
-  // Update stats + progress
-  updateStats();
-  updateNavGrid();
-}
-
-/** Select an answer option. */
-function selectOption(optionIndex) {
-  state.userAnswers[state.currentIndex] = optionIndex;
-  renderQuestion(); // re-render to highlight
-}
-
-/** Navigate prev/next. */
-function goTo(index) {
-  if (index < 0 || index >= state.questions.length) return;
-  state.visitedQuestions[index] = true;
-  state.currentIndex = index;
-  renderQuestion();
-}
-
-/** Toggle mark-for-review on current question. */
-function toggleMark() {
-  const idx = state.currentIndex;
-  state.markedForReview[idx] = !state.markedForReview[idx];
-  renderQuestion();
-}
-
-/** Update progress bar and answered/unanswered stats. */
-function updateStats() {
-  const total     = state.questions.length;
-  const answered  = state.userAnswers.filter(a => a !== null).length;
-  const unanswered = total - answered;
-  const marked     = state.markedForReview.filter(Boolean).length;
-
-  dom.statAnswered.textContent   = `Answered: ${answered}`;
-  dom.statUnanswered.textContent = `Unanswered: ${unanswered}`;
-  dom.statMarked.textContent     = `Marked: ${marked}`;
-
-  const pct = Math.round((answered / total) * 100);
-  dom.progressBar.style.width = pct + '%';
-  dom.progressBar.setAttribute('aria-valuenow', pct);
-}
-
-/** Build the navigator grid (small numbered buttons). */
-function buildNavGrid() {
-  dom.navGrid.innerHTML = '';
-  state.questions.forEach((_, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'nav-btn';
-    btn.textContent = i + 1;
-    btn.addEventListener('click', () => goTo(i));
-    dom.navGrid.appendChild(btn);
-  });
-}
-
-/** Refresh nav-grid button states. */
-function updateNavGrid() {
-  const btns = dom.navGrid.querySelectorAll('.nav-btn');
-  btns.forEach((btn, i) => {
-    btn.className = 'nav-btn';
-    if (i === state.currentIndex) btn.classList.add('active-q');
-    if (state.userAnswers[i] !== null) btn.classList.add('answered');
-    else if (state.visitedQuestions[i]) btn.classList.add('unanswered');
-    if (state.markedForReview[i]) btn.classList.add('marked');
-  });
-}
-
-/* ════════════════════════════════════════════════════════════
-   10.  TIMER
-════════════════════════════════════════════════════════════ */
-
-function startTimer() {
-  clearInterval(state.timerInterval);
-  dom.timerDisplay.classList.remove('warn');  // FIX: remove leftover warn class from previous quiz
-  updateTimerDisplay();
-
-  state.timerInterval = setInterval(() => {
-    state.secondsLeft--;
-    updateTimerDisplay();
-
-    // Warn when ≤ 60 seconds remaining
-    if (state.secondsLeft <= 60) dom.timerDisplay.classList.add('warn');
-
-    if (state.secondsLeft <= 0) {
-      clearInterval(state.timerInterval);
-      submitQuiz(true);
-    }
-  }, 1000);
-}
-
-function updateTimerDisplay() {
-  dom.timerDisplay.textContent = '⏱ ' + formatTime(state.secondsLeft);
-}
-
-function stopTimer() {
-  clearInterval(state.timerInterval);
-  state.timeTakenSec = state.totalSeconds - state.secondsLeft;
-}
-
-/* ════════════════════════════════════════════════════════════
-   11.  SUBMIT MODAL
-════════════════════════════════════════════════════════════ */
-
-function showSubmitModal() {
-  const unanswered = state.userAnswers.filter(a => a === null).length;
-  dom.modalBody.textContent =
-    unanswered > 0
-      ? `You have ${unanswered} unanswered question(s). Are you sure you want to submit?`
-      : 'All questions are answered. Ready to submit?';
-  dom.submitModal.classList.add('open');  // FIX: use CSS class toggle
-}
-
-function hideSubmitModal() {
-  dom.submitModal.classList.remove('open');  // FIX: remove class to hide
-}
-
-/* ════════════════════════════════════════════════════════════
-   12.  QUIZ SUBMISSION & SCORING
-════════════════════════════════════════════════════════════ */
-
-function submitQuiz(autoSubmit = false) {
-  stopTimer();
-  hideSubmitModal();
-
-  // Calculate scores
-  let correct = 0, incorrect = 0, unattempted = 0;
-  state.questions.forEach((q, i) => {
-    const ans = state.userAnswers[i];
-    if (ans === null)        unattempted++;
-    else if (ans === q.correct) correct++;
-    else                    incorrect++;
-  });
-
-  const total = state.questions.length;
-  const pct   = total > 0 ? Math.round((correct / total) * 100) : 0;
-  const passed = pct >= 40;
-
-  // Save to localStorage (last result only)
-  const resultData = {
-    studentName:    state.studentName,
-    studentPhone:   state.studentPhone,
-    studentQuid:    state.studentQuid,
-    studentSection: state.studentSection,
-    unitLabel:      state.unitLabel,
-    topicLabel:     state.topicLabel,
-    total, correct, incorrect, unattempted, pct, passed,
-    timeTaken: state.timeTakenSec,
-    date: new Date().toLocaleString(),
-  };
-  try { localStorage.setItem('ccq-last-result', JSON.stringify(resultData)); } catch(_) {}
-
-  renderResultScreen(resultData, correct, incorrect, unattempted, pct, passed);
-  showScreen('result');
-
-  // Trigger WhatsApp share to professor's number upon submit
-  try {
-    sendWhatsApp();
-  } catch (err) {
-    console.warn('Auto-popup blocked by browser. User can click Send Result button.', err);
-  }
-
-  if (autoSubmit) {
-    alert('⏰ Time is up! Your quiz has been automatically submitted.');
-  }
-}
-
-/* ════════════════════════════════════════════════════════════
-   13.  RESULT SCREEN
-════════════════════════════════════════════════════════════ */
-
-function renderResultScreen(data, correct, incorrect, unattempted, pct, passed) {
-  // Pass / Fail badge
-  dom.resultPassFail.textContent = passed ? '✅ PASSED' : '❌ FAILED';
-  dom.resultPassFail.className = 'passfail-badge ' + (passed ? 'pass' : 'fail');
-
-  // Score donut animation — FIX: use CSS variable colors to respect dark mode
-  dom.scorePercent.textContent = pct + '%';
-  const circumference = 2 * Math.PI * 50; // r=50 → 314.16
-  const dash = (pct / 100) * circumference;
-  // Read actual computed CSS variable colour so dark mode is respected
-  const rootStyle = getComputedStyle(document.documentElement);
-  const strokeColor = passed
-    ? rootStyle.getPropertyValue('--clr-success').trim()
-    : rootStyle.getPropertyValue('--clr-danger').trim();
-  dom.donutFill.style.stroke = strokeColor;
-  // Trigger animation after brief delay so transition plays
-  setTimeout(() => {
-    dom.donutFill.setAttribute('stroke-dasharray', `${dash.toFixed(2)} ${circumference.toFixed(2)}`);
-  }, 100);
-
-  // Info table
-  dom.rStudentName.textContent = state.studentName;
-  if (dom.rQuid) dom.rQuid.textContent = state.studentQuid;
-  if (dom.rSection) dom.rSection.textContent = `Section ${state.studentSection}`;
-  dom.rTopic.textContent       = `${state.unitLabel} / ${state.topicLabel}`;
-  dom.rTotal.textContent       = data.total;
-  dom.rCorrect.textContent     = correct + ' (' + Math.round((correct/data.total)*100) + '%)';
-  dom.rIncorrect.textContent   = incorrect;
-  dom.rUnattempted.textContent = unattempted;
-  dom.rPercent.textContent     = pct + '% — ' + (passed ? 'Pass 🎉' : 'Fail 😔');
-  dom.rTimeTaken.textContent   = formatTime(state.timeTakenSec);
-
-  // Detailed review
-  renderAnswerReview();
-}
-
-/** Render question-by-question review section. */
-function renderAnswerReview() {
-  const labels = ['A', 'B', 'C', 'D'];
-  dom.reviewList.innerHTML = '';
-
-  state.questions.forEach((q, i) => {
-    const userAns    = state.userAnswers[i];
-    const isCorrect  = userAns === q.correct;
-    const isSkipped  = userAns === null;
-
-    const item = document.createElement('div');
-    item.className = 'review-item';
-
-    // Status icon
-    const statusIcon = document.createElement('div');
-    statusIcon.className = 'review-status-icon';
-    statusIcon.textContent = isSkipped ? '⬜' : (isCorrect ? '✅' : '❌');
-    item.appendChild(statusIcon);
-
-    // Header
-    const header = document.createElement('div');
-    header.className = 'review-item-header';
-    header.innerHTML = `
-      <div class="review-qnum">${i + 1}</div>
-      <div class="review-qtext">${escapeHtml(q.q)}</div>`;
-    item.appendChild(header);
-
-    // Options
-    const optList = document.createElement('ul');
-    optList.className = 'review-options';
-    q.options.forEach((opt, oi) => {
-      const li = document.createElement('li');
-      li.className = 'review-option';
-
-      const isUserChoice    = oi === userAns;
-      const isCorrectChoice = oi === q.correct;
-
-      if (isCorrectChoice) {
-        li.classList.add('opt-correct');
-        li.innerHTML = `✅ <strong>${labels[oi]}.</strong> ${escapeHtml(opt)} <em>(Correct Answer)</em>`;
-      } else if (isUserChoice && !isCorrectChoice) {
-        li.classList.add('opt-wrong');
-        li.innerHTML = `❌ <strong>${labels[oi]}.</strong> ${escapeHtml(opt)} <em>(Your Answer)</em>`;
-      } else {
-        li.classList.add('opt-neutral');
-        li.innerHTML = `<strong>${labels[oi]}.</strong> ${escapeHtml(opt)}`;
-      }
-      optList.appendChild(li);
-    });
-    item.appendChild(optList);
-
-    // Meta line
-    const meta = document.createElement('div');
-    meta.className = 'review-meta';
-    meta.innerHTML = `
-      <span>Your Answer: <strong>${userAns !== null ? labels[userAns] + '. ' + escapeHtml(q.options[userAns]) : 'Not Attempted'}</strong></span>
-      <span>Correct: <strong>${labels[q.correct]}. ${escapeHtml(q.options[q.correct])}</strong></span>`;
-    item.appendChild(meta);
-
-    // Explanation
-    if (q.explanation) {
-      const exp = document.createElement('div');
-      exp.className = 'review-explanation';
-      exp.innerHTML = `<strong>Explanation:</strong> ${escapeHtml(q.explanation)}`;
-      item.appendChild(exp);
-    }
-
-    dom.reviewList.appendChild(item);
-  });
-}
-
-/* ════════════════════════════════════════════════════════════
-   14.  WHATSAPP SHARING
-════════════════════════════════════════════════════════════ */
-
-function sendWhatsApp() {
-  // Collect result values
-  const correct    = state.questions.filter((q, i) => state.userAnswers[i] === q.correct).length;
-  const total      = state.questions.length;
-  const incorrect  = state.questions.filter((q, i) => state.userAnswers[i] !== null && state.userAnswers[i] !== q.correct).length;
-  const unattempted = state.questions.filter((q, i) => state.userAnswers[i] === null).length;
-  const pct        = total > 0 ? Math.round((correct / total) * 100) : 0;
-  const passed     = pct >= 40;
-  const timeTaken  = formatTime(state.timeTakenSec);
-
-  // Build a nicely-formatted message for Professor (+91 9568326772)
-  const message = [
-    '🎓 *CrazyCoding MCQ Quiz Portal — Student Result Submission*',
-    '━━━━━━━━━━━━━━━━━━━━━━━━━',
-    `🆔 *Quiz ID (QUID):* ${state.studentQuid}`,
-    `👤 *Student Name:* ${state.studentName}`,
-    `🏷️ *Section:* ${state.studentSection}`,
-    `📱 *Student WhatsApp:* ${state.studentPhone}`,
-    '━━━━━━━━━━━━━━━━━━━━━━━━━',
-    `📚 *Subject:* Front-End Web Development`,
-    `📖 *Unit/Topic:* ${state.unitLabel} / ${state.topicLabel}`,
-    '━━━━━━━━━━━━━━━━━━━━━━━━━',
-    `📊 *Quiz Performance*`,
-    `Total Questions: ${total}`,
-    `✅ Correct:      ${correct} (${Math.round((correct/total)*100)}%)`,
-    `❌ Incorrect:    ${incorrect}`,
-    `⬜ Unattempted:  ${unattempted}`,
-    `📈 Percentage:   ${pct}%`,
-    `🏆 Final Status: ${passed ? 'PASSED 🎉' : 'FAILED ❌'}`,
-    `⏱ Time Taken:   ${timeTaken}`,
-    '━━━━━━━━━━━━━━━━━━━━━━━━━',
-    `📅 Submitted At: ${new Date().toLocaleString()}`,
-    '',
-    '_Result automatically forwarded to Mr. Ankush (+91 9568326772)_',
-  ].join('\n');
-
-  // Teacher / Professor WhatsApp number
-  const teacherPhone = '919568326772';
-  const url = `https://wa.me/${teacherPhone}?text=${encodeURIComponent(message)}`;
-
-  window.open(url, '_blank', 'noopener,noreferrer');
-}
-
-/* ════════════════════════════════════════════════════════════
-   15.  PRINT RESULT
-════════════════════════════════════════════════════════════ */
-
-function printResult() {
-  window.print();
-}
-
-/* ════════════════════════════════════════════════════════════
-   16.  DOWNLOAD RESULT AS TEXT FILE
-════════════════════════════════════════════════════════════ */
-
-function downloadResult() {
-  const correct    = state.questions.filter((q, i) => state.userAnswers[i] === q.correct).length;
-  const total      = state.questions.length;
-  const incorrect  = state.questions.filter((q, i) => state.userAnswers[i] !== null && state.userAnswers[i] !== q.correct).length;
-  const unattempted= state.questions.filter((q, i) => state.userAnswers[i] === null).length;
-  const pct        = total > 0 ? Math.round((correct / total) * 100) : 0;
-  const passed     = pct >= 40;
-  const labels     = ['A', 'B', 'C', 'D'];
-
-  let text = [
-    '==============================================',
-    '   CRAZYCODING MCQ QUIZ PORTAL — RESULT',
-    '==============================================',
-    `Quiz ID (QUID) : ${state.studentQuid}`,
-    `Student        : ${state.studentName}`,
-    `Section        : Section ${state.studentSection}`,
-    `Student Phone  : ${state.studentPhone}`,
-    `Subject        : Front-End Web Development`,
-    `Unit / Topic   : ${state.unitLabel} / ${state.topicLabel}`,
-    `Date           : ${new Date().toLocaleString()}`,
-    '----------------------------------------------',
-    `Total Questions : ${total}`,
-    `Correct         : ${correct}`,
-    `Incorrect       : ${incorrect}`,
-    `Unattempted     : ${unattempted}`,
-    `Percentage      : ${pct}%`,
-    `Result          : ${passed ? 'PASSED ✓' : 'FAILED ✗'}`,
-    `Time Taken      : ${formatTime(state.timeTakenSec)}`,
-    '==============================================',
-    '            DETAILED ANSWER REVIEW',
-    '==============================================',
-  ].join('\r\n');
-
-  state.questions.forEach((q, i) => {
-    const userAns = state.userAnswers[i];
-    text += `\r\n\r\nQ${i + 1}: ${q.q}\r\n`;
-    q.options.forEach((opt, oi) => {
-      const mark = oi === q.correct ? '[CORRECT]' : (oi === userAns ? '[YOUR ANSWER]' : '');
-      text += `  ${labels[oi]}. ${opt}  ${mark}\r\n`;
-    });
-    text += `Your Answer : ${userAns !== null ? labels[userAns] + '. ' + q.options[userAns] : 'Not Attempted'}\r\n`;
-    text += `Explanation : ${q.explanation || 'N/A'}\r\n`;
-    text += '- - - - - - - - - - - - - - - - - - - - - - -';
-  });
-
-  text += '\r\n\r\n==============================================\r\n';
-  text += 'Powered by CrazyCoding MCQ Quiz Portal\r\n';
-  text += 'By Mr. Ankush | Assistant Professor, CSE\r\n';
-  text += '==============================================\r\n';
-
-  // Create a Blob and trigger download
-  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = `CrazyCoding_Quiz_Result_${state.studentName.replace(/\s+/g, '_')}.txt`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-/* ════════════════════════════════════════════════════════════
-   17.  RETRY QUIZ
-════════════════════════════════════════════════════════════ */
-
-function retryQuiz() {
-  // Reset SVG donut to 0 so old result arc doesn't bleed into new result
-  dom.donutFill.setAttribute('stroke-dasharray', '0 314.16');
-
-  // Reset unit/topic dropdowns
-  dom.unitSelect.value  = '';
-  dom.topicSelect.value = '';
-  dom.topicGroup.style.display   = 'none';
-  dom.noQuestionsMsg.style.display = 'none';
-  dom.btnStartQuiz.disabled = true;
-
-  // Go back to subject selection with same student details
-  dom.subjectGreeting.textContent =
-    `Hello again, ${state.studentName}! Choose a different unit/topic or the same one.`;
-  showScreen('subject');
-}
-
-/* ════════════════════════════════════════════════════════════
-   18.  SECURITY HELPER
-════════════════════════════════════════════════════════════ */
-
-/** Escape HTML special characters to prevent XSS. */
 function escapeHtml(str) {
   if (typeof str !== 'string') return '';
   return str
@@ -2081,104 +1669,1251 @@ function escapeHtml(str) {
 }
 
 /* ════════════════════════════════════════════════════════════
-   19.  KEYBOARD NAVIGATION FOR QUIZ
+   6.  THEME
 ════════════════════════════════════════════════════════════ */
+function initTheme() {
+  const saved = localStorage.getItem('ccq-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  if (dom.themeToggle) dom.themeToggle.textContent = saved === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+}
 
-function handleQuizKeydown(e) {
-  // Only active on quiz screen
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  if (dom.themeToggle) dom.themeToggle.textContent = next === 'dark' ? '\u2600\ufe0f' : '\U0001f319';
+  localStorage.setItem('ccq-theme', next);
+}
+
+/* ════════════════════════════════════════════════════════════
+   7.  REGISTRATION / DETAILS SCREEN
+════════════════════════════════════════════════════════════ */
+function validateDetails() {
+  let valid = true;
+  let firstInvalid = null;
+
+  // Auto-fill Quiz ID if user left it blank
+  if (dom.studentQuid) {
+    let quid = dom.studentQuid.value.trim();
+    if (!quid) {
+      quid = 'QUID-101';
+      dom.studentQuid.value = quid;
+    }
+    if (dom.quidError) dom.quidError.textContent = '';
+  }
+
+  // Name check
+  const name = dom.studentName ? dom.studentName.value.trim() : '';
+  if (name.length < 2) {
+    if (dom.nameError) dom.nameError.textContent = '⚠️ Please enter your full name (at least 2 characters).';
+    if (!firstInvalid && dom.studentName) firstInvalid = dom.studentName;
+    valid = false;
+  } else {
+    if (dom.nameError) dom.nameError.textContent = '';
+  }
+
+  // Validate Indian Phone Number (10 digits)
+  let rawPhone = dom.studentPhone ? dom.studentPhone.value.trim().replace(/\D/g, '') : '';
+  if (rawPhone.length === 12 && rawPhone.startsWith('91')) {
+    rawPhone = rawPhone.slice(2);
+  } else if (rawPhone.length === 11 && rawPhone.startsWith('0')) {
+    rawPhone = rawPhone.slice(1);
+  }
+
+  if (!/^\d{10}$/.test(rawPhone)) {
+    if (dom.phoneError) dom.phoneError.textContent = '⚠️ Please enter a valid 10-digit Indian mobile number.';
+    if (!firstInvalid && dom.studentPhone) firstInvalid = dom.studentPhone;
+    valid = false;
+  } else {
+    if (dom.phoneError) dom.phoneError.textContent = '';
+  }
+
+  // Section check (I, J, or L)
+  const section = dom.studentSection ? dom.studentSection.value.trim() : '';
+  if (!['I', 'J', 'L'].includes(section)) {
+    if (dom.sectionError) dom.sectionError.textContent = '⚠️ Please select Section (I, J, or L).';
+    if (!firstInvalid && dom.studentSection) firstInvalid = dom.studentSection;
+    valid = false;
+  } else {
+    if (dom.sectionError) dom.sectionError.textContent = '';
+  }
+
+  if (firstInvalid) {
+    firstInvalid.focus();
+    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  return valid;
+}
+
+function handleDetailsSubmit(e) {
+  if (e && typeof e.preventDefault === 'function') e.preventDefault();
+  if (!validateDetails()) return;
+
+  // Extract clean 10-digit number and prepend India country code +91
+  let rawPhone = dom.studentPhone ? dom.studentPhone.value.trim().replace(/\D/g, '') : '';
+  if (rawPhone.length === 12 && rawPhone.startsWith('91')) rawPhone = rawPhone.slice(2);
+  else if (rawPhone.length === 11 && rawPhone.startsWith('0')) rawPhone = rawPhone.slice(1);
+
+  state.studentName    = dom.studentName ? dom.studentName.value.trim() : 'Student';
+  state.studentPhone   = '+91' + rawPhone;
+  state.studentQuid    = (dom.studentQuid && dom.studentQuid.value.trim()) ? dom.studentQuid.value.trim() : 'QUID-101';
+  state.studentSection = dom.studentSection ? dom.studentSection.value.trim() : 'I';
+
+  startQuiz();
+}
+
+/* ════════════════════════════════════════════════════════════
+   8.  BUILD QUESTION POOL — 100 RANDOM FROM ALL HTML+CSS
+════════════════════════════════════════════════════════════ */
+function buildPool() {
+  let all = [];
+  ALL_TOPICS.forEach(topicId => {
+    all = all.concat(QUESTION_BANK[topicId] || []);
+  });
+  const shuffled = shuffle(all);
+  return shuffled.slice(0, Math.min(100, shuffled.length));
+}
+
+/* ════════════════════════════════════════════════════════════
+   9.  START QUIZ
+════════════════════════════════════════════════════════════ */
+function startQuiz() {
+  const pool = buildPool();
+
+  // Randomise option order per question
+  state.questions = pool.map(q => {
+    const indices    = shuffle([0, 1, 2, 3]);
+    const newOptions = indices.map(i => q.options[i]);
+    const newCorrect = indices.indexOf(q.correct);
+    return { q: q.q, options: newOptions, correct: newCorrect, explanation: q.explanation };
+  });
+
+  state.currentIndex     = 0;
+  state.userAnswers      = new Array(state.questions.length).fill(null);
+  state.markedForReview  = new Array(state.questions.length).fill(false);
+  state.visitedQuestions = new Array(state.questions.length).fill(false);
+  state.visitedQuestions[0] = true;
+
+  // 1 min per question  
+  state.totalSeconds = state.questions.length * 60;
+  state.secondsLeft  = state.totalSeconds;
+
+  dom.quizMetaName.textContent = `\u{1f464} ${state.studentName} | Sec: ${state.studentSection}`;
+
+  buildNavGrid();
+  renderQuestion();
+  startTimer();
+  showScreen('quiz');
+}
+
+/* ════════════════════════════════════════════════════════════
+   10.  QUIZ SCREEN RENDERING
+════════════════════════════════════════════════════════════ */
+function renderQuestion() {
+  const idx   = state.currentIndex;
+  const q     = state.questions[idx];
+  const total = state.questions.length;
+
+  if (dom.questionPanel) {
+    dom.questionPanel.classList.remove('q-animate');
+    void dom.questionPanel.offsetWidth; // trigger reflow for smooth re-animation
+    dom.questionPanel.classList.add('q-animate');
+  }
+
+  dom.questionCount.textContent = `Question ${idx + 1} of ${total}`;
+  dom.questionText.textContent  = q.q;
+  dom.markBadge.classList.toggle('hidden', !state.markedForReview[idx]);
+
+  const labels = ['A', 'B', 'C', 'D'];
+  dom.optionsList.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const li = document.createElement('li');
+    li.className = 'option-item' + (state.userAnswers[idx] === i ? ' selected' : '');
+    li.setAttribute('role', 'radio');
+    li.setAttribute('aria-checked', state.userAnswers[idx] === i ? 'true' : 'false');
+    li.setAttribute('tabindex', '0');
+    li.innerHTML = `<span class="option-label">${labels[i]}</span><span>${escapeHtml(opt)}</span>`;
+    li.addEventListener('click', () => selectOption(i));
+    li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') selectOption(i); });
+    dom.optionsList.appendChild(li);
+  });
+
+  dom.btnPrev.disabled = idx === 0;
+  dom.btnNext.textContent = idx === total - 1 ? 'Review \u2192' : 'Next \u2192';
+
+  updateStats();
+  updateNavGrid();
+}
+
+function selectOption(i) {
+  state.userAnswers[state.currentIndex] = i;
+  renderQuestion();
+}
+
+function goTo(index) {
+  if (index < 0 || index >= state.questions.length) return;
+  state.visitedQuestions[index] = true;
+  state.currentIndex = index;
+  renderQuestion();
+}
+
+function toggleMark() {
+  const idx = state.currentIndex;
+  state.markedForReview[idx] = !state.markedForReview[idx];
+  renderQuestion();
+}
+
+function updateStats() {
+  const total      = state.questions.length;
+  const answered   = state.userAnswers.filter(a => a !== null).length;
+  const unanswered = total - answered;
+  const marked     = state.markedForReview.filter(Boolean).length;
+  if (dom.statAnswered)   dom.statAnswered.textContent   = `Answered: ${answered}`;
+  if (dom.statUnanswered) dom.statUnanswered.textContent = `Unanswered: ${unanswered}`;
+  if (dom.statMarked)     dom.statMarked.textContent     = `Marked: ${marked}`;
+  const pct = total > 0 ? Math.round((answered / total) * 100) : 0;
+  if (dom.progressBar) {
+    dom.progressBar.style.width = pct + '%';
+    dom.progressBar.setAttribute('aria-valuenow', pct);
+  }
+}
+
+function buildNavGrid() {
+  dom.navGrid.innerHTML = '';
+  state.questions.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn';
+    btn.textContent = i + 1;
+    btn.addEventListener('click', () => goTo(i));
+    dom.navGrid.appendChild(btn);
+  });
+}
+
+function updateNavGrid() {
+  dom.navGrid.querySelectorAll('.nav-btn').forEach((btn, i) => {
+    btn.className = 'nav-btn';
+    if (i === state.currentIndex)       btn.classList.add('active-q');
+    if (state.userAnswers[i] !== null)  btn.classList.add('answered');
+    else if (state.visitedQuestions[i]) btn.classList.add('unanswered');
+    if (state.markedForReview[i])       btn.classList.add('marked');
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   11.  TIMER
+════════════════════════════════════════════════════════════ */
+function startTimer() {
+  clearInterval(state.timerInterval);
+  dom.timerDisplay.classList.remove('warn');
+  updateTimerDisplay();
+  state.timerInterval = setInterval(() => {
+    state.secondsLeft--;
+    updateTimerDisplay();
+    if (state.secondsLeft <= 60) dom.timerDisplay.classList.add('warn');
+    if (state.secondsLeft <= 0) { clearInterval(state.timerInterval); submitQuiz(true); }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  dom.timerDisplay.textContent = '\u23f1 ' + formatTime(Math.max(0, state.secondsLeft));
+}
+
+/* ════════════════════════════════════════════════════════════
+   12.  MODAL
+════════════════════════════════════════════════════════════ */
+function showSubmitModal() {
+  const total      = state.questions.length;
+  const answered   = state.userAnswers.filter(a => a !== null).length;
+  const unanswered = total - answered;
+  const marked     = state.markedForReview.filter(Boolean).length;
+  dom.modalBody.innerHTML = `
+    <p>Are you sure you want to submit your quiz?</p>
+    <div class="modal-summary">
+      <div class="summary-chip chip-answered"><span>${answered}</span> answered</div>
+      <div class="summary-chip chip-unanswered"><span>${unanswered}</span> unanswered</div>
+      <div class="summary-chip chip-marked"><span>${marked}</span> marked</div>
+    </div>
+    ${unanswered > 0 ? '<p class="modal-warn-text">\u26a0\ufe0f You still have unanswered questions.</p>' : ''}
+  `;
+  dom.submitModal.classList.add('active');
+  dom.submitModal.classList.add('open');
+  dom.btnModalConfirm.focus();
+}
+
+function hideSubmitModal() {
+  dom.submitModal.classList.remove('active');
+  dom.submitModal.classList.remove('open');
+}
+
+/* ════════════════════════════════════════════════════════════
+   13.  SUBMIT
+════════════════════════════════════════════════════════════ */
+function submitQuiz(autoSubmit = false) {
+  clearInterval(state.timerInterval);
+  hideSubmitModal();
+
+  state.timeTakenSec = state.totalSeconds - Math.max(0, state.secondsLeft);
+
+  let correct = 0, incorrect = 0, unattempted = 0;
+  state.questions.forEach((q, i) => {
+    const ans = state.userAnswers[i];
+    if (ans === null) unattempted++;
+    else if (ans === q.correct) correct++;
+    else incorrect++;
+  });
+
+  const total  = state.questions.length;
+  const pct    = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const passed = pct >= 40;
+
+  // Save to local spreadsheet database & auto-sync to Google Sheet
+  saveToLocalSpreadsheet(total, correct, incorrect, unattempted, pct, passed);
+  sendToGoogleSheet(total, correct, incorrect, unattempted, pct, passed);
+
+  renderResult(total, correct, incorrect, unattempted, pct, passed);
+  showScreen('result');
+
+  try { sendWhatsApp(total, correct, incorrect, unattempted, pct, passed); }
+  catch(err) { console.warn('WhatsApp popup blocked:', err); }
+
+  if (autoSubmit) alert('\u23f0 Time is up! Quiz auto-submitted.');
+}
+
+/* ════════════════════════════════════════════════════════════
+   14.  RESULT SCREEN
+════════════════════════════════════════════════════════════ */
+function renderResult(total, correct, incorrect, unattempted, pct, passed) {
+  dom.resultPassFail.textContent = passed ? '\u2705 PASSED' : '\u274c FAILED';
+  dom.resultPassFail.className   = 'passfail-badge ' + (passed ? 'pass' : 'fail');
+
+  dom.scorePercent.textContent = pct + '%';
+  const circ = 2 * Math.PI * 50;
+  const dash = (pct / 100) * circ;
+  const root = getComputedStyle(document.documentElement);
+  dom.donutFill.style.stroke = passed
+    ? root.getPropertyValue('--clr-success').trim()
+    : root.getPropertyValue('--clr-danger').trim();
+  setTimeout(() => {
+    dom.donutFill.setAttribute('stroke-dasharray', `${dash.toFixed(2)} ${circ.toFixed(2)}`);
+  }, 100);
+
+  dom.rStudentName.textContent  = state.studentName;
+  if (dom.rQuid)    dom.rQuid.textContent    = state.studentQuid;
+  if (dom.rSection) dom.rSection.textContent = `Section ${state.studentSection}`;
+  dom.rTotal.textContent       = total;
+  dom.rCorrect.textContent     = correct + ' (' + Math.round((correct / total) * 100) + '%)';
+  dom.rIncorrect.textContent   = incorrect;
+  dom.rUnattempted.textContent = unattempted;
+  dom.rPercent.textContent     = pct + '% \u2014 ' + (passed ? 'Pass \U0001f389' : 'Fail \U0001f614');
+  dom.rTimeTaken.textContent   = formatTime(state.timeTakenSec);
+
+  // Trigger celebration confetti if passed
+  if (passed) {
+    triggerConfetti();
+  }
+
+  renderReview();
+}
+
+/** Confetti celebration effect (Pure CSS & JS) */
+function triggerConfetti() {
+  if (!dom.confettiContainer) return;
+  dom.confettiContainer.innerHTML = '';
+  const colors = ['#f95721', '#1e88e5', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'];
+  for (let i = 0; i < 60; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = (Math.random() * 1.5) + 's';
+    piece.style.animationDuration = (2.2 + Math.random() * 2) + 's';
+    piece.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+    dom.confettiContainer.appendChild(piece);
+  }
+}
+
+function renderReview() {
+  const labels = ['A', 'B', 'C', 'D'];
+  dom.reviewList.innerHTML = '';
+  state.questions.forEach((q, i) => {
+    const userAns   = state.userAnswers[i];
+    const isCorrect = userAns === q.correct;
+    const isSkipped = userAns === null;
+
+    const item = document.createElement('div');
+    item.className = 'review-item';
+
+    const icon = document.createElement('div');
+    icon.className   = 'review-status-icon';
+    icon.textContent = isSkipped ? '\u2b1c' : (isCorrect ? '\u2705' : '\u274c');
+    item.appendChild(icon);
+
+    const hdr = document.createElement('div');
+    hdr.className = 'review-item-header';
+    hdr.innerHTML = `<div class="review-qnum">${i + 1}</div><div class="review-qtext">${escapeHtml(q.q)}</div>`;
+    item.appendChild(hdr);
+
+    const ul = document.createElement('ul');
+    ul.className = 'review-options';
+    q.options.forEach((opt, oi) => {
+      const li = document.createElement('li');
+      li.className = 'review-option';
+      if (oi === q.correct) {
+        li.classList.add('opt-correct');
+        li.innerHTML = `\u2705 <strong>${labels[oi]}.</strong> ${escapeHtml(opt)} <em>(Correct Answer)</em>`;
+      } else if (oi === userAns && oi !== q.correct) {
+        li.classList.add('opt-wrong');
+        li.innerHTML = `\u274c <strong>${labels[oi]}.</strong> ${escapeHtml(opt)} <em>(Your Answer)</em>`;
+      } else {
+        li.classList.add('opt-neutral');
+        li.innerHTML = `<strong>${labels[oi]}.</strong> ${escapeHtml(opt)}`;
+      }
+      ul.appendChild(li);
+    });
+    item.appendChild(ul);
+
+    const meta = document.createElement('div');
+    meta.className = 'review-meta';
+    meta.innerHTML = `
+      <span>Your Answer: <strong>${userAns !== null ? labels[userAns] + '. ' + escapeHtml(q.options[userAns]) : 'Not Attempted'}</strong></span>
+      <span>Correct: <strong>${labels[q.correct]}. ${escapeHtml(q.options[q.correct])}</strong></span>`;
+    item.appendChild(meta);
+
+    if (q.explanation) {
+      const exp = document.createElement('div');
+      exp.className = 'review-explanation';
+      exp.innerHTML = `<strong>Explanation:</strong> ${escapeHtml(q.explanation)}`;
+      item.appendChild(exp);
+    }
+    dom.reviewList.appendChild(item);
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   15.  WHATSAPP SEND
+════════════════════════════════════════════════════════════ */
+function sendWhatsApp(total, correct, incorrect, unattempted, pct, passed) {
+  const timeTaken = formatTime(state.timeTakenSec);
+  const lines = [
+    '\U0001f393 *CrazyCoding Quiz Practice \u2014 Result*',
+    '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501',
+    `\U0001f194 *Quiz ID:* ${state.studentQuid}`,
+    `\U0001f464 *Name:* ${state.studentName}`,
+    `\U0001f3f7\ufe0f *Section:* ${state.studentSection}`,
+    `\U0001f4f1 *WhatsApp:* ${state.studentPhone}`,
+    '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501',
+    '\U0001f4da *Subject:* Front-End Web Development (HTML & CSS)',
+    '\U0001f4cb *Quiz:* 100 Random Questions',
+    '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501',
+    `Total Questions : ${total}`,
+    `\u2705 Correct      : ${correct}`,
+    `\u274c Incorrect    : ${incorrect}`,
+    `\u2b1c Unattempted  : ${unattempted}`,
+    `\U0001f4c8 Percentage   : ${pct}%`,
+    `\U0001f3c6 Result       : ${passed ? 'PASSED \U0001f389' : 'FAILED \u274c'}`,
+    `\u23f1 Time Taken   : ${timeTaken}`,
+    '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501',
+    `\U0001f4c5 ${new Date().toLocaleString()}`,
+    '',
+    '_Forwarded to Mr. Ankush (+91 9568326772)_',
+  ];
+  const msg = lines.join('\n');
+  const url = `https://wa.me/919568326772?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+/* ════════════════════════════════════════════════════════════
+   16.  PRINT & DOWNLOAD
+════════════════════════════════════════════════════════════ */
+function printResult() { window.print(); }
+
+function downloadResult() {
+  const correct     = state.questions.filter((q, i) => state.userAnswers[i] === q.correct).length;
+  const total       = state.questions.length;
+  const incorrect   = state.questions.filter((q, i) => state.userAnswers[i] !== null && state.userAnswers[i] !== q.correct).length;
+  const unattempted = state.questions.filter((q, i) => state.userAnswers[i] === null).length;
+  const pct         = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const passed      = pct >= 40;
+  const labels      = ['A', 'B', 'C', 'D'];
+
+  let text = [
+    '==============================================',
+    '  CRAZYCODING QUIZ PRACTICE -- RESULT',
+    '==============================================',
+    `Quiz ID      : ${state.studentQuid}`,
+    `Student      : ${state.studentName}`,
+    `Section      : Section ${state.studentSection}`,
+    `Phone        : ${state.studentPhone}`,
+    'Subject      : Front-End Web Development (HTML & CSS)',
+    `Date         : ${new Date().toLocaleString()}`,
+    '----------------------------------------------',
+    `Total        : ${total}`,
+    `Correct      : ${correct}`,
+    `Incorrect    : ${incorrect}`,
+    `Unattempted  : ${unattempted}`,
+    `Percentage   : ${pct}%`,
+    `Result       : ${passed ? 'PASSED' : 'FAILED'}`,
+    `Time Taken   : ${formatTime(state.timeTakenSec)}`,
+    '==============================================',
+    '         DETAILED ANSWER REVIEW',
+    '==============================================',
+  ].join('\r\n');
+
+  state.questions.forEach((q, i) => {
+    const ans = state.userAnswers[i];
+    text += `\r\n\r\nQ${i + 1}: ${q.q}\r\n`;
+    q.options.forEach((opt, oi) => {
+      const mark = oi === q.correct ? '[CORRECT]' : (oi === ans ? '[YOUR ANSWER]' : '');
+      text += `  ${labels[oi]}. ${opt}  ${mark}\r\n`;
+    });
+    text += `Answer     : ${ans !== null ? labels[ans] + '. ' + q.options[ans] : 'Not Attempted'}\r\n`;
+    text += `Explanation: ${q.explanation || 'N/A'}\r\n`;
+    text += '---------------------------------------------';
+  });
+  text += '\r\n\r\n==============================================\r\n';
+  text += 'CrazyCoding Quiz Practice\r\n';
+  text += 'By Mr. Ankush | Asst. Professor, CSE\r\n';
+  text += '==============================================\r\n';
+
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `CrazyCoding_Result_${state.studentName.replace(/\s+/g, '_')}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function downloadJSONResult() {
+  const correct     = state.questions.filter((q, i) => state.userAnswers[i] === q.correct).length;
+  const total       = state.questions.length;
+  const incorrect   = state.questions.filter((q, i) => state.userAnswers[i] !== null && state.userAnswers[i] !== q.correct).length;
+  const unattempted = state.questions.filter((q, i) => state.userAnswers[i] === null).length;
+  const pct         = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const passed      = pct >= 40;
+
+  const resultData = {
+    evaluator: "Mr. Ankush (Assistant Professor, CSE)",
+    contact: "+91 9568326772",
+    portal: "CrazyCoding Quiz Practice",
+    subject: "Front-End Web Development (HTML & CSS)",
+    student: {
+      name: state.studentName,
+      phone: state.studentPhone,
+      quid: state.studentQuid,
+      section: state.studentSection
+    },
+    performance: {
+      totalQuestions: total,
+      correctAnswers: correct,
+      incorrectAnswers: incorrect,
+      unattempted: unattempted,
+      percentage: pct,
+      status: passed ? "PASSED" : "FAILED",
+      timeTaken: formatTime(state.timeTakenSec),
+      timestamp: new Date().toLocaleString('en-IN')
+    },
+    detailedReview: state.questions.map((q, i) => ({
+      questionNo: i + 1,
+      question: q.q,
+      options: q.options,
+      correctOptionIndex: q.correct,
+      correctOptionText: q.options[q.correct],
+      studentAnswerIndex: state.userAnswers[i],
+      studentAnswerText: state.userAnswers[i] !== null ? q.options[state.userAnswers[i]] : "Not Attempted",
+      isCorrect: state.userAnswers[i] === q.correct,
+      explanation: q.explanation
+    }))
+  };
+
+  const jsonStr = JSON.stringify(resultData, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `CrazyCoding_Result_${state.studentName.replace(/\s+/g, '_')}_${state.studentQuid}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ════════════════════════════════════════════════════════════
+   17.  DOWNLOAD RESULT AS SPREADSHEET (CSV / EXCEL COMPATIBLE)
+════════════════════════════════════════════════════════════ */
+function downloadCSV() {
+  const correct     = state.questions.filter((q, i) => state.userAnswers[i] === q.correct).length;
+  const total       = state.questions.length;
+  const incorrect   = state.questions.filter((q, i) => state.userAnswers[i] !== null && state.userAnswers[i] !== q.correct).length;
+  const unattempted = state.questions.filter((q, i) => state.userAnswers[i] === null).length;
+  const pct         = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const passed      = pct >= 40;
+  const labels      = ['A', 'B', 'C', 'D'];
+
+  // Spreadsheet Header & Summary Row
+  const csvRows = [
+    ['Timestamp', 'Quiz ID', 'Student Name', 'Section', 'WhatsApp Number', 'Subject', 'Total Questions', 'Correct', 'Incorrect', 'Unattempted', 'Percentage', 'Status', 'Time Taken'],
+    [
+      `"${new Date().toLocaleString()}"`,
+      `"${state.studentQuid}"`,
+      `"${state.studentName}"`,
+      `"${state.studentSection}"`,
+      `"${state.studentPhone}"`,
+      `"Front-End Web Development (HTML & CSS)"`,
+      total,
+      correct,
+      incorrect,
+      unattempted,
+      `"${pct}%"`,
+      `"${passed ? 'PASSED' : 'FAILED'}"`,
+      `"${formatTime(state.timeTakenSec)}"`
+    ],
+    [],
+    ['--- DETAILED QUESTION REVIEW ---'],
+    ['Q.No', 'Question', 'Option A', 'Option B', 'Option C', 'Option D', 'Correct Option', 'Your Answer', 'Status', 'Explanation']
+  ];
+
+  state.questions.forEach((q, i) => {
+    const ans = state.userAnswers[i];
+    const isCorrect = ans === q.correct;
+    const isSkipped = ans === null;
+    csvRows.push([
+      i + 1,
+      `"${(q.q || '').replace(/"/g, '""')}"`,
+      `"${(q.options[0] || '').replace(/"/g, '""')}"`,
+      `"${(q.options[1] || '').replace(/"/g, '""')}"`,
+      `"${(q.options[2] || '').replace(/"/g, '""')}"`,
+      `"${(q.options[3] || '').replace(/"/g, '""')}"`,
+      labels[q.correct],
+      ans !== null ? labels[ans] : 'Not Attempted',
+      isSkipped ? 'Skipped' : (isCorrect ? 'Correct' : 'Incorrect'),
+      `"${(q.explanation || 'N/A').replace(/"/g, '""')}"`
+    ]);
+  });
+
+  const csvContent = '\uFEFF' + csvRows.map(row => row.join(',')).join('\r\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `CrazyCoding_Spreadsheet_${state.studentName.replace(/\s+/g, '_')}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Save result record to browser database for local spreadsheet view
+function saveToLocalSpreadsheet(total, correct, incorrect, unattempted, pct, passed) {
+  try {
+    const list = JSON.parse(localStorage.getItem('crazycoding_quiz_submissions') || '[]');
+    const record = {
+      id: Date.now(),
+      timestamp: new Date().toLocaleString('en-IN', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+      }),
+      quid: state.studentQuid || 'N/A',
+      name: state.studentName || 'Student',
+      section: state.studentSection || 'I',
+      phone: state.studentPhone || '+91',
+      subject: 'HTML & CSS',
+      score: correct,
+      total: total,
+      incorrect: incorrect,
+      unattempted: unattempted,
+      percent: pct,
+      status: passed ? 'PASSED' : 'FAILED',
+      timeTaken: formatTime(state.timeTakenSec)
+    };
+    list.unshift(record);
+    localStorage.setItem('crazycoding_quiz_submissions', JSON.stringify(list));
+
+    // Auto-save to local JSON server database if running (students_database.json)
+    try {
+      fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(record)
+      }).catch(() => {});
+    } catch(e) {}
+  } catch (err) {
+    console.warn('Local spreadsheet save error:', err);
+  }
+}
+
+// Online Google Sheets Web App Endpoint
+// Can be set here or dynamically configured via localStorage
+const GOOGLE_SHEET_WEBAPP_URL = localStorage.getItem('crazycoding_google_sheet_url') || '';
+
+function sendToGoogleSheet(total, correct, incorrect, unattempted, pct, passed) {
+  const sheetUrl = localStorage.getItem('crazycoding_google_sheet_url') || GOOGLE_SHEET_WEBAPP_URL;
+  if (!sheetUrl) return; // Silent if URL not configured yet
+
+  const payload = {
+    timestamp: new Date().toLocaleString('en-IN'),
+    quid: state.studentQuid,
+    name: state.studentName,
+    section: state.studentSection,
+    phone: state.studentPhone,
+    subject: 'HTML & CSS',
+    total: total,
+    correct: correct,
+    incorrect: incorrect,
+    unattempted: unattempted,
+    percent: pct,
+    status: passed ? 'PASSED' : 'FAILED',
+    timeTaken: formatTime(state.timeTakenSec)
+  };
+
+  try {
+    fetch(sheetUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(err => console.log('Sheet sync note:', err));
+  } catch(e) {}
+}
+
+/* ════════════════════════════════════════════════════════════
+   17.  RETRY
+════════════════════════════════════════════════════════════ */
+function retryQuiz() {
+  if (dom.donutFill) dom.donutFill.setAttribute('stroke-dasharray', '0 314.16');
+  showScreen('details');
+}
+
+/* ════════════════════════════════════════════════════════════
+   18.  KEYBOARD SHORTCUTS (quiz screen only)
+════════════════════════════════════════════════════════════ */
+function handleKeydown(e) {
   if (!document.getElementById('screen-quiz').classList.contains('active')) return;
-
   switch (e.key) {
-    case 'ArrowLeft':
-      e.preventDefault();
-      goTo(state.currentIndex - 1);
-      break;
-    case 'ArrowRight':
-      e.preventDefault();
-      goTo(state.currentIndex + 1);
-      break;
-    case '1': case 'a': case 'A':
-      selectOption(0); break;
-    case '2': case 'b': case 'B':
-      selectOption(1); break;
-    case '3': case 'c': case 'C':
-      selectOption(2); break;
-    case '4': case 'd': case 'D':
-      selectOption(3); break;
-    case 'm': case 'M':
-      toggleMark(); break;
+    case 'ArrowLeft':  e.preventDefault(); goTo(state.currentIndex - 1); break;
+    case 'ArrowRight': e.preventDefault(); goTo(state.currentIndex + 1); break;
+    case '1': case 'a': case 'A': selectOption(0); break;
+    case '2': case 'b': case 'B': selectOption(1); break;
+    case '3': case 'c': case 'C': selectOption(2); break;
+    case '4': case 'd': case 'D': selectOption(3); break;
+    case 'm': case 'M': toggleMark(); break;
   }
 }
 
 /* ════════════════════════════════════════════════════════════
-   20.  EVENT LISTENERS (wired up on DOMContentLoaded)
+   19.  EVENT WIRING
 ════════════════════════════════════════════════════════════ */
-
 function wireEvents() {
-  // Theme
-  dom.themeToggle.addEventListener('click', toggleTheme);
+  if (dom.themeToggle) dom.themeToggle.addEventListener('click', toggleTheme);
 
-  // Screen 1 — Details
   dom.detailsForm.addEventListener('submit', handleDetailsSubmit);
+  const btnStartDirect = document.getElementById('btnStartQuizDirect');
+  if (btnStartDirect) {
+    btnStartDirect.addEventListener('click', handleDetailsSubmit);
+  }
 
-  // Radio labels styling (visual feedback)
-  document.querySelectorAll('.radio-label').forEach(label => {
-    label.querySelector('input').addEventListener('change', () => {
-      document.querySelectorAll('.radio-label').forEach(l => l.classList.remove('selected'));
-      label.classList.add('selected');
+  // Live input formatting for Indian Phone (only allow digits up to 10)
+  if (dom.studentPhone) {
+    dom.studentPhone.addEventListener('input', e => {
+      e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
     });
-  });
+  }
 
-  // Screen 2 — Subject
-  dom.btnBackToDetails.addEventListener('click', () => showScreen('details'));
-  dom.unitSelect.addEventListener('change', handleUnitChange);
-  dom.topicSelect.addEventListener('change', handleTopicChange);
-  dom.btnStartQuiz.addEventListener('click', handleStartQuiz);
-
-  // Screen 3 — Quiz controls
   dom.btnPrev.addEventListener('click', () => goTo(state.currentIndex - 1));
   dom.btnNext.addEventListener('click', () => {
-    // FIX: On last question 'Review →' opens submit modal instead of going out of bounds
-    if (state.currentIndex === state.questions.length - 1) {
-      showSubmitModal();
-    } else {
-      goTo(state.currentIndex + 1);
-    }
+    if (state.currentIndex === state.questions.length - 1) showSubmitModal();
+    else goTo(state.currentIndex + 1);
   });
   dom.btnMark.addEventListener('click', toggleMark);
   dom.btnSubmit.addEventListener('click', showSubmitModal);
 
-  // Modal
   dom.btnModalCancel.addEventListener('click', hideSubmitModal);
   dom.btnModalConfirm.addEventListener('click', () => submitQuiz(false));
-  dom.submitModal.addEventListener('click', e => {
-    if (e.target === dom.submitModal) hideSubmitModal();
-  });
+  dom.submitModal.addEventListener('click', e => { if (e.target === dom.submitModal) hideSubmitModal(); });
 
-  // Screen 4 — Result actions
-  dom.btnWhatsApp.addEventListener('click', sendWhatsApp);
+  dom.btnWhatsApp.addEventListener('click', () => {
+    const correct     = state.questions.filter((q, i) => state.userAnswers[i] === q.correct).length;
+    const total       = state.questions.length;
+    const incorrect   = state.questions.filter((q, i) => state.userAnswers[i] !== null && state.userAnswers[i] !== q.correct).length;
+    const unattempted = state.questions.filter((q, i) => state.userAnswers[i] === null).length;
+    const pct         = total > 0 ? Math.round((correct / total) * 100) : 0;
+    const passed      = pct >= 40;
+    sendWhatsApp(total, correct, incorrect, unattempted, pct, passed);
+  });
   dom.btnPrint.addEventListener('click', printResult);
+  if (dom.btnDownloadCSV) {
+    dom.btnDownloadCSV.addEventListener('click', downloadCSV);
+  }
   dom.btnDownload.addEventListener('click', downloadResult);
+  if (dom.btnDownloadJSON) {
+    dom.btnDownloadJSON.addEventListener('click', downloadJSONResult);
+  }
   dom.btnRetry.addEventListener('click', retryQuiz);
 
-  // Keyboard shortcuts for quiz
-  document.addEventListener('keydown', handleQuizKeydown);
+  // ─────────────────────────────────────────
+  // Admin Login & Navigation
+  // ─────────────────────────────────────────
+  if (dom.btnOpenAdminLogin) dom.btnOpenAdminLogin.addEventListener('click', openAdminLogin);
+  if (dom.footerAdminBtn) dom.footerAdminBtn.addEventListener('click', openAdminLogin);
+  if (dom.btnAdminLoginCancel) dom.btnAdminLoginCancel.addEventListener('click', closeAdminLogin);
+  if (dom.adminLoginForm) dom.adminLoginForm.addEventListener('submit', handleAdminLoginSubmit);
+  if (dom.adminLoginModal) {
+    dom.adminLoginModal.addEventListener('click', (e) => {
+      if (e.target === dom.adminLoginModal) closeAdminLogin();
+    });
+  }
+  if (dom.btnAdminTogglePin && dom.adminLoginPinInput) {
+    dom.btnAdminTogglePin.addEventListener('click', () => {
+      const isPwd = dom.adminLoginPinInput.type === 'password';
+      dom.adminLoginPinInput.type = isPwd ? 'text' : 'password';
+      dom.btnAdminTogglePin.textContent = isPwd ? '🙈' : '👁️';
+    });
+  }
+
+  // ─────────────────────────────────────────
+  // Admin Dashboard Actions
+  // ─────────────────────────────────────────
+  if (dom.btnAdminGoStudent) dom.btnAdminGoStudent.addEventListener('click', () => showScreen('details'));
+  if (dom.btnAdminLogout) dom.btnAdminLogout.addEventListener('click', logoutAdmin);
+  if (dom.btnAdminChangePin) dom.btnAdminChangePin.addEventListener('click', changeAdminPin);
+  if (dom.btnAdminExportCSV) dom.btnAdminExportCSV.addEventListener('click', exportAdminCSV);
+  if (dom.btnAdminExportJSON) dom.btnAdminExportJSON.addEventListener('click', exportAdminJSON);
+  if (dom.btnAdminViewJSON) dom.btnAdminViewJSON.addEventListener('click', openAdminJsonViewer);
+  if (dom.btnAdminPrintSheet) dom.btnAdminPrintSheet.addEventListener('click', () => window.print());
+  if (dom.btnAdminAddDemo) dom.btnAdminAddDemo.addEventListener('click', addAdminDemoStudent);
+  if (dom.btnAdminEmptyAddDemo) dom.btnAdminEmptyAddDemo.addEventListener('click', addAdminDemoStudent);
+  if (dom.btnAdminClearAll) dom.btnAdminClearAll.addEventListener('click', clearAllAdminRecords);
+
+  if (dom.btnAdminImportJSON && dom.adminJsonFileInput) {
+    dom.btnAdminImportJSON.addEventListener('click', () => dom.adminJsonFileInput.click());
+    dom.adminJsonFileInput.addEventListener('change', importAdminJSON);
+  }
+
+  if (dom.adminSearchInput) dom.adminSearchInput.addEventListener('input', renderAdminDashboard);
+  if (dom.adminSectionFilter) dom.adminSectionFilter.addEventListener('change', renderAdminDashboard);
+  if (dom.adminStatusFilter) dom.adminStatusFilter.addEventListener('change', renderAdminDashboard);
+  if (dom.adminSortBy) dom.adminSortBy.addEventListener('change', renderAdminDashboard);
+
+  // ─────────────────────────────────────────
+  // Admin JSON Viewer Modal
+  // ─────────────────────────────────────────
+  if (dom.btnCloseAdminJsonModal && dom.adminJsonModal) {
+    dom.btnCloseAdminJsonModal.addEventListener('click', () => dom.adminJsonModal.classList.remove('active', 'open'));
+    dom.adminJsonModal.addEventListener('click', (e) => {
+      if (e.target === dom.adminJsonModal) dom.adminJsonModal.classList.remove('active', 'open');
+    });
+  }
+  if (dom.btnAdminCopyJson) {
+    dom.btnAdminCopyJson.addEventListener('click', () => {
+      if (dom.adminRawJsonBox) {
+        navigator.clipboard.writeText(dom.adminRawJsonBox.textContent).then(() => {
+          dom.btnAdminCopyJson.textContent = '✅ Copied!';
+          setTimeout(() => { dom.btnAdminCopyJson.textContent = '📋 Copy JSON'; }, 2000);
+        });
+      }
+    });
+  }
+  if (dom.btnAdminDownloadJsonFile) {
+    dom.btnAdminDownloadJsonFile.addEventListener('click', exportAdminJSON);
+  }
+
+  // ─────────────────────────────────────────
+  // Admin Cloud Sync Modal
+  // ─────────────────────────────────────────
+  if (dom.btnAdminOpenSyncModal && dom.adminSyncModal) {
+    dom.btnAdminOpenSyncModal.addEventListener('click', () => {
+      if (dom.adminGoogleSheetUrlInput) {
+        dom.adminGoogleSheetUrlInput.value = localStorage.getItem('crazycoding_google_sheet_url') || '';
+      }
+      dom.adminSyncModal.classList.add('active', 'open');
+    });
+    if (dom.btnCloseAdminSyncModal) {
+      dom.btnCloseAdminSyncModal.addEventListener('click', () => dom.adminSyncModal.classList.remove('active', 'open'));
+    }
+    dom.adminSyncModal.addEventListener('click', (e) => {
+      if (e.target === dom.adminSyncModal) dom.adminSyncModal.classList.remove('active', 'open');
+    });
+    if (dom.btnAdminSaveSheetUrl && dom.adminGoogleSheetUrlInput) {
+      dom.btnAdminSaveSheetUrl.addEventListener('click', () => {
+        const url = dom.adminGoogleSheetUrlInput.value.trim();
+        localStorage.setItem('crazycoding_google_sheet_url', url);
+        alert('✅ Google Sheets Web App URL successfully save ho gaya hai!');
+        dom.adminSyncModal.classList.remove('active', 'open');
+      });
+    }
+  }
+
+  document.addEventListener('keydown', handleKeydown);
+}
+
+/* ════════════════════════════════════════════════════════════
+   20.  ON-PAGE PROFESSOR ADMIN DASHBOARD LOGIC
+════════════════════════════════════════════════════════════ */
+const ADMIN_PIN_KEY = 'crazycoding_admin_pin';
+const ADMIN_AUTH_KEY = 'crazycoding_admin_auth';
+const DEFAULT_ADMIN_PIN = '9568';
+
+function getAdminPin() {
+  return localStorage.getItem(ADMIN_PIN_KEY) || DEFAULT_ADMIN_PIN;
+}
+
+function isAdminAuthenticated() {
+  return sessionStorage.getItem(ADMIN_AUTH_KEY) === 'true';
+}
+
+function openAdminLogin() {
+  if (isAdminAuthenticated()) {
+    showScreen('admin');
+    renderAdminDashboard();
+    return;
+  }
+  if (dom.adminLoginModal) {
+    dom.adminLoginModal.classList.add('active', 'open');
+    if (dom.adminLoginPinInput) {
+      dom.adminLoginPinInput.value = '';
+      dom.adminLoginPinInput.focus();
+    }
+    if (dom.adminLoginErrorMsg) dom.adminLoginErrorMsg.textContent = '';
+  }
+}
+
+function closeAdminLogin() {
+  if (dom.adminLoginModal) dom.adminLoginModal.classList.remove('active', 'open');
+}
+
+function handleAdminLoginSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  const entered = dom.adminLoginPinInput ? dom.adminLoginPinInput.value.trim() : '';
+  const actual = getAdminPin();
+  if (entered === actual) {
+    sessionStorage.setItem(ADMIN_AUTH_KEY, 'true');
+    closeAdminLogin();
+    showScreen('admin');
+    renderAdminDashboard();
+  } else {
+    if (dom.adminLoginErrorMsg) dom.adminLoginErrorMsg.textContent = '❌ Incorrect PIN! Access Denied.';
+    if (dom.adminLoginPinInput) {
+      dom.adminLoginPinInput.value = '';
+      dom.adminLoginPinInput.focus();
+    }
+  }
+}
+
+function logoutAdmin() {
+  sessionStorage.removeItem(ADMIN_AUTH_KEY);
+  showScreen('details');
+}
+
+function changeAdminPin() {
+  const current = prompt('Apna current Admin PIN enter karein:');
+  if (current === null) return;
+  if (current !== getAdminPin()) {
+    alert('❌ Current PIN galat hai!');
+    return;
+  }
+  const newPin = prompt('Naya 4-digit PIN enter karein:');
+  if (!newPin || newPin.trim().length < 4) {
+    alert('❌ PIN kam se kam 4 characters ka hona chahiye!');
+    return;
+  }
+  localStorage.setItem(ADMIN_PIN_KEY, newPin.trim());
+  alert('✅ Admin PIN successfully change ho gaya hai! Naya PIN yaad rakhein.');
+}
+
+function getStoredSubmissions() {
+  try {
+    return JSON.parse(localStorage.getItem('crazycoding_quiz_submissions') || '[]');
+  } catch(e) {
+    return [];
+  }
+}
+
+function saveStoredSubmissions(list) {
+  localStorage.setItem('crazycoding_quiz_submissions', JSON.stringify(list));
+  renderAdminDashboard();
+}
+
+function renderAdminDashboard() {
+  if (!dom.adminTableBody) return;
+  const submissions = getStoredSubmissions();
+  let filtered = [...submissions];
+
+  // Search filter
+  const q = dom.adminSearchInput ? dom.adminSearchInput.value.trim().toLowerCase() : '';
+  if (q) {
+    filtered = filtered.filter(item => 
+      (item.name || '').toLowerCase().includes(q) ||
+      (item.quid || '').toLowerCase().includes(q) ||
+      (item.phone || '').toLowerCase().includes(q)
+    );
+  }
+
+  // Section filter
+  const sec = dom.adminSectionFilter ? dom.adminSectionFilter.value : 'ALL';
+  if (sec !== 'ALL') {
+    filtered = filtered.filter(item => (item.section || '').toUpperCase() === sec);
+  }
+
+  // Status filter
+  const st = dom.adminStatusFilter ? dom.adminStatusFilter.value : 'ALL';
+  if (st !== 'ALL') {
+    filtered = filtered.filter(item => item.status === st);
+  }
+
+  // Sort
+  const sortVal = dom.adminSortBy ? dom.adminSortBy.value : 'newest';
+  if (sortVal === 'newest') {
+    filtered.sort((a, b) => (b.id || 0) - (a.id || 0));
+  } else if (sortVal === 'scoreHigh') {
+    filtered.sort((a, b) => (b.score || 0) - (a.score || 0));
+  } else if (sortVal === 'scoreLow') {
+    filtered.sort((a, b) => (a.score || 0) - (b.score || 0));
+  } else if (sortVal === 'nameAZ') {
+    filtered.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+  }
+
+  // Update Stats
+  const total = submissions.length;
+  if (dom.adminStatTotal) dom.adminStatTotal.textContent = total;
+  if (total === 0) {
+    if (dom.adminStatPassed) dom.adminStatPassed.textContent = '0';
+    if (dom.adminStatPassRate) dom.adminStatPassRate.textContent = 'Pass Rate: 0%';
+    if (dom.adminStatFailed) dom.adminStatFailed.textContent = '0';
+    if (dom.adminStatFailRate) dom.adminStatFailRate.textContent = 'Fail Rate: 0%';
+    if (dom.adminStatAvgScore) dom.adminStatAvgScore.textContent = '0%';
+    if (dom.adminStatSectionCounts) dom.adminStatSectionCounts.textContent = 'I: 0 | J: 0 | L: 0';
+  } else {
+    const passedCount = submissions.filter(s => s.status === 'PASSED').length;
+    const failedCount = total - passedCount;
+    const passRate = Math.round((passedCount / total) * 100);
+    const avgScore = Math.round(submissions.reduce((sum, s) => sum + (s.percent || s.pct || 0), 0) / total);
+    const secI = submissions.filter(s => s.section === 'I').length;
+    const secJ = submissions.filter(s => s.section === 'J').length;
+    const secL = submissions.filter(s => s.section === 'L').length;
+
+    if (dom.adminStatPassed) dom.adminStatPassed.textContent = passedCount;
+    if (dom.adminStatPassRate) dom.adminStatPassRate.textContent = `Pass Rate: ${passRate}%`;
+    if (dom.adminStatFailed) dom.adminStatFailed.textContent = failedCount;
+    if (dom.adminStatFailRate) dom.adminStatFailRate.textContent = `Fail Rate: ${100 - passRate}%`;
+    if (dom.adminStatAvgScore) dom.adminStatAvgScore.textContent = avgScore + '%';
+    if (dom.adminStatSectionCounts) dom.adminStatSectionCounts.textContent = `I: ${secI} | J: ${secJ} | L: ${secL}`;
+  }
+
+  // Render Table
+  dom.adminTableBody.innerHTML = '';
+  if (filtered.length === 0) {
+    if (dom.adminEmptyNotice) dom.adminEmptyNotice.style.display = 'block';
+    if (dom.adminRecordCountNotice) dom.adminRecordCountNotice.textContent = 'Showing 0 records';
+    return;
+  }
+
+  if (dom.adminEmptyNotice) dom.adminEmptyNotice.style.display = 'none';
+  if (dom.adminRecordCountNotice) dom.adminRecordCountNotice.textContent = `Showing ${filtered.length} of ${submissions.length} records`;
+
+  filtered.forEach((row, idx) => {
+    const tr = document.createElement('tr');
+    const isPass = row.status === 'PASSED';
+    const pctColor = isPass ? 'var(--clr-success)' : 'var(--clr-danger)';
+
+    tr.innerHTML = `
+      <td style="text-align:center; font-weight:700; color:var(--clr-text-muted);">${idx + 1}</td>
+      <td style="font-size:0.82rem; color:var(--clr-text-muted);">${row.timestamp || '—'}</td>
+      <td><span class="quid-tag">${escapeHtml(row.quid || 'N/A')}</span></td>
+      <td><strong>${escapeHtml(row.name || 'Student')}</strong></td>
+      <td style="text-align:center;"><span class="section-tag sec-${row.section || 'I'}">Section ${row.section || 'I'}</span></td>
+      <td>
+        <a href="https://wa.me/${(row.phone || '').replace(/\D/g, '')}" target="_blank" style="color:var(--clr-success); text-decoration:none; font-weight:600; display:inline-flex; align-items:center; gap:4px;">
+          💬 ${escapeHtml(row.phone || '—')}
+        </a>
+      </td>
+      <td style="font-weight:700;">${row.score !== undefined ? row.score : '—'} / ${row.total || 100}</td>
+      <td>
+        <div class="table-pct-bar">
+          <span style="font-weight:700; font-size:0.82rem;">${row.percent || row.pct || 0}%</span>
+          <div class="table-pct-track">
+            <div class="table-pct-fill" style="width:${row.percent || row.pct || 0}%; background:${pctColor};"></div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align:center;">
+        <span class="status-chip ${isPass ? 'chip-pass' : 'chip-fail'}">
+          ${isPass ? '✅ PASSED' : '❌ FAILED'}
+        </span>
+      </td>
+      <td style="font-size:0.82rem; color:var(--clr-text-muted);">${row.timeTaken || '—'}</td>
+      <td style="text-align:center;">
+        <button class="btn-row-del" title="Delete record" onclick="deleteAdminRecord(${row.id})">🗑️</button>
+      </td>
+    `;
+    dom.adminTableBody.appendChild(tr);
+  });
+}
+
+window.deleteAdminRecord = function(id) {
+  if (!confirm('Kya aap is student ka record delete karna chahte hain?')) return;
+  const list = getStoredSubmissions().filter(s => s.id !== id);
+  saveStoredSubmissions(list);
+};
+
+function addAdminDemoStudent() {
+  const demoNames = ['Rahul Sharma', 'Priya Patel', 'Aman Verma', 'Sneha Gupta', 'Rohit Singh', 'Ananya Roy'];
+  const demoSections = ['I', 'J', 'L'];
+  const randName = demoNames[Math.floor(Math.random() * demoNames.length)];
+  const randSec = demoSections[Math.floor(Math.random() * demoSections.length)];
+  const randScore = Math.floor(Math.random() * 55) + 40;
+  const isPassed = randScore >= 40;
+  const randQuid = 'QUID-' + Math.floor(100 + Math.random() * 900);
+  const randPhone = '+91987' + Math.floor(1000000 + Math.random() * 9000000);
+
+  const newRecord = {
+    id: Date.now(),
+    timestamp: new Date().toLocaleString('en-IN', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+    }),
+    quid: randQuid,
+    name: randName,
+    section: randSec,
+    phone: randPhone,
+    subject: 'HTML & CSS',
+    score: randScore,
+    total: 100,
+    percent: randScore,
+    status: isPassed ? 'PASSED' : 'FAILED',
+    timeTaken: `${Math.floor(Math.random() * 40) + 20}m ${Math.floor(Math.random() * 60)}s`
+  };
+
+  const list = getStoredSubmissions();
+  list.unshift(newRecord);
+  saveStoredSubmissions(list);
+}
+
+function clearAllAdminRecords() {
+  const list = getStoredSubmissions();
+  if (list.length === 0) {
+    alert('Sheet already empty hai.');
+    return;
+  }
+  if (confirm('⚠️ Warning: Kya aap sach mein poora data clear karna chahte hain?')) {
+    saveStoredSubmissions([]);
+  }
+}
+
+function exportAdminCSV() {
+  const submissions = getStoredSubmissions();
+  if (submissions.length === 0) {
+    alert('Export karne ke liye koi data nahi hai!');
+    return;
+  }
+  const headers = ['Row Number', 'Date & Time', 'Quiz ID (QUID)', 'Student Name', 'Section', 'WhatsApp Phone', 'Subject', 'Score', 'Total Questions', 'Percentage', 'Status', 'Time Taken'];
+  const rows = [headers];
+  submissions.forEach((item, index) => {
+    rows.push([
+      index + 1,
+      `"${(item.timestamp || '').replace(/"/g, '""')}"`,
+      `"${(item.quid || '').replace(/"/g, '""')}"`,
+      `"${(item.name || '').replace(/"/g, '""')}"`,
+      `"${(item.section || '').replace(/"/g, '""')}"`,
+      `"${(item.phone || '').replace(/"/g, '""')}"`,
+      `"${(item.subject || 'HTML & CSS').replace(/"/g, '""')}"`,
+      item.score !== undefined ? item.score : 0,
+      item.total || 100,
+      `"${(item.percent || item.pct || 0)}%"`,
+      `"${(item.status || '').replace(/"/g, '""')}"`,
+      `"${(item.timeTaken || '').replace(/"/g, '""')}"`
+    ]);
+  });
+  const csvContent = '\uFEFF' + rows.map(e => e.join(',')).join('\r\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `CrazyCoding_Students_Spreadsheet_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+function exportAdminJSON() {
+  const submissions = getStoredSubmissions();
+  if (submissions.length === 0) {
+    alert('Export karne ke liye koi data nahi hai!');
+    return;
+  }
+  const dataToExport = {
+    exportedAt: new Date().toISOString(),
+    evaluator: "Mr. Ankush (Assistant Professor, CSE)",
+    portal: "CrazyCoding Quiz Practice",
+    totalSubmissions: submissions.length,
+    submissions: submissions
+  };
+  const jsonStr = JSON.stringify(dataToExport, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `CrazyCoding_Students_Data_${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function openAdminJsonViewer() {
+  const submissions = getStoredSubmissions();
+  const dataToExport = {
+    portal: "CrazyCoding Quiz Practice",
+    evaluator: "Mr. Ankush (Assistant Professor, CSE)",
+    total: submissions.length,
+    submissions: submissions
+  };
+  if (dom.adminRawJsonBox) {
+    dom.adminRawJsonBox.textContent = JSON.stringify(dataToExport, null, 2);
+  }
+  if (dom.adminJsonModal) dom.adminJsonModal.classList.add('active', 'open');
+}
+
+function importAdminJSON(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const parsed = JSON.parse(event.target.result);
+      const newItems = Array.isArray(parsed) ? parsed : (parsed.submissions || []);
+      if (!Array.isArray(newItems) || newItems.length === 0) {
+        alert('❌ File mein koi valid student submissions nahi mile!');
+        return;
+      }
+      const list = getStoredSubmissions();
+      let addedCount = 0;
+      newItems.forEach(item => {
+        const exists = list.some(s => (s.id && s.id === item.id) || (s.quid === item.quid && s.name === item.name));
+        if (!exists) {
+          list.push(item);
+          addedCount++;
+        }
+      });
+      saveStoredSubmissions(list);
+      alert(`✅ Success: ${addedCount} student records JSON file se successfully load ho gaye!`);
+    } catch (err) {
+      alert('❌ Invalid JSON file format!');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
 }
 
 /* ════════════════════════════════════════════════════════════
    21.  INIT
 ════════════════════════════════════════════════════════════ */
-
 document.addEventListener('DOMContentLoaded', () => {
   cacheDom();
   initTheme();
   wireEvents();
-
-  // FIX: Pre-select "All" radio visually — compatible with all browsers (no :has() dependency)
-  const allRadioInput = document.querySelector('input[name="numQuestions"][value="all"]');
-  if (allRadioInput && allRadioInput.parentElement) {
-    allRadioInput.parentElement.classList.add('selected');
-  }
-
   showScreen('details');
 });

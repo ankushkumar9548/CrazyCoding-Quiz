@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CrazyCoding MCQ Quiz Portal</title>
+  <title>CrazyCoding Quiz Practice — HTML & CSS</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Favicon (inline SVG via data URI) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
 </head>
 <body>
@@ -19,15 +18,18 @@
         <img src="profile.jpg" alt="Mr. Ankush" class="header-profile-avatar" />
         <div class="brand-code-symbol">&lt;/&gt;</div>
         <div class="brand-text">
-          <h1 class="brand-title"><span class="brand-crazy">Crazy</span><span class="brand-coding">Coding</span> <span class="portal-badge">Quiz Portal</span></h1>
+          <h1 class="brand-title"><span class="brand-crazy">Crazy</span><span class="brand-coding">Coding</span> <span class="portal-badge">Quiz Practice</span></h1>
           <p class="brand-sub">
-            <span>Learn • Build • Grow</span>
+            <span>HTML &amp; CSS MCQ — 100 Questions</span>
             &nbsp;|&nbsp;
             <span><strong>Mr. Ankush</strong> — Asst. Professor, CSE</span>
           </p>
         </div>
       </div>
       <div class="header-right">
+        <button type="button" id="btnOpenAdminLogin" class="header-contact-pill header-admin-pill" title="Professor Admin Portal Login">
+          🔐 Admin Login
+        </button>
         <a href="https://wa.me/919568326772" target="_blank" class="header-contact-pill" title="Contact Professor on WhatsApp">
           📞 9568326772
         </a>
@@ -39,17 +41,17 @@
   </header>
 
   <!-- ═══════════════════════════════════════════════
-       MAIN CONTENT AREA (screens are swapped via JS)
+       MAIN CONTENT AREA
   ════════════════════════════════════════════════ -->
   <main class="main-content">
 
     <!-- ──────────────────────────────────────
-         SCREEN 1 · STUDENT DETAILS FORM WITH CRAZYCODING BRANDING
+         SCREEN 1 · STUDENT REGISTRATION
     ─────────────────────────────────────── -->
     <section id="screen-details" class="screen active">
       <div class="registration-layout">
 
-        <!-- Left Branding Panel (With Real Profile Photo & Poster Details) -->
+        <!-- Left Branding Panel -->
         <aside class="branding-hero-card">
           <div class="brand-hero-header">
             <div class="brand-big-logo">
@@ -59,7 +61,7 @@
             <div class="hero-tagline">Learn • Build • Grow</div>
           </div>
 
-          <!-- Real Photo Showcase Card (Full-Size Blazer Coat Portrait) -->
+          <!-- Profile Photo -->
           <div class="profile-showcase-box full-portrait-card">
             <div class="profile-full-portrait-wrapper">
               <img src="suit_profile.jpg" alt="Mr. Ankush — Assistant Professor (Formal Blazer)" class="profile-full-img" />
@@ -69,12 +71,12 @@
                 <div class="profile-designation-badge">
                   🎓 ASSISTANT PROFESSOR
                 </div>
-                <p class="profile-dept">Department of <strong>Computer Science & Engineering</strong></p>
+                <p class="profile-dept">Department of <strong>Computer Science &amp; Engineering</strong></p>
               </div>
             </div>
           </div>
 
-          <!-- Social / Contact Badges matching poster -->
+          <!-- Social / Contact Badges -->
           <div class="social-badges-list">
             <a href="https://instagram.com/Crazy_coding01" target="_blank" class="social-pill pill-instagram" title="Instagram: Crazy_coding01">
               <span class="pill-icon">📸</span>
@@ -101,7 +103,7 @@
             </a>
           </div>
 
-          <!-- Bottom Motivational Banner -->
+          <!-- Bottom Banner -->
           <div class="hero-navy-banner">
             <span>🚀 Better Developers Build a Brighter Future 😊</span>
           </div>
@@ -110,9 +112,9 @@
         <!-- Right Form Card -->
         <div class="card form-card registration-form-card">
           <div class="card-header">
-            <div class="form-header-badge">Join CrazyCoding and start your coding adventure!</div>
-            <h2>📝 Registration Form</h2>
-            <p>Please enter your student details to start the Front-End MCQ Quiz.</p>
+            <div class="form-header-badge">HTML &amp; CSS Practice Quiz — 100 Random Questions</div>
+            <h2>📝 Student Registration</h2>
+            <p>Fill in your details and click <strong>Start Quiz</strong> to begin 100 random MCQs from HTML &amp; CSS.</p>
           </div>
           <form id="detailsForm" novalidate>
             <!-- Full Name -->
@@ -121,11 +123,14 @@
               <input type="text" id="studentName" placeholder="Enter your full name" autocomplete="name" />
               <span class="field-error" id="nameError"></span>
             </div>
-            <!-- WhatsApp -->
+            <!-- WhatsApp (India Only) -->
             <div class="form-group">
               <label for="studentPhone">📱 WhatsApp Number <span class="required">*</span></label>
-              <input type="tel" id="studentPhone" placeholder="+919876543210" autocomplete="tel" />
-              <span class="field-hint">Include country code (+91 for India)</span>
+              <div class="india-phone-wrap">
+                <span class="phone-prefix-badge">🇮🇳 +91</span>
+                <input type="tel" id="studentPhone" placeholder="9876543210" maxlength="10" autocomplete="tel" />
+              </div>
+              <span class="field-hint">Enter 10-digit Indian mobile number (without 0 or +91)</span>
               <span class="field-error" id="phoneError"></span>
             </div>
             <!-- Quiz ID (QUID) -->
@@ -146,25 +151,13 @@
               </select>
               <span class="field-error" id="sectionError"></span>
             </div>
-            <!-- Number of Questions -->
-            <div class="form-group">
-              <label>🎯 Number of Questions <span class="required">*</span></label>
-              <div class="radio-group">
-                <label class="radio-label">
-                  <input type="radio" name="numQuestions" value="10" /> <span>10</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="numQuestions" value="20" /> <span>20</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="numQuestions" value="30" /> <span>30</span>
-                </label>
-                <label class="radio-label">
-                  <input type="radio" name="numQuestions" value="all" checked /> <span>All</span>
-                </label>
-              </div>
+
+            <!-- Quiz Info Notice -->
+            <div class="alert alert-info" style="margin-bottom:1rem;">
+              📋 <strong>Quiz Format:</strong> 100 random questions from <strong>HTML &amp; CSS</strong> (Unit I &amp; Unit II). Time limit: <strong>100 minutes</strong>. Passing marks: <strong>40%</strong>.
             </div>
-            <button type="submit" class="btn btn-primary btn-full register-btn">Continue to Subject Selection →</button>
+
+            <button type="button" id="btnStartQuizDirect" class="btn btn-primary btn-full register-btn">🚀 Start Quiz Now</button>
           </form>
         </div>
 
@@ -172,51 +165,7 @@
     </section>
 
     <!-- ──────────────────────────────────────
-         SCREEN 2 · SUBJECT / UNIT / TOPIC
-    ─────────────────────────────────────── -->
-    <section id="screen-subject" class="screen">
-      <div class="card form-card">
-        <div class="card-header">
-          <h2>📚 Subject &amp; Topic Selection</h2>
-          <p id="subjectGreeting"></p>
-        </div>
-
-        <!-- Subject label (fixed) -->
-        <div class="subject-badge">
-          <span class="badge">Subject: Front-End Web Development</span>
-        </div>
-
-        <!-- Unit selector -->
-        <div class="form-group">
-          <label for="unitSelect">Select Unit</label>
-          <select id="unitSelect">
-            <option value="">— Choose a Unit —</option>
-            <option value="unit1">Unit I — HTML and Web Fundamentals</option>
-            <option value="unit2">Unit II — CSS and Responsive Web Design</option>
-          </select>
-        </div>
-
-        <!-- Topic selector -->
-        <div class="form-group" id="topicGroup" style="display:none">
-          <label for="topicSelect">Select Topic</label>
-          <select id="topicSelect">
-            <option value="">— Choose a Topic —</option>
-          </select>
-        </div>
-
-        <div id="noQuestionsMsg" class="alert alert-warn" style="display:none">
-          ⚠️ No questions available for this topic yet. Please select another topic.
-        </div>
-
-        <div class="btn-row">
-          <button id="btnBackToDetails" class="btn btn-secondary">← Back</button>
-          <button id="btnStartQuiz" class="btn btn-primary" disabled>Start Quiz 🚀</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ──────────────────────────────────────
-         SCREEN 3 · QUIZ
+         SCREEN 2 · QUIZ
     ─────────────────────────────────────── -->
     <section id="screen-quiz" class="screen">
       <!-- Quiz top bar -->
@@ -227,7 +176,7 @@
             <span>Prof. Ankush (CSE)</span>
           </span>
           <span id="quizMetaName" class="meta-chip">👤</span>
-          <span id="quizMetaTopic" class="meta-chip">📖</span>
+          <span id="quizMetaTopic" class="meta-chip">📖 HTML &amp; CSS — 100 Questions</span>
         </div>
         <div class="quiz-timer-wrap">
           <div id="timerDisplay" class="timer">⏱ 00:00</div>
@@ -248,7 +197,7 @@
         <!-- Question panel -->
         <div class="question-panel">
           <div class="question-header">
-            <span id="questionCount" class="question-count">Question 1 of 10</span>
+            <span id="questionCount" class="question-count">Question 1 of 100</span>
             <span id="markBadge" class="mark-badge hidden">🔖 Marked</span>
           </div>
           <p id="questionText" class="question-text"></p>
@@ -280,9 +229,11 @@
     </section>
 
     <!-- ──────────────────────────────────────
-         SCREEN 4 · RESULT
+         SCREEN 3 · RESULT
     ─────────────────────────────────────── -->
     <section id="screen-result" class="screen">
+      <!-- Confetti celebration effect container -->
+      <div id="confettiContainer" class="confetti-container" aria-hidden="true"></div>
 
       <!-- Score card -->
       <div class="card result-card">
@@ -318,8 +269,7 @@
               <tr><th>Student</th><td id="rStudentName">—</td></tr>
               <tr><th>Quiz ID (QUID)</th><td id="rQuid">—</td></tr>
               <tr><th>Section</th><td id="rSection">—</td></tr>
-              <tr><th>Subject</th><td>Front-End Web Development</td></tr>
-              <tr><th>Unit / Topic</th><td id="rTopic">—</td></tr>
+              <tr><th>Subject</th><td id="rSubject">Front-End Web Development (HTML &amp; CSS)</td></tr>
               <tr><th>Total Questions</th><td id="rTotal">—</td></tr>
               <tr><th>✅ Correct</th><td id="rCorrect" class="correct-text">—</td></tr>
               <tr><th>❌ Incorrect</th><td id="rIncorrect" class="incorrect-text">—</td></tr>
@@ -332,15 +282,16 @@
 
         <!-- Action buttons -->
         <div class="result-actions">
-          <button id="btnWhatsApp" class="btn btn-whatsapp">💬 Send Result to Professor WhatsApp (+91 9568326772)</button>
-          <button id="btnPrint" class="btn btn-secondary">🖨️ Print Result</button>
-          <button id="btnDownload" class="btn btn-secondary">⬇️ Download Result</button>
-          <button id="btnRetry" class="btn btn-primary">🔄 Retry Quiz</button>
+          <button id="btnWhatsApp" class="btn btn-whatsapp">💬 Send Result to Professor (+91 9568326772)</button>
+          <button id="btnPrint" class="btn btn-secondary">🖨️ Print / Save Result (PDF)</button>
+          <button id="btnDownloadJSON" class="btn btn-secondary">💾 Download Result (JSON)</button>
+          <button id="btnDownload" class="btn btn-secondary">⬇️ Download Result (TXT)</button>
+          <button id="btnRetry" class="btn btn-primary">🔄 Try Again</button>
         </div>
 
         <!-- WhatsApp note -->
         <div class="alert alert-info whatsapp-note">
-          ℹ️ <strong>Note:</strong> Result submit hone par student details (Name, QUID, Section) ke saath Professor ke WhatsApp (<strong>+91 9568326772</strong>) par message draft ho jayega. Student WhatsApp open hone par <strong>Send</strong> click karke deliver karega. "Print Result" button se result print bhi kar sakte hain.
+          ℹ️ <strong>Note:</strong> Submit ke baad result automatically Professor ke WhatsApp (<strong>+91 9568326772</strong>) par bheja jayega. WhatsApp open hone par <strong>Send</strong> click karein.
         </div>
       </div>
 
@@ -350,6 +301,139 @@
         <div id="reviewList"></div>
       </div>
 
+    </section>
+
+    <!-- ──────────────────────────────────────
+         SCREEN 4 · PROFESSOR ADMIN DASHBOARD & SPREADSHEET
+    ─────────────────────────────────────── -->
+    <section id="screen-admin" class="screen">
+      <div class="admin-dashboard-container">
+        
+        <!-- Header Card with Instructor & Actions -->
+        <div class="admin-header-card">
+          <div class="admin-header-titles">
+            <div class="admin-avatar-wrap">
+              <img src="profile.png" alt="Mr. Ankush" class="admin-avatar-img" />
+            </div>
+            <div class="admin-title-text">
+              <h2>
+                CrazyCoding Quiz — Professor Admin Dashboard
+                <span class="admin-badge-role">🔒 Professor Only</span>
+              </h2>
+              <p>Evaluator: <strong>Mr. Ankush</strong> (Assistant Professor, CSE) | 📞 +91 9568326772</p>
+            </div>
+          </div>
+          
+          <div class="admin-toolbar-actions">
+            <button id="btnAdminGoStudent" class="btn btn-outline" title="Return to Student Quiz Mode">🏠 Student View</button>
+            <button id="btnAdminExportJSON" class="btn btn-blue" title="Download all student data as JSON file">💾 Export JSON</button>
+            <button id="btnAdminExportCSV" class="btn btn-primary" title="Download Excel / CSV spreadsheet">📥 Export Excel (CSV)</button>
+            <button id="btnAdminViewJSON" class="btn btn-outline" title="View & Copy Raw JSON Data">📋 View JSON</button>
+            <button id="btnAdminImportJSON" class="btn btn-outline" title="Upload and merge student JSON file">📤 Import JSON</button>
+            <input type="file" id="adminJsonFileInput" accept=".json" style="display:none;" />
+            <button id="btnAdminPrintSheet" class="btn btn-outline" title="Print this Spreadsheet">🖨️ Print</button>
+            <button id="btnAdminOpenSyncModal" class="btn btn-outline" title="Google Sheets Online Cloud Sync">🌐 Cloud Sync</button>
+            <button id="btnAdminAddDemo" class="btn btn-outline" title="Add Demo Student Row for Preview">➕ Demo</button>
+            <button id="btnAdminClearAll" class="btn btn-danger" title="Clear All Records">🗑️ Clear</button>
+            <button id="btnAdminChangePin" class="btn btn-outline" title="Change Admin PIN">🔑 PIN</button>
+            <button id="btnAdminLogout" class="btn btn-danger" title="Lock Dashboard and Return to Student View">🔒 Logout</button>
+          </div>
+        </div>
+
+        <!-- Real-time Stats Cards -->
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card stat-blue">
+            <span class="admin-stat-label">Total Submissions</span>
+            <span id="adminStatTotal" class="admin-stat-number">0</span>
+            <span class="admin-stat-desc">All registered attempts</span>
+          </div>
+          <div class="admin-stat-card stat-green">
+            <span class="admin-stat-label">Passed (≥ 40%)</span>
+            <span id="adminStatPassed" class="admin-stat-number" style="color:var(--clr-success);">0</span>
+            <span id="adminStatPassRate" class="admin-stat-desc">Pass Rate: 0%</span>
+          </div>
+          <div class="admin-stat-card stat-red">
+            <span class="admin-stat-label">Failed (&lt; 40%)</span>
+            <span id="adminStatFailed" class="admin-stat-number" style="color:var(--clr-danger);">0</span>
+            <span id="adminStatFailRate" class="admin-stat-desc">Fail Rate: 0%</span>
+          </div>
+          <div class="admin-stat-card stat-purple">
+            <span class="admin-stat-label">Average Score</span>
+            <span id="adminStatAvgScore" class="admin-stat-number">0%</span>
+            <span id="adminStatSectionCounts" class="admin-stat-desc">I: 0 | J: 0 | L: 0</span>
+          </div>
+        </div>
+
+        <!-- Search & Filter Controls -->
+        <div class="admin-filter-card">
+          <div class="admin-filter-group">
+            <input type="text" id="adminSearchInput" class="admin-search-input" placeholder="🔍 Search by Student Name, QUID, or Phone..." />
+            
+            <select id="adminSectionFilter" class="admin-select">
+              <option value="ALL">🏛️ All Sections (I, J, L)</option>
+              <option value="I">Section I</option>
+              <option value="J">Section J</option>
+              <option value="L">Section L</option>
+            </select>
+
+            <select id="adminStatusFilter" class="admin-select">
+              <option value="ALL">🎯 All Statuses</option>
+              <option value="PASSED">✅ PASSED Only</option>
+              <option value="FAILED">❌ FAILED Only</option>
+            </select>
+
+            <select id="adminSortBy" class="admin-select">
+              <option value="newest">⏱️ Newest First</option>
+              <option value="scoreHigh">📈 Highest Score</option>
+              <option value="scoreLow">📉 Lowest Score</option>
+              <option value="nameAZ">🔤 Name (A - Z)</option>
+            </select>
+          </div>
+
+          <div>
+            <span id="adminRecordCountNotice" style="font-size:0.85rem; color:var(--clr-text-muted); font-weight:700;">
+              Showing 0 records
+            </span>
+          </div>
+        </div>
+
+        <!-- Spreadsheet Grid Table -->
+        <div class="admin-table-card">
+          <div class="admin-table-wrap">
+            <table class="admin-spreadsheet" id="adminSpreadsheetTable">
+              <thead>
+                <tr>
+                  <th style="width:45px; text-align:center;">#</th>
+                  <th>Date &amp; Time</th>
+                  <th>Quiz ID (QUID)</th>
+                  <th>Student Name</th>
+                  <th style="text-align:center;">Section</th>
+                  <th>WhatsApp Phone</th>
+                  <th>Score (/100)</th>
+                  <th>Percentage</th>
+                  <th style="text-align:center;">Status</th>
+                  <th>Time Taken</th>
+                  <th style="text-align:center;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody">
+                <!-- Dynamically injected -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty Notice -->
+          <div id="adminEmptyNotice" class="empty-state" style="display:none; padding:3rem 1.5rem; text-align:center;">
+            <div style="font-size:3rem; margin-bottom:0.8rem;">📋</div>
+            <div style="font-size:1.15rem; font-weight:700; margin-bottom:0.4rem;">No Quiz Submissions Yet</div>
+            <p style="color:var(--clr-text-muted); margin-bottom:1rem; font-size:0.9rem;">
+              Students will take their 100-question HTML &amp; CSS quiz and their results will immediately appear in this live table.
+            </p>
+            <button id="btnAdminEmptyAddDemo" class="btn btn-primary">➕ Add Demo Student Submission</button>
+          </div>
+        </div>
+
+      </div>
     </section>
 
   </main>
@@ -370,7 +454,9 @@
         <span class="footer-chip">📞 Contact: +91 9568326772</span>
       </div>
       <p class="footer-credit">
-        Designed by <strong>Mr. Ankush</strong> — Assistant Professor in Computer Science & Engineering
+        Designed by <strong>Mr. Ankush</strong> — Assistant Professor in Computer Science &amp; Engineering
+        &nbsp;|&nbsp;
+        <button type="button" id="footerAdminBtn" class="footer-admin-link" style="background:none; border:none; cursor:pointer; color:inherit; opacity:0.5; font-size:0.8rem; letter-spacing:0.3px;">🔒 Admin Login</button>
       </p>
       <p class="footer-quote">
         <em>"Better Developers Build a Brighter Future 😊"</em>
@@ -386,6 +472,90 @@
       <div class="btn-row">
         <button id="btnModalCancel" class="btn btn-secondary">Cancel</button>
         <button id="btnModalConfirm" class="btn btn-danger">Yes, Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       ADMIN LOGIN MODAL (ON-PAGE SECURITY PIN GATE)
+  ════════════════════════════════════════════════ -->
+  <div id="adminLoginModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="admin-login-box">
+      <div class="admin-login-icon">🔒</div>
+      <h3 style="font-size:1.3rem; margin-bottom:0.4rem;">Professor Admin Login</h3>
+      <p style="font-size:0.85rem; color:var(--clr-text-muted);">
+        Evaluator: <strong>Mr. Ankush</strong> (Asst. Professor, CSE)<br>
+        Admin Dashboard open karne ke liye apna 4-digit PIN enter karein:
+      </p>
+      
+      <form id="adminLoginForm">
+        <div class="admin-login-pin-wrap">
+          <input type="password" id="adminLoginPinInput" class="admin-pin-field" placeholder="••••" maxlength="10" autofocus autocomplete="current-password" />
+          <button type="button" id="btnAdminTogglePin" class="admin-pin-eye-btn" title="Show/Hide PIN">👁️</button>
+        </div>
+        <div id="adminLoginErrorMsg" class="admin-login-err"></div>
+        <div style="display:flex; flex-direction:column; gap:0.6rem;">
+          <button type="submit" class="btn btn-primary btn-full" style="font-size:1rem; padding:0.75rem;">🔓 Unlock Admin Dashboard</button>
+          <button type="button" id="btnAdminLoginCancel" class="btn btn-secondary btn-full">Cancel</button>
+        </div>
+      </form>
+      <div style="margin-top:1rem; font-size:0.78rem; color:var(--clr-text-muted);">
+        Default Admin PIN: <code style="background:var(--clr-surface2); padding:2px 6px; border-radius:4px; font-weight:700;">9568</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       RAW JSON VIEWER MODAL
+  ════════════════════════════════════════════════ -->
+  <div id="adminJsonModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width:680px;">
+      <div class="modal-header" style="background:#1e293b; color:#fff; padding:1rem 1.2rem; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:1.15rem; font-weight:700;">💾 All Student Data (JSON Format)</h3>
+        <button id="btnCloseAdminJsonModal" class="modal-close" style="color:#fff; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:1.2rem;">
+        <p style="font-size:0.85rem; color:var(--clr-text-muted); margin-bottom:0.6rem;">
+          Ye poora student quiz data JSON format mein live store ho raha hai:
+        </p>
+        <pre id="adminRawJsonBox" style="background:#1e293b; color:#f8fafc; font-family:monospace; font-size:0.8rem; padding:0.8rem; border-radius:6px; overflow-x:auto; max-height:360px; white-space:pre-wrap;"></pre>
+      </div>
+      <div class="modal-footer" style="padding:0.8rem 1.2rem; border-top:1px solid var(--clr-border); display:flex; justify-content:flex-end; gap:0.6rem;">
+        <button id="btnAdminCopyJson" class="btn btn-blue">📋 Copy JSON</button>
+        <button id="btnAdminDownloadJsonFile" class="btn btn-primary">💾 Download JSON File</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       GOOGLE SHEETS CLOUD SYNC MODAL
+  ════════════════════════════════════════════════ -->
+  <div id="adminSyncModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width:640px;">
+      <div class="modal-header" style="background:var(--clr-primary); color:#fff; padding:1rem 1.2rem; display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:1.15rem; font-weight:700;">🌐 Google Sheets Online Cloud Sync</h3>
+        <button id="btnCloseAdminSyncModal" class="modal-close" style="color:#fff; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+      </div>
+      <div class="modal-body" style="padding:1.2rem;">
+        <p style="font-size:0.88rem; color:var(--clr-text-muted); margin-bottom:1rem;">
+          Apni Google Sheet se connect karne ke 3 simple steps:
+        </p>
+        <div style="background:var(--clr-surface2); padding:0.8rem 1rem; border-radius:8px; border:1px solid var(--clr-border); margin-bottom:1rem;">
+          <strong style="color:var(--clr-primary); display:block; margin-bottom:4px;">Step 1: Blank Sheet Banayein</strong>
+          <span>Browser mein <a href="https://sheets.new" target="_blank" style="color:var(--clr-blue); font-weight:700;">sheets.new</a> open karke blank sheet banayein.</span>
+        </div>
+        <div style="background:var(--clr-surface2); padding:0.8rem 1rem; border-radius:8px; border:1px solid var(--clr-border); margin-bottom:1rem;">
+          <strong style="color:var(--clr-primary); display:block; margin-bottom:4px;">Step 2: Apps Script Code Dalein</strong>
+          <span>Extensions &rarr; Apps Script par click karein aur project folder ki file <code>GoogleSheet_Code.gs</code> ka code wahan paste karein.</span>
+        </div>
+        <div style="background:var(--clr-surface2); padding:0.8rem 1rem; border-radius:8px; border:1px solid var(--clr-border);">
+          <strong style="color:var(--clr-primary); display:block; margin-bottom:4px;">Step 3: Web App Deploy Karein</strong>
+          <span style="font-size:0.82rem; display:block; margin-bottom:6px;">Deploy &rarr; New deployment &rarr; Web app (Access: Anyone). URL yahan paste karein:</span>
+          <input type="url" id="adminGoogleSheetUrlInput" class="admin-search-input" style="width:100%;" placeholder="https://script.google.com/macros/s/AKfycb.../exec" />
+        </div>
+      </div>
+      <div class="modal-footer" style="padding:0.8rem 1.2rem; border-top:1px solid var(--clr-border); display:flex; justify-content:flex-end; gap:0.6rem;">
+        <button id="btnAdminSaveSheetUrl" class="btn btn-primary">💾 Save Cloud URL</button>
       </div>
     </div>
   </div>

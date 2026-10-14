@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔐 CrazyCoding Quiz — Professor Admin Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>" />
+  <style>
+    :root {
+      --primary: #0f9d58;
+      --primary-dark: #0b8043;
+      --primary-light: #e6f4ea;
+      --accent: #1e88e5;
+      --dark: #202124;
+      --gray-50: #f8f9fa;
+      --gray-100: #f1f3f4;
+      --gray-200: #e8eaed;
+      --gray-300: #dadce0;
+      --gray-600: #5f6368;
+      --gray-700: #3c4043;
+      --success: #137333;
+      --success-bg: #e6f4ea;
+      --danger: #c5221f;
+      --danger-bg: #fce8e6;
+      --radius: 8px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font);
+      background: #f8f9fa;
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Sheet Navbar */
+    .sheet-navbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--gray-300);
+      padding: 0.6rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .sheet-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .sheet-icon-wrap {
+      width: 40px;
+      height: 40px;
+      background: var(--primary-light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--primary);
+      border: 1px solid rgba(15,157,88,0.2);
+    }
+    .sheet-heading {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sheet-badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: #fef3c7;
+      color: #b45309;
+      font-weight: 700;
+      border: 1px solid rgba(180,83,9,0.2);
+    }
+    .sheet-subheading {
+      font-size: 0.82rem;
+      color: var(--gray-600);
+    }
+
+    .sheet-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-outline { background: #fff; border-color: var(--gray-300); color: var(--gray-700); }
+    .btn-outline:hover { background: var(--gray-100); border-color: var(--gray-600); }
+    .btn-blue { background: var(--accent); color: #fff; }
+    .btn-blue:hover { background: #1565c0; }
+    .btn-danger { background: #fff; border-color: #f87171; color: #dc2626; }
+    .btn-danger:hover { background: #fee2e2; }
+    .btn-full { width: 100%; justify-content: center; padding: 0.7rem; }
+
+    /* Main Container */
+    .sheet-container {
+      max-width: 1400px;
+      margin: 1.2rem auto;
+      padding: 0 1rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Stats Overview Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+    .stat-card {
+      background: #ffffff;
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .stat-card.stat-green { border-left: 4px solid var(--primary); }
+    .stat-card.stat-blue { border-left: 4px solid var(--accent); }
+    .stat-card.stat-red { border-left: 4px solid var(--danger); }
+    .stat-card.stat-purple { border-left: 4px solid #8b5cf6; }
+
+    .stat-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+      color: var(--gray-600);
+    }
+    .stat-val { font-size: 1.7rem; font-weight: 800; color: var(--dark); }
+    .stat-sub { font-size: 0.78rem; color: var(--gray-600); }
+
+    /* Controls Bar */
+    .controls-card {
+      background: #ffffff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+    .search-filter-group {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .search-input {
+      padding: 0.45rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--gray-300);
+      font-size: 0.85rem;
+      min-width: 240px;
+      outline: none;
+      font-family: inherit;
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(15,157,88,0.2);
+    }
+    .filter-select {
+      padding: 0.45rem 0.8rem;
+      border-radius: 6px;
+      border: 1px solid var(--gray-300);
+      font-size: 0.85rem;
+      background: #fff;
+      color: var(--gray-700);
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* Table */
+    .table-card {
+      background: #ffffff;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .table-responsive { width: 100%; overflow-x: auto; }
+    table.spreadsheet-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+    table.spreadsheet-table th {
+      background: #f1f3f4;
+      color: var(--gray-700);
+      font-weight: 700;
+      text-align: left;
+      padding: 0.65rem 0.9rem;
+      border-bottom: 2px solid var(--gray-300);
+      border-right: 1px solid var(--gray-200);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    table.spreadsheet-table td {
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid var(--gray-200);
+      border-right: 1px solid var(--gray-200);
+      vertical-align: middle;
+      color: var(--dark);
+    }
+    table.spreadsheet-table tr:hover td { background-color: #f8fafd; }
+
+    .row-index { font-weight: 700; color: var(--gray-600); text-align: center; width: 45px; background: #fafafa; }
+    .quid-badge { font-family: monospace; font-weight: 600; background: var(--gray-100); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--gray-300); font-size: 0.82rem; }
+    .section-badge { font-weight: 700; padding: 3px 8px; border-radius: 6px; font-size: 0.78rem; display: inline-block; text-align: center; }
+    .section-I { background: #e0f2fe; color: #0369a1; }
+    .section-J { background: #fef3c7; color: #b45309; }
+    .section-L { background: #f3e8ff; color: #7e22ce; }
+
+    .status-badge { font-weight: 700; padding: 3px 9px; border-radius: 14px; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 4px; }
+    .status-pass { background: var(--success-bg); color: var(--success); border: 1px solid rgba(19, 115, 51, 0.25); }
+    .status-fail { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(197, 34, 31, 0.25); }
+
+    .phone-link { color: #059669; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+    .phone-link:hover { text-decoration: underline; }
+    .score-cell { font-weight: 700; }
+    .pct-bar-wrap { display: flex; align-items: center; gap: 6px; min-width: 90px; }
+    .pct-bar-track { flex: 1; height: 7px; background: var(--gray-200); border-radius: 4px; overflow: hidden; }
+    .pct-bar-fill { height: 100%; border-radius: 4px; }
+
+    .btn-delete { background: none; border: none; color: var(--gray-600); cursor: pointer; font-size: 0.95rem; padding: 4px 6px; border-radius: 4px; transition: all 0.15s; }
+    .btn-delete:hover { background: #fee2e2; color: #dc2626; }
+
+    .empty-state { padding: 3rem 1.5rem; text-align: center; color: var(--gray-600); }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+    .empty-state-title { font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 0.4rem; }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 640px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      animation: modalSlide 0.2s ease-out;
+    }
+    @keyframes modalSlide {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 { font-size: 1.15rem; font-weight: 700; }
+    .modal-close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+    .modal-body { padding: 1.2rem; max-height: 75vh; overflow-y: auto; }
+    .modal-step { margin-bottom: 1.2rem; background: var(--gray-50); padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--gray-200); }
+    .modal-step strong { display: block; color: var(--primary-dark); margin-bottom: 0.3rem; }
+    .code-box { background: #1e293b; color: #f8fafc; font-family: monospace; font-size: 0.8rem; padding: 0.8rem; border-radius: 6px; overflow-x: auto; margin-top: 0.4rem; white-space: pre-wrap; max-height: 180px; }
+    .modal-footer { padding: 0.8rem 1.2rem; border-top: 1px solid var(--gray-200); display: flex; justify-content: flex-end; gap: 0.6rem; background: #fafafa; }
+
+    /* ═══════════════════════════════════════════════
+       ADMIN SECURITY GATE OVERLAY
+    ════════════════════════════════════════════════ */
+    .gate-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1.5rem;
+    }
+    .gate-card {
+      background: #ffffff;
+      border-radius: 16px;
+      max-width: 440px;
+      width: 100%;
+      padding: 2.2rem;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      animation: modalSlide 0.3s ease-out;
+    }
+    .gate-icon {
+      width: 65px;
+      height: 65px;
+      background: #fef2f2;
+      border: 2px solid #fecaca;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1.2rem auto;
+      color: #dc2626;
+    }
+    .gate-instructor {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #f1f5f9;
+      padding: 6px 14px;
+      border-radius: 30px;
+      margin-bottom: 1rem;
+      font-size: 0.82rem;
+      color: #334155;
+    }
+    .gate-instructor img {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .gate-card h2 {
+      font-size: 1.4rem;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+    .gate-card p {
+      font-size: 0.88rem;
+      color: #64748b;
+      margin-bottom: 1.4rem;
+      line-height: 1.45;
+    }
+    .pin-input-wrap {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    .pin-input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      padding-right: 3rem;
+      font-size: 1.2rem;
+      text-align: center;
+      letter-spacing: 4px;
+      border: 2px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .pin-input:focus {
+      border-color: #0f9d58;
+      box-shadow: 0 0 0 3px rgba(15, 157, 88, 0.2);
+    }
+    .pin-toggle-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #64748b;
+    }
+    .gate-error {
+      color: #dc2626;
+      font-size: 0.85rem;
+      font-weight: 600;
+      min-height: 1.2em;
+      margin-bottom: 0.8rem;
+    }
+    .gate-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .gate-hint {
+      margin-top: 1.2rem;
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+    .gate-hint code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    @media print {
+      .sheet-navbar, .controls-card, .btn, .sheet-nav-actions, th:last-child, td:last-child, .gate-overlay {
+        display: none !important;
+      }
+      body { background: #fff; }
+      .sheet-container { max-width: 100%; margin: 0; padding: 0; }
+      .table-card { border: none; box-shadow: none; }
+      table.spreadsheet-table th, table.spreadsheet-table td {
+        border: 1px solid #000 !important;
+        font-size: 9pt;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       ADMIN SECURITY PIN GATE OVERLAY
+  ════════════════════════════════════════════════ -->
+  <div id="adminGateOverlay" class="gate-overlay">
+    <div class="gate-card">
+      <div class="gate-icon">🔒</div>
+      <div class="gate-instructor">
+        <img src="profile.png" alt="Mr. Ankush" />
+        <span><strong>Mr. Ankush</strong> — Asst. Professor, CSE</span>
+      </div>
+      <h2>Professor Admin Portal</h2>
+      <p>Ye interface strictly <strong>Professor</strong> ke liye hai taaki students dusre students ke marks ya phone numbers na dekh sakein. Apna PIN enter karein:</p>
+      
+      <form id="gateForm">
+        <div class="pin-input-wrap">
+          <input type="password" id="gatePinInput" class="pin-input" placeholder="••••" maxlength="10" autofocus autocomplete="current-password" />
+          <button type="button" id="btnTogglePinView" class="pin-toggle-btn" title="Show/Hide PIN">👁️</button>
+        </div>
+        <div id="gateErrorMsg" class="gate-error"></div>
+        <div class="gate-actions">
+          <button type="submit" class="btn btn-primary btn-full" style="font-size:1rem; padding:0.75rem;">🔓 Unlock Dashboard</button>
+          <a href="index.html" class="btn btn-outline btn-full">🏠 Go to Student Quiz Portal</a>
+        </div>
+      </form>
+      <div class="gate-hint">
+        Default Admin PIN: <code>9568</code> (Changeable inside)
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       SHEET TOP BAR (AUTHENTICATED ONLY)
+  ════════════════════════════════════════════════ -->
+  <header class="sheet-navbar">
+    <div class="sheet-title-group">
+      <div class="sheet-icon-wrap">📊</div>
+      <div>
+        <div class="sheet-heading">
+          CrazyCoding Quiz — Professor Admin Dashboard
+          <span class="sheet-badge">🔒 Professor Only</span>
+        </div>
+        <div class="sheet-subheading">
+          Evaluator: <strong>Mr. Ankush</strong> (Assistant Professor, CSE) &nbsp;|&nbsp; 📞 +91 9568326772
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet-nav-actions">
+      <a href="index.html" class="btn btn-outline" title="Back to Quiz Portal">🏠 Quiz Portal</a>
+      <button id="btnExportJSON" class="btn btn-blue" title="Download all student data as JSON file">💾 Export JSON</button>
+      <button id="btnExportCSV" class="btn btn-primary" title="Download Excel / CSV file">📥 Export Excel (CSV)</button>
+      <button id="btnViewJSON" class="btn btn-outline" title="View & Copy Raw JSON Data">📋 View JSON</button>
+      <button id="btnImportJSON" class="btn btn-outline" title="Import JSON data">📤 Import JSON</button>
+      <input type="file" id="jsonFileInput" accept=".json" style="display:none;" />
+      <button id="btnPrintSheet" class="btn btn-outline" title="Print this Spreadsheet">🖨️ Print</button>
+      <button id="btnOpenSyncModal" class="btn btn-outline" title="Configure Live Google Sheets Cloud Sync">🌐 Cloud Sync</button>
+      <button id="btnAddSample" class="btn btn-outline" title="Add Demo Student Row for Preview">➕ Demo</button>
+      <button id="btnClearAll" class="btn btn-danger" title="Clear All Records">🗑️ Clear</button>
+      <button id="btnChangePin" class="btn btn-outline" title="Change Admin PIN">🔑 PIN</button>
+      <button id="btnLockAdmin" class="btn btn-danger" title="Lock Dashboard and Exit">🔒 Logout</button>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════
+       MAIN SPREADSHEET CONTENT
+  ════════════════════════════════════════════════ -->
+  <main class="sheet-container">
+
+    <!-- Stats Overview Cards -->
+    <section class="stats-grid">
+      <div class="stat-card stat-blue">
+        <span class="stat-title">Total Submissions</span>
+        <span id="statTotal" class="stat-val">0</span>
+        <span class="stat-sub">All registered attempts</span>
+      </div>
+      <div class="stat-card stat-green">
+        <span class="stat-title">Passed (≥ 40%)</span>
+        <span id="statPassed" class="stat-val" style="color:var(--success);">0</span>
+        <span id="statPassRate" class="stat-sub">Pass Rate: 0%</span>
+      </div>
+      <div class="stat-card stat-red">
+        <span class="stat-title">Failed (&lt; 40%)</span>
+        <span id="statFailed" class="stat-val" style="color:var(--danger);">0</span>
+        <span id="statFailRate" class="stat-sub">Fail Rate: 0%</span>
+      </div>
+      <div class="stat-card stat-purple">
+        <span class="stat-title">Average Score</span>
+        <span id="statAvgScore" class="stat-val">0%</span>
+        <span id="statSectionCounts" class="stat-sub">I: 0 | J: 0 | L: 0</span>
+      </div>
+    </section>
+
+    <!-- Search & Filters -->
+    <section class="controls-card">
+      <div class="search-filter-group">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search by Name, QUID, or Phone..." />
+        
+        <select id="sectionFilter" class="filter-select">
+          <option value="ALL">🏛️ All Sections (I, J, L)</option>
+          <option value="I">Section I</option>
+          <option value="J">Section J</option>
+          <option value="L">Section L</option>
+        </select>
+
+        <select id="statusFilter" class="filter-select">
+          <option value="ALL">🎯 All Statuses</option>
+          <option value="PASSED">✅ PASSED Only</option>
+          <option value="FAILED">❌ FAILED Only</option>
+        </select>
+
+        <select id="sortBy" class="filter-select">
+          <option value="newest">⏱️ Newest First</option>
+          <option value="scoreHigh">📈 Highest Score</option>
+          <option value="scoreLow">📉 Lowest Score</option>
+          <option value="nameAZ">🔤 Name (A - Z)</option>
+        </select>
+      </div>
+
+      <div>
+        <span id="recordCountNotice" style="font-size:0.85rem; color:var(--gray-600); font-weight:600;">
+          Showing 0 records
+        </span>
+      </div>
+    </section>
+
+    <!-- Spreadsheet Grid Table -->
+    <section class="table-card">
+      <div class="table-responsive">
+        <table class="spreadsheet-table" id="spreadsheetTable">
+          <thead>
+            <tr>
+              <th style="width:45px; text-align:center;">#</th>
+              <th>Date &amp; Time</th>
+              <th>Quiz ID (QUID)</th>
+              <th>Student Name</th>
+              <th style="text-align:center;">Section</th>
+              <th>WhatsApp Phone</th>
+              <th>Score (/100)</th>
+              <th>Percentage</th>
+              <th style="text-align:center;">Status</th>
+              <th>Time Taken</th>
+              <th style="text-align:center;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Dynamically injected -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Empty Notice -->
+      <div id="emptyNotice" class="empty-state" style="display:none;">
+        <div class="empty-state-icon">📋</div>
+        <div class="empty-state-title">No Quiz Submissions Yet</div>
+        <p style="margin-bottom:1rem; font-size:0.9rem;">
+          Students will submit their 100-question HTML &amp; CSS quiz and their results will immediately appear in this spreadsheet.
+        </p>
+        <button id="btnEmptyAddDemo" class="btn btn-primary">➕ Add Demo Student Submission</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       GOOGLE SHEETS CLOUD SYNC MODAL
+  ════════════════════════════════════════════════ -->
+  <div id="syncModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>🌐 Google Sheets Online Cloud Sync</h3>
+        <button id="btnCloseModal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.9rem; color:var(--gray-700); margin-bottom:1rem;">
+          Apni Google Sheet se connect karne ke 3 simple steps:
+        </p>
+
+        <div class="modal-step">
+          <strong>Step 1: Nayi Google Sheet banayein</strong>
+          <span>Google Drive ya <a href="https://sheets.new" target="_blank" style="color:var(--accent); font-weight:700;">sheets.new</a> par jakar ek blank sheet banayein.</span>
+        </div>
+
+        <div class="modal-step">
+          <strong>Step 2: Google Apps Script paste karein</strong>
+          <span>Sheet mein upar <strong>Extensions &rarr; Apps Script</strong> par click karein. Neeche diya gaya code copy karke wahan paste kar dein:</span>
+          <div style="margin-top:0.5rem; display:flex; justify-content:space-between; align-items:center;">
+            <button id="btnCopyScriptCode" class="btn btn-outline" style="font-size:0.75rem;">📋 Copy Apps Script Code</button>
+            <span id="copySuccessMsg" style="font-size:0.75rem; color:var(--success); font-weight:600; display:none;">Copied!</span>
+          </div>
+          <pre class="code-box" id="scriptCodePreview">// Loading script code...</pre>
+        </div>
+
+        <div class="modal-step">
+          <strong>Step 3: Web App Deploy karein aur URL yahan save karein</strong>
+          <span>Apps Script mein <strong>Deploy &rarr; New deployment &rarr; Web app</strong>:</span>
+          <ul style="margin-left:1.2rem; font-size:0.82rem; margin-top:0.3rem;">
+            <li>Execute as: <strong>Me</strong></li>
+            <li>Who has access: <strong>Anyone</strong></li>
+          </ul>
+          <div style="margin-top:0.8rem;">
+            <label style="font-size:0.82rem; font-weight:700; color:var(--dark); display:block; margin-bottom:4px;">
+              Paste Google Web App URL:
+            </label>
+            <input type="url" id="inputGoogleSheetUrl" class="search-input" style="width:100%;" placeholder="https://script.google.com/macros/s/AKfycb.../exec" />
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnSaveSheetUrl" class="btn btn-primary">💾 Save Cloud URL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       RAW JSON VIEWER MODAL
+  ════════════════════════════════════════════════ -->
+  <div id="jsonModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header" style="background:#1e293b;">
+        <h3>💾 All Student Data (JSON Format)</h3>
+        <button id="btnCloseJsonModal" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem; color:var(--gray-600); margin-bottom:0.6rem;">
+          Ye poora student quiz data JSON format mein live store ho raha hai. Aap isse copy ya direct download kar sakte hain:
+        </p>
+        <pre class="code-box" id="rawJsonBox" style="max-height:360px; font-size:0.8rem;"></pre>
+      </div>
+      <div class="modal-footer">
+        <button id="btnCopyJsonData" class="btn btn-blue">📋 Copy JSON</button>
+        <button id="btnDownloadJsonFromModal" class="btn btn-primary">💾 Download JSON File</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    const STORAGE_KEY = 'crazycoding_quiz_submissions';
+    const URL_STORAGE_KEY = 'crazycoding_google_sheet_url';
+    const PIN_STORAGE_KEY = 'crazycoding_admin_pin';
+    const AUTH_SESSION_KEY = 'crazycoding_admin_auth';
+    const DEFAULT_PIN = '9568'; // Default Admin PIN: 9568
+
+    // State
+    let submissions = [];
+
+    // Security Elements
+    const adminGateOverlay = document.getElementById('adminGateOverlay');
+    const gateForm = document.getElementById('gateForm');
+    const gatePinInput = document.getElementById('gatePinInput');
+    const btnTogglePinView = document.getElementById('btnTogglePinView');
+    const gateErrorMsg = document.getElementById('gateErrorMsg');
+    const btnLockAdmin = document.getElementById('btnLockAdmin');
+    const btnChangePin = document.getElementById('btnChangePin');
+
+    // DOM Elements
+    const tableBody = document.getElementById('tableBody');
+    const emptyNotice = document.getElementById('emptyNotice');
+    const searchInput = document.getElementById('searchInput');
+    const sectionFilter = document.getElementById('sectionFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const sortBy = document.getElementById('sortBy');
+    const recordCountNotice = document.getElementById('recordCountNotice');
+
+    const statTotal = document.getElementById('statTotal');
+    const statPassed = document.getElementById('statPassed');
+    const statPassRate = document.getElementById('statPassRate');
+    const statFailed = document.getElementById('statFailed');
+    const statFailRate = document.getElementById('statFailRate');
+    const statAvgScore = document.getElementById('statAvgScore');
+    const statSectionCounts = document.getElementById('statSectionCounts');
+
+    // ───────────────────────────────────────────────
+    // SECURITY GATE LOGIC
+    // ───────────────────────────────────────────────
+    function getAdminPin() {
+      return localStorage.getItem(PIN_STORAGE_KEY) || DEFAULT_PIN;
+    }
+
+    function checkAuth() {
+      if (sessionStorage.getItem(AUTH_SESSION_KEY) === 'true') {
+        adminGateOverlay.style.display = 'none';
+        loadData();
+      } else {
+        adminGateOverlay.style.display = 'flex';
+        gatePinInput.value = '';
+        gatePinInput.focus();
+      }
+    }
+
+    gateForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entered = gatePinInput.value.trim();
+      const actualPin = getAdminPin();
+
+      if (entered === actualPin) {
+        sessionStorage.setItem(AUTH_SESSION_KEY, 'true');
+        gateErrorMsg.textContent = '';
+        adminGateOverlay.style.display = 'none';
+        loadData();
+      } else {
+        gateErrorMsg.textContent = '❌ Incorrect Admin PIN! Access Denied.';
+        gatePinInput.value = '';
+        gatePinInput.focus();
+      }
+    });
+
+    btnTogglePinView.addEventListener('click', () => {
+      if (gatePinInput.type === 'password') {
+        gatePinInput.type = 'text';
+        btnTogglePinView.textContent = '🙈';
+      } else {
+        gatePinInput.type = 'password';
+        btnTogglePinView.textContent = '👁️';
+      }
+    });
+
+    btnLockAdmin.addEventListener('click', () => {
+      sessionStorage.removeItem(AUTH_SESSION_KEY);
+      window.location.href = 'index.html';
+    });
+
+    btnChangePin.addEventListener('click', () => {
+      const current = prompt('Apna current PIN enter karein:');
+      if (current === null) return;
+      if (current !== getAdminPin()) {
+        alert('❌ Current PIN galat hai!');
+        return;
+      }
+      const newPin = prompt('Naya 4 to 8 digit PIN enter karein:');
+      if (!newPin || newPin.trim().length < 4) {
+        alert('❌ PIN kam se kam 4 characters ka hona chahiye!');
+        return;
+      }
+      localStorage.setItem(PIN_STORAGE_KEY, newPin.trim());
+      alert('✅ Admin PIN successfully change ho gaya hai! Naya PIN yaad rakhein.');
+    });
+
+    // ───────────────────────────────────────────────
+    // DATA HANDLING & RENDERING
+    // ───────────────────────────────────────────────
+    function loadData() {
+      try {
+        submissions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch (e) {
+        submissions = [];
+      }
+      render();
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
+      render();
+    }
+
+    function render() {
+      let filtered = [...submissions];
+
+      const q = searchInput.value.trim().toLowerCase();
+      if (q) {
+        filtered = filtered.filter(item => 
+          (item.name || '').toLowerCase().includes(q) ||
+          (item.quid || '').toLowerCase().includes(q) ||
+          (item.phone || '').toLowerCase().includes(q)
+        );
+      }
+
+      const sec = sectionFilter.value;
+      if (sec !== 'ALL') {
+        filtered = filtered.filter(item => (item.section || '').toUpperCase() === sec);
+      }
+
+      const st = statusFilter.value;
+      if (st !== 'ALL') {
+        filtered = filtered.filter(item => item.status === st);
+      }
+
+      const sortVal = sortBy.value;
+      if (sortVal === 'newest') {
+        filtered.sort((a, b) => (b.id || 0) - (a.id || 0));
+      } else if (sortVal === 'scoreHigh') {
+        filtered.sort((a, b) => (b.score || 0) - (a.score || 0));
+      } else if (sortVal === 'scoreLow') {
+        filtered.sort((a, b) => (a.score || 0) - (b.score || 0));
+      } else if (sortVal === 'nameAZ') {
+        filtered.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+      }
+
+      updateStats();
+
+      tableBody.innerHTML = '';
+      if (filtered.length === 0) {
+        emptyNotice.style.display = 'block';
+        recordCountNotice.textContent = 'Showing 0 records';
+        return;
+      }
+
+      emptyNotice.style.display = 'none';
+      recordCountNotice.textContent = `Showing ${filtered.length} of ${submissions.length} records`;
+
+      filtered.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        const isPass = row.status === 'PASSED';
+        const pctColor = isPass ? 'var(--primary)' : 'var(--danger)';
+
+        tr.innerHTML = `
+          <td class="row-index">${idx + 1}</td>
+          <td style="font-size:0.82rem; color:var(--gray-600);">${row.timestamp || '—'}</td>
+          <td><span class="quid-badge">${escapeHtml(row.quid || 'N/A')}</span></td>
+          <td><strong>${escapeHtml(row.name || 'Student')}</strong></td>
+          <td style="text-align:center;">
+            <span class="section-badge section-${row.section || 'I'}">Section ${row.section || 'I'}</span>
+          </td>
+          <td>
+            <a href="https://wa.me/${(row.phone || '').replace(/\D/g, '')}" target="_blank" class="phone-link" title="Chat with Student on WhatsApp">
+              💬 ${escapeHtml(row.phone || '—')}
+            </a>
+          </td>
+          <td class="score-cell">${row.score !== undefined ? row.score : '—'} / ${row.total || 100}</td>
+          <td>
+            <div class="pct-bar-wrap">
+              <span style="font-weight:700; font-size:0.82rem;">${row.percent || row.pct || 0}%</span>
+              <div class="pct-bar-track">
+                <div class="pct-bar-fill" style="width:${row.percent || row.pct || 0}%; background:${pctColor};"></div>
+              </div>
+            </div>
+          </td>
+          <td style="text-align:center;">
+            <span class="status-badge ${isPass ? 'status-pass' : 'status-fail'}">
+              ${isPass ? '✅ PASSED' : '❌ FAILED'}
+            </span>
+          </td>
+          <td style="font-size:0.82rem; color:var(--gray-600);">${row.timeTaken || '—'}</td>
+          <td style="text-align:center;">
+            <button class="btn-delete" title="Delete record" onclick="deleteRow(${row.id})">🗑️</button>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function updateStats() {
+      const total = submissions.length;
+      statTotal.textContent = total;
+
+      if (total === 0) {
+        statPassed.textContent = '0';
+        statPassRate.textContent = 'Pass Rate: 0%';
+        statFailed.textContent = '0';
+        statFailRate.textContent = 'Fail Rate: 0%';
+        statAvgScore.textContent = '0%';
+        statSectionCounts.textContent = 'I: 0 | J: 0 | L: 0';
+        return;
+      }
+
+      const passedCount = submissions.filter(s => s.status === 'PASSED').length;
+      const failedCount = total - passedCount;
+      const passRate = Math.round((passedCount / total) * 100);
+      const failRate = 100 - passRate;
+
+      const totalPct = submissions.reduce((sum, s) => sum + (s.percent || s.pct || 0), 0);
+      const avgScore = Math.round(totalPct / total);
+
+      const secI = submissions.filter(s => s.section === 'I').length;
+      const secJ = submissions.filter(s => s.section === 'J').length;
+      const secL = submissions.filter(s => s.section === 'L').length;
+
+      statPassed.textContent = passedCount;
+      statPassRate.textContent = `Pass Rate: ${passRate}%`;
+      statFailed.textContent = failedCount;
+      statFailRate.textContent = `Fail Rate: ${failRate}%`;
+      statAvgScore.textContent = avgScore + '%';
+      statSectionCounts.textContent = `I: ${secI} | J: ${secJ} | L: ${secL}`;
+    }
+
+    window.deleteRow = function(id) {
+      if (!confirm('Kya aap is student ka record delete karna chahte hain?')) return;
+      submissions = submissions.filter(s => s.id !== id);
+      saveData();
+    };
+
+    function addDemoStudent() {
+      const demoNames = ['Rahul Sharma', 'Priya Patel', 'Aman Verma', 'Sneha Gupta', 'Rohit Singh', 'Ananya Roy'];
+      const demoSections = ['I', 'J', 'L'];
+      const randName = demoNames[Math.floor(Math.random() * demoNames.length)];
+      const randSec = demoSections[Math.floor(Math.random() * demoSections.length)];
+      const randScore = Math.floor(Math.random() * 55) + 40;
+      const isPassed = randScore >= 40;
+      const randQuid = 'QUID-' + Math.floor(100 + Math.random() * 900);
+      const randPhone = '+91987' + Math.floor(1000000 + Math.random() * 9000000);
+
+      const newRecord = {
+        id: Date.now(),
+        timestamp: new Date().toLocaleString('en-IN', {
+          day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
+        }),
+        quid: randQuid,
+        name: randName,
+        section: randSec,
+        phone: randPhone,
+        subject: 'HTML & CSS',
+        score: randScore,
+        total: 100,
+        percent: randScore,
+        status: isPassed ? 'PASSED' : 'FAILED',
+        timeTaken: `${Math.floor(Math.random() * 40) + 20}m ${Math.floor(Math.random() * 60)}s`
+      };
+
+      submissions.unshift(newRecord);
+      saveData();
+    }
+
+    function clearAllRecords() {
+      if (submissions.length === 0) {
+        alert('Sheet already empty hai.');
+        return;
+      }
+      if (confirm('⚠️ Warning: Kya aap sach mein poori spreadsheet ka saara data clear karna chahte hain?')) {
+        submissions = [];
+        saveData();
+      }
+    }
+
+    function exportToCSV() {
+      if (submissions.length === 0) {
+        alert('Export karne ke liye koi data nahi hai!');
+        return;
+      }
+
+      const headers = ['Row Number', 'Date & Time', 'Quiz ID (QUID)', 'Student Name', 'Section', 'WhatsApp Phone', 'Subject', 'Score', 'Total Questions', 'Percentage', 'Status', 'Time Taken'];
+      const rows = [headers];
+
+      submissions.forEach((item, index) => {
+        rows.push([
+          index + 1,
+          `"${(item.timestamp || '').replace(/"/g, '""')}"`,
+          `"${(item.quid || '').replace(/"/g, '""')}"`,
+          `"${(item.name || '').replace(/"/g, '""')}"`,
+          `"${(item.section || '').replace(/"/g, '""')}"`,
+          `"${(item.phone || '').replace(/"/g, '""')}"`,
+          `"${(item.subject || 'HTML & CSS').replace(/"/g, '""')}"`,
+          item.score !== undefined ? item.score : 0,
+          item.total || 100,
+          `"${(item.percent || item.pct || 0)}%"`,
+          `"${(item.status || '').replace(/"/g, '""')}"`,
+          `"${(item.timeTaken || '').replace(/"/g, '""')}"`
+        ]);
+      });
+
+      const csvContent = '\uFEFF' + rows.map(e => e.join(',')).join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `CrazyCoding_Quiz_Spreadsheet_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(text) {
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return String(text).replace(/[&<>"']/g, m => map[m]);
+    }
+
+    // Cloud Sync Modal logic
+    const syncModal = document.getElementById('syncModal');
+    const btnOpenSyncModal = document.getElementById('btnOpenSyncModal');
+    const btnCloseModal = document.getElementById('btnCloseModal');
+    const inputGoogleSheetUrl = document.getElementById('inputGoogleSheetUrl');
+    const btnSaveSheetUrl = document.getElementById('btnSaveSheetUrl');
+    const scriptCodePreview = document.getElementById('scriptCodePreview');
+    const btnCopyScriptCode = document.getElementById('btnCopyScriptCode');
+    const copySuccessMsg = document.getElementById('copySuccessMsg');
+
+    const APPS_SCRIPT_CODE = `function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(30000);
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(["Date & Time", "Quiz ID (QUID)", "Student Name", "Section", "WhatsApp (+91)", "Subject", "Score", "Total", "Percentage", "Status", "Time Taken"]);
+      var headerRange = sheet.getRange(1, 1, 1, 11);
+      headerRange.setBackground("#1e88e5").setFontColor("#ffffff").setFontWeight("bold").setHorizontalAlignment("center");
+      sheet.setFrozenRows(1);
+    }
+    var data = JSON.parse(e.postData.contents);
+    sheet.appendRow([
+      data.timestamp || new Date().toLocaleString(),
+      data.quid || "",
+      data.name || "",
+      data.section || "",
+      data.phone || "",
+      data.subject || "HTML & CSS",
+      data.correct !== undefined ? data.correct : 0,
+      data.total !== undefined ? data.total : 100,
+      (data.percent !== undefined ? data.percent : "") + "%",
+      data.status || "",
+      data.timeTaken || ""
+    ]);
+    var lastRow = sheet.getLastRow();
+    var statusCell = sheet.getRange(lastRow, 10);
+    if (data.status === "PASSED") {
+      statusCell.setBackground("#dcfce7").setFontColor("#15803d").setFontWeight("bold");
+    } else {
+      statusCell.setBackground("#fee2e2").setFontColor("#b91c1c").setFontWeight("bold");
+    }
+    return ContentService.createTextOutput(JSON.stringify({result: "success"})).setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({result: "error", message: err.toString()})).setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}`;
+
+    scriptCodePreview.textContent = APPS_SCRIPT_CODE;
+
+    btnOpenSyncModal.addEventListener('click', () => {
+      inputGoogleSheetUrl.value = localStorage.getItem(URL_STORAGE_KEY) || '';
+      syncModal.classList.add('open');
+    });
+
+    btnCloseModal.addEventListener('click', () => syncModal.classList.remove('open'));
+    syncModal.addEventListener('click', e => { if (e.target === syncModal) syncModal.classList.remove('open'); });
+
+    btnCopyScriptCode.addEventListener('click', () => {
+      navigator.clipboard.writeText(APPS_SCRIPT_CODE).then(() => {
+        copySuccessMsg.style.display = 'inline';
+        setTimeout(() => { copySuccessMsg.style.display = 'none'; }, 2000);
+      });
+    });
+
+    btnSaveSheetUrl.addEventListener('click', () => {
+      const url = inputGoogleSheetUrl.value.trim();
+      localStorage.setItem(URL_STORAGE_KEY, url);
+      alert('✅ Google Sheets Web App URL successfully save ho gaya hai!');
+      syncModal.classList.remove('open');
+    });
+
+    // ───────────────────────────────────────────────
+    // JSON EXPORT, IMPORT, AND VIEWER LOGIC
+    // ───────────────────────────────────────────────
+    const jsonModal = document.getElementById('jsonModal');
+    const rawJsonBox = document.getElementById('rawJsonBox');
+    const btnCloseJsonModal = document.getElementById('btnCloseJsonModal');
+    const btnCopyJsonData = document.getElementById('btnCopyJsonData');
+    const btnDownloadJsonFromModal = document.getElementById('btnDownloadJsonFromModal');
+    const btnExportJSON = document.getElementById('btnExportJSON');
+    const btnViewJSON = document.getElementById('btnViewJSON');
+    const btnImportJSON = document.getElementById('btnImportJSON');
+    const jsonFileInput = document.getElementById('jsonFileInput');
+
+    function exportToJSON() {
+      if (submissions.length === 0) {
+        alert('Export karne ke liye koi student data nahi hai!');
+        return;
+      }
+      const dataToExport = {
+        exportedAt: new Date().toISOString(),
+        instructor: "Mr. Ankush (Assistant Professor, CSE)",
+        portal: "CrazyCoding Quiz Practice",
+        totalSubmissions: submissions.length,
+        submissions: submissions
+      };
+      const jsonStr = JSON.stringify(dataToExport, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `CrazyCoding_Students_Data_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function openJsonViewer() {
+      const dataToExport = {
+        portal: "CrazyCoding Quiz Practice",
+        instructor: "Mr. Ankush (Assistant Professor, CSE)",
+        total: submissions.length,
+        submissions: submissions
+      };
+      rawJsonBox.textContent = JSON.stringify(dataToExport, null, 2);
+      jsonModal.classList.add('open');
+    }
+
+    btnCloseJsonModal.addEventListener('click', () => jsonModal.classList.remove('open'));
+    jsonModal.addEventListener('click', e => { if (e.target === jsonModal) jsonModal.classList.remove('open'); });
+
+    btnCopyJsonData.addEventListener('click', () => {
+      navigator.clipboard.writeText(rawJsonBox.textContent).then(() => {
+        btnCopyJsonData.textContent = '✅ Copied!';
+        setTimeout(() => { btnCopyJsonData.textContent = '📋 Copy JSON'; }, 2000);
+      });
+    });
+
+    btnDownloadJsonFromModal.addEventListener('click', exportToJSON);
+    btnExportJSON.addEventListener('click', exportToJSON);
+    btnViewJSON.addEventListener('click', openJsonViewer);
+
+    btnImportJSON.addEventListener('click', () => jsonFileInput.click());
+    jsonFileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          const newItems = Array.isArray(parsed) ? parsed : (parsed.submissions || []);
+          if (!Array.isArray(newItems) || newItems.length === 0) {
+            alert('❌ File mein koi valid student submissions nahi mile!');
+            return;
+          }
+          let addedCount = 0;
+          newItems.forEach(item => {
+            const exists = submissions.some(s => (s.id && s.id === item.id) || (s.quid === item.quid && s.name === item.name));
+            if (!exists) {
+              submissions.push(item);
+              addedCount++;
+            }
+          });
+          saveData();
+          alert(`✅ Success: ${addedCount} student records JSON file se successfully load ho gaye!`);
+        } catch (err) {
+          alert('❌ Invalid JSON file format!');
+        }
+      };
+      reader.readAsText(file);
+      jsonFileInput.value = '';
+    });
+
+    // Wire listeners
+    document.getElementById('btnExportCSV').addEventListener('click', exportToCSV);
+    document.getElementById('btnPrintSheet').addEventListener('click', () => window.print());
+    document.getElementById('btnAddSample').addEventListener('click', addDemoStudent);
+    document.getElementById('btnEmptyAddDemo').addEventListener('click', addDemoStudent);
+    document.getElementById('btnClearAll').addEventListener('click', clearAllRecords);
+
+    searchInput.addEventListener('input', render);
+    sectionFilter.addEventListener('change', render);
+    statusFilter.addEventListener('change', render);
+    sortBy.addEventListener('change', render);
+
+    // Run security check on DOM Ready
+    document.addEventListener('DOMContentLoaded', checkAuth);
+  </script>
+</body>
+</html>
